@@ -28721,7 +28721,7 @@
 
 	var mutations = {
 	  setDonationTotal: function setDonationTotal(state, context) {
-	    state.total_donations = context.total_donations;
+	    state.total_donations = parseFloat(context.total_donations) / 100;
 	  }
 	};
 
