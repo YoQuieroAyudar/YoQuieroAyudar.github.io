@@ -11875,6 +11875,10 @@
 
 	var _Associations2 = _interopRequireDefault(_Associations);
 
+	var _Association = __webpack_require__(175);
+
+	var _Association2 = _interopRequireDefault(_Association);
+
 	var _Donations = __webpack_require__(123);
 
 	var _Donations2 = _interopRequireDefault(_Donations);
@@ -11885,6 +11889,73 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// <template>
+	//   <div id="wrapper" v-bind:class="getWidthClass">
+	//
+	//     <div class="top-container" v-if="!$store.getters.getLoading">
+	//       <div class="top-menu">
+	//         <message-items></message-items>
+	//         <!-- <button class="btn btn-success pull-right" @click="goToNextPage">Next</button> -->
+	//         <button class="btn btn-plain" @click="goToPrevPage"><i class="fa fa-angle-left fa-fw"></i> </button>
+	//       </div>
+	//     </div>
+	//
+	//     <div class="loading" v-if="$store.getters.getLoading">
+	//       <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Loading...</h4>
+	//     </div>
+	//     <div class="content" v-show="!$store.getters.getLoading">
+	//
+	//       <div class="login-area" v-if="$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''">
+	//         <div  v-if="$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''">
+	//           <login-form></login-form>
+	//         </div>
+	//         <div v-if="$store.getters.getCurrentPage == 'signup'">
+	//           <signup-form></signup-form>
+	//         </div>
+	//         <div v-if="$store.getters.getCurrentPage == 'share'">
+	//           <share-page></share-page>
+	//         </div>
+	//
+	//       </div>
+	//       <div class="loggedin-area" v-else >
+	//         <div class="logout-area">
+	//           <logout-button></logout-button>
+	//         </div>
+	//
+	//         <div v-if="$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''" >
+	//           <home-page></home-page>
+	//         </div>
+	//
+	//         <div v-if="$store.getters.getCurrentPage == 'share'">
+	//           <share-page></share-page>
+	//         </div>
+	//
+	//         <div v-if="$store.getters.getCurrentPage == 'associations'">
+	//           <associations-page></associations-page>
+	//         </div>
+	//
+	//         <div v-if="$store.getters.getCurrentPage == 'asso_details'">
+	//           <association-page></association-page>
+	//         </div>
+	//
+	//         <div v-if="$store.getters.getCurrentPage == 'donations'">
+	//           <donations-page></donations-page>
+	//         </div>
+	//
+	//         <div v-if="$store.getters.getCurrentPage == 'solidarity'">
+	//           <solidarity-account-page></solidarity-account-page>
+	//         </div>
+	//
+	//
+	//       </div>
+	//
+	//
+	//     </div>
+	//
+	//   </div>
+	// </template>
+	//
+	// <script>
 	exports.default = {
 	  beforeCreate: function beforeCreate() {
 	    console.log("Creating...");
@@ -11971,6 +12042,7 @@
 	    "logout-button": _Logout2.default,
 	    "message-items": _Messages2.default,
 	    "associations-page": _Associations2.default,
+	    "association-page": _Association2.default,
 	    "donations-page": _Donations2.default,
 	    "solidarity-account-page": _SolidarityAccount2.default
 	  }
@@ -11993,6 +12065,7 @@
 	// .content {
 	//   height: 90%;
 	//   overflow-y: scroll;
+	//   overflow-x: hidden;
 	// }
 	// a {
 	//   cursor: pointer;
@@ -12033,69 +12106,6 @@
 	// }
 	// </style>
 	//
-	// <template>
-	//   <div id="wrapper" v-bind:class="getWidthClass">
-	//
-	//     <div class="top-container" v-if="!$store.getters.getLoading">
-	//       <div class="top-menu">
-	//         <message-items></message-items>
-	//         <!-- <button class="btn btn-success pull-right" @click="goToNextPage">Next</button> -->
-	//         <button class="btn btn-plain" @click="goToPrevPage"><i class="fa fa-angle-left fa-fw"></i> </button>
-	//       </div>
-	//     </div>
-	//
-	//     <div class="loading" v-if="$store.getters.getLoading">
-	//       <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Loading...</h4>
-	//     </div>
-	//     <div class="content" v-show="!$store.getters.getLoading">
-	//
-	//       <div class="login-area" v-if="$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''">
-	//         <div  v-if="$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''">
-	//           <login-form></login-form>
-	//         </div>
-	//         <div v-if="$store.getters.getCurrentPage == 'signup'">
-	//           <signup-form></signup-form>
-	//         </div>
-	//         <div v-if="$store.getters.getCurrentPage == 'share'">
-	//           <share-page></share-page>
-	//         </div>
-	//
-	//       </div>
-	//       <div class="loggedin-area" v-else >
-	//         <div class="logout-area">
-	//           <logout-button></logout-button>
-	//         </div>
-	//
-	//         <div v-if="$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''" >
-	//           <home-page></home-page>
-	//         </div>
-	//
-	//         <div v-if="$store.getters.getCurrentPage == 'share'">
-	//           <share-page></share-page>
-	//         </div>
-	//
-	//         <div v-if="$store.getters.getCurrentPage == 'associations'">
-	//           <associations-page></associations-page>
-	//         </div>
-	//
-	//         <div v-if="$store.getters.getCurrentPage == 'donations'">
-	//           <donations-page></donations-page>
-	//         </div>
-	//
-	//         <div v-if="$store.getters.getCurrentPage == 'solidarity'">
-	//           <solidarity-account-page></solidarity-account-page>
-	//         </div>
-	//
-	//
-	//       </div>
-	//
-	//
-	//     </div>
-	//
-	//   </div>
-	// </template>
-	//
-	// <script>
 
 /***/ }),
 /* 87 */
@@ -13322,7 +13332,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.associations-list[_v-0737b088] {\n\n}\n.association-box[_v-0737b088] {\n  box-shadow: 1px 1px 1px #999;\n}\n.assoc-logo[_v-0737b088] {\n  float: left;\n  margin: .3em;\n  width: 4em;\n  box-shadow: 1px 1px 1px #000;\n}\n", ""]);
+	exports.push([module.id, "\n.associations-list[_v-0737b088] {\n\n}\n.association-box[_v-0737b088] {\n  box-shadow: 0 1px 8px #999;\n  margin: .2em;\n  cursor: pointer;\n}\n.assoc-logo[_v-0737b088] {\n  float: left;\n  margin: .3em;\n  width: 4em;\n  box-shadow: 1px 1px 1px #000;\n}\n", ""]);
 
 	// exports
 
@@ -13349,6 +13359,11 @@
 	  },
 
 	  methods: {
+	    selectAssociation: function selectAssociation(assoc_id) {
+	      console.log(assoc_id);
+	      this.$store.commit("selectAssoById", assoc_id);
+	      this.$store.commit('setCurrentPage', "asso_details");
+	    },
 	    getAssociationsFromAPI: function getAssociationsFromAPI() {
 	      // TODO: use country from the users registeration data instead of this hard coded url query and POS_id in the body
 	      var jwt_token = this.$store.getters.getToken;
@@ -13387,7 +13402,9 @@
 	//
 	// }
 	// .association-box {
-	//   box-shadow: 1px 1px 1px #999;
+	//   box-shadow: 0 1px 8px #999;
+	//   margin: .2em;
+	//   cursor: pointer;
 	// }
 	// .assoc-logo {
 	//   float: left;
@@ -13402,6 +13419,7 @@
 	//     <h1 @click="getAssociationsFromAPI">Associations <i class="fa fa-refresh fa-fw"></i></h1>
 	//     <label class="label label-warning">Page is under-construction</label>
 	//     <div class="association-box"
+	//       @click="selectAssociation(assoc.id)"
 	//       v-for="assoc in associations">
 	//       <img class="assoc-logo" :src="assoc.logo_url" :alt="assoc.short_description">
 	//       <h4>{{assoc.name}}</h4>
@@ -13417,7 +13435,7 @@
 /* 122 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div class=\"associations-list\" _v-0737b088=\"\">\n    <h1 @click=\"getAssociationsFromAPI\" _v-0737b088=\"\">Associations <i class=\"fa fa-refresh fa-fw\" _v-0737b088=\"\"></i></h1>\n    <label class=\"label label-warning\" _v-0737b088=\"\">Page is under-construction</label>\n    <div class=\"association-box\" v-for=\"assoc in associations\" _v-0737b088=\"\">\n      <img class=\"assoc-logo\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\" _v-0737b088=\"\">\n      <h4 _v-0737b088=\"\">{{assoc.name}}</h4>\n      <p _v-0737b088=\"\">{{assoc.description}}</p>\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div class=\"associations-list\" _v-0737b088=\"\">\n    <h1 @click=\"getAssociationsFromAPI\" _v-0737b088=\"\">Associations <i class=\"fa fa-refresh fa-fw\" _v-0737b088=\"\"></i></h1>\n    <label class=\"label label-warning\" _v-0737b088=\"\">Page is under-construction</label>\n    <div class=\"association-box\" @click=\"selectAssociation(assoc.id)\" v-for=\"assoc in associations\" _v-0737b088=\"\">\n      <img class=\"assoc-logo\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\" _v-0737b088=\"\">\n      <h4 _v-0737b088=\"\">{{assoc.name}}</h4>\n      <p _v-0737b088=\"\">{{assoc.description}}</p>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 123 */
@@ -15431,7 +15449,8 @@
 	  value: true
 	});
 	var state = {
-	  list: []
+	  list: [],
+	  selected: {}
 	};
 
 	var getters = {
@@ -15440,12 +15459,21 @@
 	  },
 	  getAssoById: function getAssoById(state, id) {
 	    return state.list.filter(function (asso) {
-	      return asso.id = id;
+	      return asso.id == id;
 	    });
+	  },
+	  getSelectedAssociation: function getSelectedAssociation(state) {
+	    return state.selected;
 	  }
 	};
 
 	var mutations = {
+	  selectAssoById: function selectAssoById(state, id) {
+	    var assos = state.list.filter(function (asso) {
+	      return asso.id == id;
+	    });
+	    state.selected = assos[0];
+	  },
 	  setAssoList: function setAssoList(state, context) {
 	    if (context.list) {
 	      console.log("setting asso list");
@@ -28770,7 +28798,7 @@
 
 
 	// module
-	exports.push([module.id, "\n#wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\n.content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n.top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n.top-menu[_v-61b3c432] {\n  position: -webkit-sticky;\n  position: sticky;\n}\n.btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n.bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 3em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n.bottom-menu button[_v-61b3c432] {\n\n}\n#title[_v-61b3c432] {\n  text-align: center;\n}\n.page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n", ""]);
+	exports.push([module.id, "\n#wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\n.content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n.top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n.top-menu[_v-61b3c432] {\n  position: -webkit-sticky;\n  position: sticky;\n}\n.btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n.bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 3em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n.bottom-menu button[_v-61b3c432] {\n\n}\n#title[_v-61b3c432] {\n  text-align: center;\n}\n.page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n", ""]);
 
 	// exports
 
@@ -28779,7 +28807,145 @@
 /* 174 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <div class=\"top-menu\" _v-61b3c432=\"\">\n        <message-items _v-61b3c432=\"\"></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\" _v-61b3c432=\"\"><i class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h4 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n        <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <login-form _v-61b3c432=\"\"></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n          <signup-form _v-61b3c432=\"\"></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n        <div class=\"logout-area\" _v-61b3c432=\"\">\n          <logout-button _v-61b3c432=\"\"></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <home-page _v-61b3c432=\"\"></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n          <associations-page _v-61b3c432=\"\"></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n          <donations-page _v-61b3c432=\"\"></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n          <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <div class=\"top-menu\" _v-61b3c432=\"\">\n        <message-items _v-61b3c432=\"\"></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\" _v-61b3c432=\"\"><i class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h4 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n        <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <login-form _v-61b3c432=\"\"></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n          <signup-form _v-61b3c432=\"\"></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n        <div class=\"logout-area\" _v-61b3c432=\"\">\n          <logout-button _v-61b3c432=\"\"></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <home-page _v-61b3c432=\"\"></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n          <associations-page _v-61b3c432=\"\"></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\" _v-61b3c432=\"\">\n          <association-page _v-61b3c432=\"\"></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n          <donations-page _v-61b3c432=\"\"></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n          <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
+
+/***/ }),
+/* 175 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(176)
+	__vue_script__ = __webpack_require__(178)
+	__vue_template__ = __webpack_require__(179)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/mahdi/YoQuieroAyudar/fundraising-API-user-widget/src/components/Association.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(177);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(85)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-21807b72&file=Association.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Association.vue", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-21807b72&file=Association.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Association.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(84)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "\n.associations-list[_v-21807b72] {\n\n}\n.association-box[_v-21807b72] {\n  box-shadow: 1px 1px 1px #999;\n}\n.assoc-logo-large[_v-21807b72] {\n  float: left;\n  margin: .3em;\n  width: 100%;\n  box-shadow: 1px 1px 1px #000;\n}\n.assoc-labels[_v-21807b72] {\n  font-weight: bolder;\n  text-align: right;\n  margin-left: .5em;\n}\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _api_variables = __webpack_require__(89);
+
+	var urls = _interopRequireWildcard(_api_variables);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	exports.default = {
+	  data: function data() {
+	    return {};
+	  },
+
+	  methods: {},
+	  computed: {
+	    assoc: function assoc() {
+	      return this.$store.getters.getSelectedAssociation;
+	    }
+	  }
+	};
+	// </script>
+	// <style scoped>
+	// .associations-list {
+	//
+	// }
+	// .association-box {
+	//   box-shadow: 1px 1px 1px #999;
+	// }
+	// .assoc-logo-large {
+	//   float: left;
+	//   margin: .3em;
+	//   width: 100%;
+	//   box-shadow: 1px 1px 1px #000;
+	// }
+	// .assoc-labels {
+	//   font-weight: bolder;
+	//   text-align: right;
+	//   margin-left: .5em;
+	// }
+	// </style>
+	//
+	// <template>
+	//   <div class="associations-list">
+	//     <label class="label label-warning">Page is under-construction</label>
+	//     <div class="association-box">
+	//       <img class="assoc-logo-large" :src="assoc.logo_url" :alt="assoc.short_description">
+	//       <h4>{{assoc.name}}</h4>
+	//       <p>{{assoc.description}}</p>
+	//       <ul class="list-group">
+	//         <li class="list-group-item" title="address"><i class="fa fa-map fa-fw"></i>  <span class="assoc-labels">{{assoc.address}}</span></li>
+	//         <li class="list-group-item" title="city"><i class="fa fa-map-marker fa-fw"></i>  <span class="assoc-labels">{{assoc.city}}</span></li>
+	//         <li class="list-group-item" title="twitter"><i class="fa fa-twitter fa-fw"></i>  <span class="assoc-labels"><a :href="'https://twitter.com/'+assoc.twitter_username">@{{assoc.twitter_username}}</a></span></li>
+	//         <li class="list-group-item" title="total donations"><i class="fa fa-line-chart fa-fw"></i>  <span class="assoc-labels">&euro;{{assoc.total_donations/100}}</span></li>
+	//       </ul>
+	//     </div>
+	//
+	//   </div>
+	// </template>
+	//
+	// <script>
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports) {
+
+	module.exports = "\n  <div class=\"associations-list\" _v-21807b72=\"\">\n    <label class=\"label label-warning\" _v-21807b72=\"\">Page is under-construction</label>\n    <div class=\"association-box\" _v-21807b72=\"\">\n      <img class=\"assoc-logo-large\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\" _v-21807b72=\"\">\n      <h4 _v-21807b72=\"\">{{assoc.name}}</h4>\n      <p _v-21807b72=\"\">{{assoc.description}}</p>\n      <ul class=\"list-group\" _v-21807b72=\"\">\n        <li class=\"list-group-item\" title=\"address\" _v-21807b72=\"\"><i class=\"fa fa-map fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.address}}</span></li>\n        <li class=\"list-group-item\" title=\"city\" _v-21807b72=\"\"><i class=\"fa fa-map-marker fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.city}}</span></li>\n        <li class=\"list-group-item\" title=\"twitter\" _v-21807b72=\"\"><i class=\"fa fa-twitter fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\"><a :href=\"'https://twitter.com/'+assoc.twitter_username\" _v-21807b72=\"\">@{{assoc.twitter_username}}</a></span></li>\n        <li class=\"list-group-item\" title=\"total donations\" _v-21807b72=\"\"><i class=\"fa fa-line-chart fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">€{{assoc.total_donations/100}}</span></li>\n      </ul>\n    </div>\n\n  </div>\n";
 
 /***/ })
 /******/ ]);
