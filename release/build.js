@@ -12368,7 +12368,7 @@
 
 
 	// module
-	exports.push([module.id, "\na[_v-1d2afbaf] {\n  cursor: pointer;\n}\n.login-btn[_v-1d2afbaf] {\n  margin-top: .5em;\n}\n.fb-login-button[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n.login-area-wrapper[_v-1d2afbaf] {\n  margin: 5em auto;\n}\n.input-group[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n", ""]);
+	exports.push([module.id, "\na[_v-1d2afbaf] {\n  cursor: pointer;\n}\n.login-btn[_v-1d2afbaf] {\n  margin-top: .5em;\n}\n.fb-login-button[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n.login-area-wrapper[_v-1d2afbaf] {\n  margin: auto;\n}\n.input-group[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n", ""]);
 
 	// exports
 
@@ -12416,6 +12416,8 @@
 	//       Remember me <input name="remember_me" v-model="rememberMe" @input="updateRemember" aria-describedby="password-addon1" type="checkbox" :value="rememberMe" />
 	//     </form>
 	//
+	//     <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no"></iframe></div>
+	//
 	//   </div>
 	// </template>
 	//
@@ -12430,7 +12432,7 @@
 	//   margin-bottom: .3em;
 	// }
 	// .login-area-wrapper {
-	//   margin: 5em auto;
+	//   margin: auto;
 	// }
 	// .input-group {
 	//   margin-bottom: .3em;
@@ -12473,6 +12475,13 @@
 	      if (!response) {
 	        return;
 	      }
+
+	      vm = this;
+	      console.log("resetting after 5 seconds");
+	      setTimeout(function () {
+	        vm.$store.commit("resetMessages");
+	      }, 5000);
+
 	      console.log("setting repsonse message");
 	      if (response.errors) {
 	        this.$store.commit('setErrors', response.errors);
@@ -12746,7 +12755,7 @@
 /* 104 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">Login</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" placeholder=\"Email\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" placeholder=\"Password\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      If you don't have an account yet <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> Sign up here</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> Login</button>\n      Remember me <input name=\"remember_me\" v-model=\"rememberMe\" @input=\"updateRemember\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n  </div>\n";
+	module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">Login</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" placeholder=\"Email\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" placeholder=\"Password\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      If you don't have an account yet <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> Sign up here</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> Login</button>\n      Remember me <input name=\"remember_me\" v-model=\"rememberMe\" @input=\"updateRemember\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\" _v-1d2afbaf=\"\"><iframe src=\"https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen=\"\" scrolling=\"no\" _v-1d2afbaf=\"\"></iframe></div>\n\n  </div>\n";
 
 /***/ }),
 /* 105 */
@@ -13150,8 +13159,20 @@
 	    },
 	    success: function success() {
 	      return this.$store.getters.getSuccess;
+	    },
+	    updateAfter: function updateAfter() {
+	      vm = this;
+	      console.log("resetting after 5 seconds");
+	      setTimeout(function () {
+	        vm.$store.commit("resetMessages");
+	      }, 5000);
 	    }
 	  },
+	  updated: function updated() {
+	    console.log("updated");
+	    this.updateAfter();
+	  },
+
 	  methods: {},
 	  destroyed: function destroyed() {
 	    console.log("destroyed messages");
