@@ -12465,8 +12465,8 @@
 	  methods: {
 	    goToSignupPage: function goToSignupPage(e) {
 	      e.preventDefault();
-	      this.$store.commit('setCurrentPage', "signup");
 	      this.$store.commit("resetMessages");
+	      this.$store.commit('setCurrentPage', "signup");
 	    },
 	    updateRemember: function updateRemember(e) {
 	      console.log(e);
@@ -12479,12 +12479,16 @@
 	      this.$store.commit('updatePassword', this.login.password);
 	    },
 	    setMessage: function setMessage(response) {
+	      console.log("responseMessage");
+	      console.log(response);
 	      if (!response) {
 	        return;
 	      }
 	      console.log("setting repsonse message");
 	      if (response.errors) {
 	        this.$store.commit('setErrors', response.errors);
+	      } else if (response.error) {
+	        this.$store.commit('setError', response.error);
 	      } else if (response.warning) {
 	        this.$store.commit('setWarning', response.warning);
 	      } else if (response.info) {
@@ -12508,6 +12512,7 @@
 	      var creds = this.login;
 	      var setMyToken = this.setUserToken;
 	      var setReponseMessage = this.setMessage;
+	      this.$store.commit("resetMessages");
 	      this.$http.post(urls.LOGIN_URL, creds).then(function (resp) {
 	        // return the success code
 	        var data = {};
@@ -12525,7 +12530,7 @@
 	          }
 	        }
 	      }, function (err) {
-	        setReponseMessage(err);
+	        setReponseMessage(err.data);
 
 	        console.log("Error");
 	        console.log(err);
@@ -12890,21 +12895,23 @@
 	      this.$store.commit("setCurrentState", "loggedin");
 	    },
 	    signupUser: function signupUser(e) {
-	      var _this = this;
-
 	      e.preventDefault();
 	      var vm = this;
 	      this.$store.commit("setLoading", true);
 	      var creds = this.signup;
+	      console.log(creds);
 	      // to solve the API date parsing problem I've to append this
 	      creds.birthday += "T15:04:05+00:00";
+	      console.log(creds.birthday);
 	      var setMyToken = this.setUserToken;
 	      var setReponseMessage = this.setMessage;
 	      var goToLoginPage = function goToLoginPage() {
 	        vm.$store.commit("setCurrentPage", "login");
 	        vm.$store.commit("setCurrentState", "login");
-	        _this.$store.commit("resetMessages");
+	        vm.$store.commit("resetMessages");
 	      };
+	      this.$store.commit("resetMessages");
+
 	      this.$http.post(urls.SIGNUP_URL, creds).then(function (resp) {
 	        // return the success code
 	        var data = {};
@@ -12919,7 +12926,7 @@
 	          }
 	        }
 	      }, function (err) {
-	        setReponseMessage(err);
+	        setReponseMessage(err.data);
 
 	        console.log("Error");
 	        console.log(err);
@@ -14600,6 +14607,9 @@
 	    state.warningMessage = '';
 	    state.infoMessage = '';
 	    state.successMessage = '';
+	  },
+	  setError: function setError(state, error) {
+	    state.errorMessages[0] = error;
 	  },
 	  setWarning: function setWarning(state, warning) {
 	    state.warningMessage = warning;
