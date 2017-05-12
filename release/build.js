@@ -12000,7 +12000,7 @@
 	// .top-container {
 	//   position: relative;
 	//   box-shadow: 1px 2px 2px #CCC;
-	//   padding: .2em;
+	//   padding: 0;
 	//   margin: .2em;
 	// }
 	// .top-menu {
@@ -12038,6 +12038,7 @@
 	//
 	//     <div class="top-container" v-if="!$store.getters.getLoading">
 	//       <div class="top-menu">
+	//         <message-items></message-items>
 	//         <!-- <button class="btn btn-success pull-right" @click="goToNextPage">Next</button> -->
 	//         <button class="btn btn-plain" @click="goToPrevPage"><i class="fa fa-angle-left fa-fw"></i> </button>
 	//       </div>
@@ -12048,7 +12049,6 @@
 	//     </div>
 	//     <div class="content" v-show="!$store.getters.getLoading">
 	//
-	//       <message-items></message-items>
 	//       <div class="login-area" v-if="$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''">
 	//         <div  v-if="$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''">
 	//           <login-form></login-form>
@@ -13057,7 +13057,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.messages[_v-257d20f6] {\n  margin: .2em;\n  position: absolute;\n  z-index: 1000;\n  min-width: 10em;\n  max-width: 280px;\n}\n.messages div[_v-257d20f6] {\n  margin: 0;\n}\n", ""]);
+	exports.push([module.id, "\n.messages[_v-257d20f6] {\n  margin: 0;\n  position: absolute;\n  z-index: 1000;\n  min-width: 10em;\n  max-width: 280px;\n}\n.messages div[_v-257d20f6] {\n  margin: 0;\n}\n.messages .alert[_v-257d20f6] {\n  margin: -0.5em auto;\n}\n", ""]);
 
 	// exports
 
@@ -13102,7 +13102,7 @@
 	//
 	// <style scoped>
 	// .messages {
-	//   margin: .2em;
+	//   margin: 0;
 	//   position: absolute;
 	//   z-index: 1000;
 	//   min-width: 10em;
@@ -13110,6 +13110,9 @@
 	// }
 	// .messages div {
 	//   margin: 0;
+	// }
+	// .messages .alert {
+	//   margin: -0.5em auto;
 	// }
 	// </style>
 	//
@@ -28761,7 +28764,7 @@
 
 
 	// module
-	exports.push([module.id, "\n#wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\n.content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n.top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: .2em;\n  margin: .2em;\n}\n.top-menu[_v-61b3c432] {\n  position: -webkit-sticky;\n  position: sticky;\n}\n.btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n.bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 3em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n.bottom-menu button[_v-61b3c432] {\n\n}\n#title[_v-61b3c432] {\n  text-align: center;\n}\n.page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n", ""]);
+	exports.push([module.id, "\n#wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\n.content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n.top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n.top-menu[_v-61b3c432] {\n  position: -webkit-sticky;\n  position: sticky;\n}\n.btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n.bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 3em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n.bottom-menu button[_v-61b3c432] {\n\n}\n#title[_v-61b3c432] {\n  text-align: center;\n}\n.page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n", ""]);
 
 	// exports
 
@@ -28770,7 +28773,7 @@
 /* 174 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <div class=\"top-menu\" _v-61b3c432=\"\">\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\" _v-61b3c432=\"\"><i class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h4 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n\n      <message-items _v-61b3c432=\"\"></message-items>\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n        <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <login-form _v-61b3c432=\"\"></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n          <signup-form _v-61b3c432=\"\"></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n        <div class=\"logout-area\" _v-61b3c432=\"\">\n          <logout-button _v-61b3c432=\"\"></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <home-page _v-61b3c432=\"\"></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n          <associations-page _v-61b3c432=\"\"></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n          <donations-page _v-61b3c432=\"\"></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n          <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <div class=\"top-menu\" _v-61b3c432=\"\">\n        <message-items _v-61b3c432=\"\"></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\" _v-61b3c432=\"\"><i class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h4 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n        <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <login-form _v-61b3c432=\"\"></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n          <signup-form _v-61b3c432=\"\"></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n        <div class=\"logout-area\" _v-61b3c432=\"\">\n          <logout-button _v-61b3c432=\"\"></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <home-page _v-61b3c432=\"\"></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n          <associations-page _v-61b3c432=\"\"></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n          <donations-page _v-61b3c432=\"\"></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n          <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
 
 /***/ })
 /******/ ]);
