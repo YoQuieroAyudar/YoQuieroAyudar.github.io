@@ -11895,6 +11895,7 @@
 	//     <div class="top-container" v-if="!$store.getters.getLoading">
 	//       <div class="top-menu">
 	//         <message-items></message-items>
+	//         <span class="hidden">{{currentState}}</span>
 	//         <!-- <button class="btn btn-success pull-right" @click="goToNextPage">Next</button> -->
 	//         <button class="btn btn-plain" @click="goToPrevPage"><i class="fa fa-angle-left fa-fw"></i> </button>
 	//       </div>
@@ -11994,32 +11995,34 @@
 	      }
 	      return 'mobile-full-page';
 	    },
+	    currentState: function currentState() {
+	      var vm = this;
+	      console.log("resetting after 5 seconds");
+	      setTimeout(function () {
+	        vm.$store.commit("resetMessages");
+	      }, 5000);
 
-	    currentState: {
-	      get: function get() {
-	        console.log("getCurrentState");
-	        rememberMe = localStorage.getItem('rememberMe');
-	        if (rememberMe) {
-	          // read the saved token from localStorage
-	          user_token = localStorage.getItem('user_token');
-	          // if found user is loggedin
-	          if (user_token) {
-	            // check if the currentState is empty
-	            if (this.$store.getters.getCurrentState == "") {
-	              this.$store.commit("changeCurrentState", "loggedin");
-	              return "loggedin";
-	            }
-	          } else {
-	            // no token means not signed in
-	            this.$store.commit("changeCurrentState", "login");
-	            return "login";
+	      console.log("getCurrentState");
+	      var rememberMe = localStorage.getItem('rememberMe');
+	      if (rememberMe) {
+	        // read the saved token from localStorage
+	        user_token = localStorage.getItem('user_token');
+	        // if found user is loggedin
+	        if (user_token) {
+	          // check if the currentState is empty
+	          if (this.$store.getters.getCurrentState == "") {
+	            this.$store.commit("changeCurrentState", "loggedin");
+	            return "loggedin";
 	          }
-
-	          return this.$store.getters.getCurrentState;
+	        } else {
+	          // no token means not signed in
+	          this.$store.commit("changeCurrentState", "login");
+	          return "login";
 	        }
 
-	        return "login";
+	        return this.$store.getters.getCurrentState;
 	      }
+	      return "login";
 	    },
 	    loggedin: function loggedin() {
 	      console.log("Logged in ...................................................");
@@ -12217,7 +12220,7 @@
 	//       <button class="btn btn-default" @click="goToSolidarityAccount">Solidarity Account</button>
 	//     </div>
 	//     <p v-if="getDonationSum">
-	//       Total Donations: <span class="">{{getDonationSum}}</span>
+	//       Total Donations: <span class="">&euro;{{getDonationSum}}</span>
 	//     </p>
 	//     <p v-else>
 	//       <i class="fa fa-spinner fa-spin fa-fw"></i>
@@ -12247,7 +12250,7 @@
 /* 90 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div>\n    <h4>Welcome, {{getUsername}}</h4>\n    <p>\n      Thanks for your generous heart. You're changing the world for a lot of people who lost hope.\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\">\n      <button class=\"btn btn-default active\">Home</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\">Associations</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" >My Donations</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\">Solidarity Account</button>\n    </div>\n    <p v-if=\"getDonationSum\">\n      Total Donations: <span class=\"\">{{getDonationSum}}</span>\n    </p>\n    <p v-else>\n      <i class=\"fa fa-spinner fa-spin fa-fw\"></i>\n    </p>\n  </div>\n";
+	module.exports = "\n  <div>\n    <h4>Welcome, {{getUsername}}</h4>\n    <p>\n      Thanks for your generous heart. You're changing the world for a lot of people who lost hope.\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\">\n      <button class=\"btn btn-default active\">Home</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\">Associations</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" >My Donations</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\">Solidarity Account</button>\n    </div>\n    <p v-if=\"getDonationSum\">\n      Total Donations: <span class=\"\">&euro;{{getDonationSum}}</span>\n    </p>\n    <p v-else>\n      <i class=\"fa fa-spinner fa-spin fa-fw\"></i>\n    </p>\n  </div>\n";
 
 /***/ }),
 /* 91 */
@@ -13159,20 +13162,8 @@
 	    },
 	    success: function success() {
 	      return this.$store.getters.getSuccess;
-	    },
-	    updateAfter: function updateAfter() {
-	      vm = this;
-	      console.log("resetting after 5 seconds");
-	      setTimeout(function () {
-	        vm.$store.commit("resetMessages");
-	      }, 5000);
 	    }
 	  },
-	  updated: function updated() {
-	    console.log("updated");
-	    this.updateAfter();
-	  },
-
 	  methods: {},
 	  destroyed: function destroyed() {
 	    console.log("destroyed messages");
@@ -28828,7 +28819,7 @@
 /* 174 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <div class=\"top-menu\" _v-61b3c432=\"\">\n        <message-items _v-61b3c432=\"\"></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\" _v-61b3c432=\"\"><i class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h4 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n        <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <login-form _v-61b3c432=\"\"></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n          <signup-form _v-61b3c432=\"\"></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n        <div class=\"logout-area\" _v-61b3c432=\"\">\n          <logout-button _v-61b3c432=\"\"></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <home-page _v-61b3c432=\"\"></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n          <associations-page _v-61b3c432=\"\"></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\" _v-61b3c432=\"\">\n          <association-page _v-61b3c432=\"\"></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n          <donations-page _v-61b3c432=\"\"></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n          <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <div class=\"top-menu\" _v-61b3c432=\"\">\n        <message-items _v-61b3c432=\"\"></message-items>\n        <span class=\"hidden\" _v-61b3c432=\"\">{{currentState}}</span>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\" _v-61b3c432=\"\"><i class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h4 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n        <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <login-form _v-61b3c432=\"\"></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n          <signup-form _v-61b3c432=\"\"></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n        <div class=\"logout-area\" _v-61b3c432=\"\">\n          <logout-button _v-61b3c432=\"\"></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <home-page _v-61b3c432=\"\"></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n          <associations-page _v-61b3c432=\"\"></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\" _v-61b3c432=\"\">\n          <association-page _v-61b3c432=\"\"></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n          <donations-page _v-61b3c432=\"\"></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n          <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 175 */
