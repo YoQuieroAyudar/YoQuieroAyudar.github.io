@@ -11509,9 +11509,9 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(82)
+	__webpack_require__(172)
 	__vue_script__ = __webpack_require__(86)
-	__vue_template__ = __webpack_require__(129)
+	__vue_template__ = __webpack_require__(174)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -11528,46 +11528,8 @@
 	})()}
 
 /***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(83);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(85)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue", function() {
-				var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(84)();
-	// imports
-
-
-	// module
-	exports.push([module.id, "\n#wrapper {\n  position: relative;\n  max-width: 300px;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.content {\n  height: 90%;\n  overflow-y: scroll;\n}\na {\n  cursor: pointer;\n}\n.top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: .2em;\n  margin: .2em;\n}\n.top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n.btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n.bottom-menu {\n  position: absolute;\n  height: 3em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n.bottom-menu button {\n\n}\n#title {\n  text-align: center;\n}\n.page-title {\n  border: 1px solid #888;\n}\n", ""]);
-
-	// exports
-
-
-/***/ }),
+/* 82 */,
+/* 83 */,
 /* 84 */
 /***/ (function(module, exports) {
 
@@ -11953,6 +11915,13 @@
 	    }
 	  },
 	  computed: {
+	    getWidthClass: function getWidthClass() {
+	      if (window.innerWidth > 479) {
+	        return 'desktop-max';
+	      }
+	      return 'mobile-full-page';
+	    },
+
 	    currentState: {
 	      get: function get() {
 	        console.log("getCurrentState");
@@ -12005,14 +11974,19 @@
 	  }
 	};
 	// </script>
-	// <style>
+	// <style scoped>
 	// #wrapper {
 	//   position: relative;
-	//   max-width: 300px;
 	//   margin: auto;
 	//   border: 1px solid #555;
 	//   height: 500px;
 	//   padding: 0.5em;
+	// }
+	// .mobile-full-page {
+	//   max-width: 100%;
+	// }
+	// .desktop-max {
+	//   max-width: 300px;
 	// }
 	// .content {
 	//   height: 90%;
@@ -12058,7 +12032,8 @@
 	// </style>
 	//
 	// <template>
-	//   <div id="wrapper">
+	//   <div id="wrapper" v-bind:class="getWidthClass">
+	//     class: {{getWidthClass}}
 	//
 	//     <div class="top-container" v-if="!$store.getters.getLoading">
 	//       <div class="top-menu">
@@ -12876,6 +12851,7 @@
 	        return;
 	      }
 	      console.log("setting repsonse message");
+	      console.log(response);
 	      if (response.errors) {
 	        this.$store.commit('setErrors', response.errors);
 	      } else if (response.warning) {
@@ -13536,12 +13512,7 @@
 	module.exports = "\n  <div>\n    <h2>Solidarity Account</h2>\n    <label class=\"label label-warning\">Page is under-construction</label>\n  </div>\n";
 
 /***/ }),
-/* 129 */
-/***/ (function(module, exports) {
-
-	module.exports = "\n  <div id=\"wrapper\">\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\">\n      <div class=\"top-menu\">\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h4><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n\n      <message-items></message-items>\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n        <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n          <login-form></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n          <signup-form></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else >\n        <div class=\"logout-area\">\n          <logout-button></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n          <home-page></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n          <associations-page></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n          <donations-page></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n          <solidarity-account-page></solidarity-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
-
-/***/ }),
+/* 129 */,
 /* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28753,6 +28724,52 @@
 	}
 
 	module.exports = SocialSharing;
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(173);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(85)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(84)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "\n#wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\n.content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n.top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: .2em;\n  margin: .2em;\n}\n.top-menu[_v-61b3c432] {\n  position: -webkit-sticky;\n  position: sticky;\n}\n.btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n.bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 3em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n.bottom-menu button[_v-61b3c432] {\n\n}\n#title[_v-61b3c432] {\n  text-align: center;\n}\n.page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports) {
+
+	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n    class: {{getWidthClass}}\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <div class=\"top-menu\" _v-61b3c432=\"\">\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\" _v-61b3c432=\"\"><i class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h4 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n\n      <message-items _v-61b3c432=\"\"></message-items>\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n        <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <login-form _v-61b3c432=\"\"></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n          <signup-form _v-61b3c432=\"\"></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n        <div class=\"logout-area\" _v-61b3c432=\"\">\n          <logout-button _v-61b3c432=\"\"></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n          <home-page _v-61b3c432=\"\"></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n          <share-page _v-61b3c432=\"\"></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n          <associations-page _v-61b3c432=\"\"></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n          <donations-page _v-61b3c432=\"\"></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n          <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
 
 /***/ })
 /******/ ]);
