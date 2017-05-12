@@ -13085,7 +13085,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.messages[_v-257d20f6] {\n  margin: 0;\n  position: absolute;\n  z-index: 1000;\n  min-width: 10em;\n  max-width: 280px;\n}\n.messages div[_v-257d20f6] {\n  margin: 0;\n}\n.messages .alert[_v-257d20f6] {\n  margin: -0.5em auto;\n}\n", ""]);
+	exports.push([module.id, "\n.messages[_v-257d20f6] {\n  margin: 0;\n  position: absolute;\n  z-index: 1000;\n  min-width: 10em;\n  max-width: 280px;\n  right: 1em;\n}\n.messages div[_v-257d20f6] {\n  margin: 0;\n}\n.messages .alert[_v-257d20f6] {\n  margin: -0.5em auto;\n  padding: .3em;\n  padding-top: .1em;\n  padding-bottom: .1em;\n}\n", ""]);
 
 	// exports
 
@@ -13135,12 +13135,16 @@
 	//   z-index: 1000;
 	//   min-width: 10em;
 	//   max-width: 280px;
+	//   right: 1em;
 	// }
 	// .messages div {
 	//   margin: 0;
 	// }
 	// .messages .alert {
 	//   margin: -0.5em auto;
+	//   padding: .3em;
+	//   padding-top: .1em;
+	//   padding-bottom: .1em;
 	// }
 	// </style>
 	//
