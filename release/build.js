@@ -12476,7 +12476,7 @@
 	        return;
 	      }
 
-	      vm = this;
+	      var vm = this;
 	      console.log("resetting after 5 seconds");
 	      setTimeout(function () {
 	        vm.$store.commit("resetMessages");
