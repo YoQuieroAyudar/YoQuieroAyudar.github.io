@@ -12358,7 +12358,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.login-btn[_v-1d2afbaf] {\n  margin-top: .5em;\n}\n.fb-login-button[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n.login-area-wrapper[_v-1d2afbaf] {\n  margin: 5em auto;\n}\n.input-group[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n", ""]);
+	exports.push([module.id, "\na[_v-1d2afbaf] {\n  cursor: pointer;\n}\n.login-btn[_v-1d2afbaf] {\n  margin-top: .5em;\n}\n.fb-login-button[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n.login-area-wrapper[_v-1d2afbaf] {\n  margin: 5em auto;\n}\n.input-group[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n", ""]);
 
 	// exports
 
@@ -12410,6 +12410,9 @@
 	// </template>
 	//
 	// <style scoped>
+	// a {
+	//   cursor: pointer;
+	// }
 	// .login-btn {
 	//   margin-top: .5em;
 	// }
@@ -12793,7 +12796,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.signup-btn[_v-56e3317c] {\n  margin-top: .5em;\n}\n.signup-area-wrapper[_v-56e3317c] {\n  margin: 1em auto;\n}\n.input-group[_v-56e3317c] {\n  margin-bottom: .3em;\n}\n", ""]);
+	exports.push([module.id, "\na[_v-56e3317c] {\n  cursor: pointer;\n}\n.signup-btn[_v-56e3317c] {\n  margin-top: .5em;\n}\n.signup-area-wrapper[_v-56e3317c] {\n  margin: 1em auto;\n}\n.input-group[_v-56e3317c] {\n  margin-bottom: .3em;\n}\n", ""]);
 
 	// exports
 
@@ -12980,6 +12983,9 @@
 	// </template>
 	//
 	// <style scoped>
+	// a {
+	//   cursor: pointer;
+	// }
 	// .signup-btn {
 	//   margin-top: .5em;
 	// }
