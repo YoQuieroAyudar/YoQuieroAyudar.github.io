@@ -12283,7 +12283,7 @@
 	// <template>
 	//   <div>
 	//     <i class="fa fa-user" aria-hidden="true"></i> {{$store.state.user.user.email}}
-	//     <button class="btn btn-danger pull-right" @click="logoutUser">Logout</button>
+	//     <button class="btn btn-danger btn-xs pull-right" @click="logoutUser">Logout</button>
 	//   </div>
 	// </template>
 	//
@@ -12308,7 +12308,7 @@
 /* 93 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div>\n    <i class=\"fa fa-user\" aria-hidden=\"true\"></i> {{$store.state.user.user.email}}\n    <button class=\"btn btn-danger pull-right\" @click=\"logoutUser\">Logout</button>\n  </div>\n";
+	module.exports = "\n  <div>\n    <i class=\"fa fa-user\" aria-hidden=\"true\"></i> {{$store.state.user.user.email}}\n    <button class=\"btn btn-danger btn-xs pull-right\" @click=\"logoutUser\">Logout</button>\n  </div>\n";
 
 /***/ }),
 /* 94 */
