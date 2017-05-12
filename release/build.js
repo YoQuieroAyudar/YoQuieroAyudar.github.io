@@ -12252,6 +12252,7 @@
 	});
 	var API_URL = exports.API_URL = "https://api.microhuchasolidaria.org/";
 	var LOGIN_URL = exports.LOGIN_URL = API_URL + "signin";
+	var SIGNUP_URL = exports.SIGNUP_URL = API_URL + "signup";
 	var FACEBOOK_LOGIN_URL = exports.FACEBOOK_LOGIN_URL = API_URL + "/signin/facebook";
 	var ASSO_SEARCH_URL = exports.ASSO_SEARCH_URL = API_URL + "search/asso";
 	var DONATION_URL = exports.DONATION_URL = API_URL + "metrics";
