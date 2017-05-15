@@ -12004,25 +12004,14 @@
 	// .desktop-max {
 	//   max-width: 300px;
 	// }
-	// #wrapper h1 {
-	//   font-size: 1.4em;
-	// }
-	// #wrapper h2 {
-	//   font-size: 1.1em;
-	// }
-	// #wrapper h3 {
-	//   font-size: 0.9em;
-	// }
-	// #wrapper h4 {
-	//   font-size: .7em;
-	// }
-	// #wrapper h5 {
-	//   font-size: .5em;
+	// #wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {
+	//
 	// }
 	// #wrapper .content {
 	//   height: 90%;
 	//   overflow-y: scroll;
 	//   overflow-x: hidden;
+	//   padding-right: .4em;
 	// }
 	// a {
 	//   cursor: pointer;
@@ -13377,7 +13366,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.associations-list[_v-0737b088] {\n\n}\n.association-box[_v-0737b088] {\n  box-shadow: 0 1px 8px #999;\n  margin: .2em;\n  cursor: pointer;\n}\n.assoc-logo[_v-0737b088] {\n  float: left;\n  margin: .3em;\n  width: 4em;\n  box-shadow: 1px 1px 1px #000;\n}\n", ""]);
+	exports.push([module.id, "\n.associations-list[_v-0737b088] {\n\n}\n.association-box[_v-0737b088] {\n  box-shadow: 0 1px 8px #999;\n  margin: .2em;\n  margin-bottom: .4em;\n  cursor: pointer;\n  padding: .2em;\n}\n.assoc-logo[_v-0737b088] {\n  float: left;\n  margin: .3em;\n  width: 4em;\n  box-shadow: 1px 1px 1px #000;\n}\n", ""]);
 
 	// exports
 
@@ -13453,7 +13442,9 @@
 	// .association-box {
 	//   box-shadow: 0 1px 8px #999;
 	//   margin: .2em;
+	//   margin-bottom: .4em;
 	//   cursor: pointer;
+	//   padding: .2em;
 	// }
 	// .assoc-logo {
 	//   float: left;
@@ -13739,8 +13730,9 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
+	__webpack_require__(196)
 	__vue_script__ = __webpack_require__(135)
-	__vue_template__ = __webpack_require__(136)
+	__vue_template__ = __webpack_require__(198)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -13834,7 +13826,7 @@
 	//       <div class="input-group">
 	//         <span class="input-group-addon" id="amount-addon1"> <i class="fa fa-euro fa-fw" aria-hidden="true"></i> </span>
 	//         <input name="amount" class="form-control" v-model="amount" aria-describedby="amount-addon1" type="number" min="1" step=0.01 placeholder="Amount" :value="amount" />
-	//         <button class="btn btn-primary btn-block" type="button">Recharge</button>
+	//         <button class="btn btn-primary btn-block recharge-btn" type="button">Recharge</button>
 	//       </div>
 	//     </form>
 	//
@@ -13846,15 +13838,17 @@
 	//   </div>
 	// </template>
 	//
+	// <style scoped>
+	// .recharge-btn {
+	//   border-top-left-radius: 0;
+	//   border-bottom-left-radius: 0;
+	// }
+	// </style>
+	//
 	// <script>
 
 /***/ }),
-/* 136 */
-/***/ (function(module, exports) {
-
-	module.exports = "\n  <div>\n    <h1>\n      Recharge Account\n    </h1>\n\n    <form class=\"form\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=0.01 placeholder=\"Amount\" :value=\"amount\" />\n        <button class=\"btn btn-primary btn-block\" type=\"button\">Recharge</button>\n      </div>\n    </form>\n\n    <hr>\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\">\n      <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\">Register Card</button>\n    </div>\n\n  </div>\n";
-
-/***/ }),
+/* 136 */,
 /* 137 */,
 /* 138 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -29118,7 +29112,7 @@
 
 
 	// module
-	exports.push([module.id, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1 {\n  font-size: 1.4em;\n}\n#wrapper h2 {\n  font-size: 1.1em;\n}\n#wrapper h3 {\n  font-size: 0.9em;\n}\n#wrapper h4 {\n  font-size: .7em;\n}\n#wrapper h5 {\n  font-size: .5em;\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 3em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu button {\n\n}\n#wrapper #title {\n  text-align: center;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n", ""]);
+	exports.push([module.id, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 3em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu button {\n\n}\n#wrapper #title {\n  text-align: center;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n", ""]);
 
 	// exports
 
@@ -29348,6 +29342,52 @@
 	    return true;
 	  }
 	};
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(197);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(85)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1e130e5e&file=Recharge.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Recharge.vue", function() {
+				var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1e130e5e&file=Recharge.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Recharge.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(84)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "\n.recharge-btn[_v-1e130e5e] {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports) {
+
+	module.exports = "\n  <div _v-1e130e5e=\"\">\n    <h1 _v-1e130e5e=\"\">\n      Recharge Account\n    </h1>\n\n    <form class=\"form\" _v-1e130e5e=\"\">\n      <div class=\"input-group\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=\"0.01\" placeholder=\"Amount\" :value=\"amount\" _v-1e130e5e=\"\">\n        <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" _v-1e130e5e=\"\">Recharge</button>\n      </div>\n    </form>\n\n    <hr _v-1e130e5e=\"\">\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\" _v-1e130e5e=\"\">\n      <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\" _v-1e130e5e=\"\">Register Card</button>\n    </div>\n\n  </div>\n";
 
 /***/ })
 /******/ ]);
