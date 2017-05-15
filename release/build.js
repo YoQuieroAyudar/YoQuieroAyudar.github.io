@@ -13793,7 +13793,7 @@
 	    registerCard: function registerCard() {
 	      var jwt_token = localStorage.getItem("user_token");
 	      var vm = this;
-	      this.$http.headers.common['Authorization'] = 'Bearers ' + jwt_token;
+	      this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
 	      this.$http.post(urls.REGISTER_CARD_URL, { amount: this.amount }).then(function (resp) {
 	        console.log("success");
 	        console.log(resp);
