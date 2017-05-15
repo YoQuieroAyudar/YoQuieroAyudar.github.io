@@ -12273,9 +12273,10 @@
 	var API_URL = exports.API_URL = "https://api.microhuchasolidaria.org/";
 	var LOGIN_URL = exports.LOGIN_URL = API_URL + "signin";
 	var SIGNUP_URL = exports.SIGNUP_URL = API_URL + "signup";
-	var FACEBOOK_LOGIN_URL = exports.FACEBOOK_LOGIN_URL = API_URL + "/signin/facebook";
+	var FACEBOOK_LOGIN_URL = exports.FACEBOOK_LOGIN_URL = API_URL + "signin/facebook";
 	var ASSO_SEARCH_URL = exports.ASSO_SEARCH_URL = API_URL + "search/asso";
 	var DONATION_URL = exports.DONATION_URL = API_URL + "metrics";
+	var REGISTER_CARD_URL = exports.REGISTER_CARD_URL = API_URL + "register_card";
 
 /***/ }),
 /* 90 */
@@ -13423,9 +13424,13 @@
 	          vm.$store.commit('setErrors', [{ error: "Unable to set associations' list" }]);
 	        }
 	      }, function (err) {
-	        console.log(err.status);
-	        console.log(err.statusText);
-	        console.log(err.body);
+	        if (!err.data) {
+	          vm.$store.commit("setError", { error: "Error while loading associations' list" });
+	          return;
+	        }
+	        if (err.data.errors) {
+	          vm.$store.commit("setErrors", err.data.errors);
+	        }
 	      });
 	    }
 	  },
@@ -13753,42 +13758,101 @@
 
 /***/ }),
 /* 135 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _api_variables = __webpack_require__(89);
+
+	var urls = _interopRequireWildcard(_api_variables);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	exports.default = {
+	  data: function data() {
+	    return {
+	      amount: 1.0,
+	      registerCardResponse: {}
+	    };
+	  },
+
+	  methods: {
+	    rechargeAmount: function rechargeAmount(amount) {
+	      // if no amount return error
+	      if (!amount) {
+	        this.$store.commit('setError', { "error": "Invalid amount to recharge" });
+	        return;
+	      }
+	    },
+
+	    computed: {},
+	    registerCard: function registerCard() {
+	      var jwt_token = localStorage.getItem("user_token");
+	      var vm = this;
+	      this.$http.headers.common['Authorization'] = 'Bearers ' + jwt_token;
+	      this.$http.post(urls.REGISTER_CARD_URL, { amount: this.amount }).then(function (resp) {
+	        console.log("success");
+	        console.log(resp);
+	        if (resp.data) {
+	          console.log("data");
+	          console.log(resp.data);
+	          vm.$store.commit("setRegCardResponse", resp.data);
+	          vm.$store.commit("setSuccess", "Register card successful");
+	        } else {
+	          if (resp.error) {
+	            vm.$store.commit("setError", { error: resp.error });
+	          } else {
+	            vm.$store.commit("setError", { error: "Not data in resp" });
+	          }
+	        }
+	      }, function (err) {
+	        console.log("failed");
+	        if (!err.data) {
+	          vm.$store.commit("setError", { error: "Card registeration error" });
+	          return;
+	        }
+	        if (err.data.errors) {
+	          vm.$store.commit("setErrors", err.data.errors);
+	        }
+	      });
+	    }
+	  }
+	};
+	// </script>
+	//
 	// <template>
 	//   <div>
 	//     <h1>
 	//       Recharge Account
 	//     </h1>
 	//
+	//     <form class="form">
+	//       <div class="input-group">
+	//         <span class="input-group-addon" id="amount-addon1"> <i class="fa fa-euro fa-fw" aria-hidden="true"></i> </span>
+	//         <input name="amount" class="form-control" v-model="amount" aria-describedby="amount-addon1" type="number" min="1" step=0.01 placeholder="Amount" :value="amount" />
+	//         <button class="btn btn-primary btn-block" type="button">Recharge</button>
+	//       </div>
+	//     </form>
+	//
+	//     <hr>
+	//     <div v-if="$store.getters.getRegCardResponse.accessKeyRef != ''">
+	//       <button class="btn btn-primary btn-block" type="button" @click="registerCard">Register Card</button>
+	//     </div>
 	//
 	//   </div>
 	// </template>
 	//
 	// <script>
-	exports.default = {
-	  methods: {
-	    rechargeAmount: function rechargeAmount(amount) {
-	      // if no amount return error
-	      if (!amount) {
-	        this.$store.commit('setError', { "error": "Invalid amount to recharge" });
-	      }
-	    }
-	  }
-	};
-	// </script>
-	//
 
 /***/ }),
 /* 136 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div>\n    <h1>\n      Recharge Account\n    </h1>\n\n\n  </div>\n";
+	module.exports = "\n  <div>\n    <h1>\n      Recharge Account\n    </h1>\n\n    <form class=\"form\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=0.01 placeholder=\"Amount\" :value=\"amount\" />\n        <button class=\"btn btn-primary btn-block\" type=\"button\">Recharge</button>\n      </div>\n    </form>\n\n    <hr>\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\">\n      <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\">Register Card</button>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 137 */,
@@ -13833,6 +13897,10 @@
 
 	var _donations2 = _interopRequireDefault(_donations);
 
+	var _accounts = __webpack_require__(183);
+
+	var _accounts2 = _interopRequireDefault(_accounts);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	_vue2.default.use(_vuex2.default);
@@ -13844,7 +13912,8 @@
 	    user: _user2.default,
 	    messages: _messages2.default,
 	    associations: _associations2.default,
-	    donations: _donations2.default
+	    donations: _donations2.default,
+	    accounts: _accounts2.default
 	  },
 	  strict: true
 	});
@@ -29059,6 +29128,226 @@
 /***/ (function(module, exports) {
 
 	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <span class=\"hidden\">{{currentState}}</span>\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\">\n      <div class=\"top-menu\">\n        <message-items></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n        <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n          <login-form></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n          <signup-form></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else >\n        <div class=\"logout-area\">\n          <logout-button></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n          <home-page></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n          <associations-page></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n          <association-page></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n          <donations-page></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n          <solidarity-account-page></solidarity-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'recharge'\">\n          <recharge-account-page></recharge-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _keys = __webpack_require__(184);
+
+	var _keys2 = _interopRequireDefault(_keys);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var state = {
+	  RegisterCardResponse: {}
+	};
+
+	var getters = {
+	  getRegCardResponse: function getRegCardResponse(state) {
+	    return state.RegisterCardResponse;
+	  },
+	  getRegCardHasResponse: function getRegCardHasResponse(state) {
+	    // Object.keys(obj).length === 0 && obj.constructor === Object
+	    // all this is to check if obj is empty
+	    return Boolean((0, _keys2.default)(state.RegisterCardResponse) === 0 && state.RegisterCardResponse === Object);
+	  }
+	};
+
+	var mutations = {
+	  setRegCardResponse: function setRegCardResponse(state, context) {
+	    state.RegisterCardResponse = context;
+	  }
+	};
+
+	var actions = {};
+
+	exports.default = {
+	  state: state,
+	  getters: getters,
+	  mutations: mutations,
+	  actions: actions
+	};
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(185), __esModule: true };
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	__webpack_require__(186);
+	module.exports = __webpack_require__(192).Object.keys;
+
+/***/ }),
+/* 186 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 Object.keys(O)
+	var toObject = __webpack_require__(187);
+
+	__webpack_require__(189)('keys', function($keys){
+	  return function keys(it){
+	    return $keys(toObject(it));
+	  };
+	});
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// 7.1.13 ToObject(argument)
+	var defined = __webpack_require__(188);
+	module.exports = function(it){
+	  return Object(defined(it));
+	};
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// most Object methods by ES6 should accept primitives
+	var $export = __webpack_require__(190)
+	  , core    = __webpack_require__(192)
+	  , fails   = __webpack_require__(195);
+	module.exports = function(KEY, exec){
+	  var fn  = (core.Object || {})[KEY] || Object[KEY]
+	    , exp = {};
+	  exp[KEY] = exec(fn);
+	  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+	};
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(191)
+	  , core      = __webpack_require__(192)
+	  , ctx       = __webpack_require__(193)
+	  , PROTOTYPE = 'prototype';
+
+	var $export = function(type, name, source){
+	  var IS_FORCED = type & $export.F
+	    , IS_GLOBAL = type & $export.G
+	    , IS_STATIC = type & $export.S
+	    , IS_PROTO  = type & $export.P
+	    , IS_BIND   = type & $export.B
+	    , IS_WRAP   = type & $export.W
+	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , key, own, out;
+	  if(IS_GLOBAL)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !IS_FORCED && target && key in target;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+	    // bind timers to global for call from export context
+	    : IS_BIND && own ? ctx(out, global)
+	    // wrap global constructors for prevent change them in library
+	    : IS_WRAP && target[key] == out ? (function(C){
+	      var F = function(param){
+	        return this instanceof C ? new C(param) : C(param);
+	      };
+	      F[PROTOTYPE] = C[PROTOTYPE];
+	      return F;
+	    // make static versions for prototype methods
+	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	  }
+	};
+	// type bitmap
+	$export.F = 1;  // forced
+	$export.G = 2;  // global
+	$export.S = 4;  // static
+	$export.P = 8;  // proto
+	$export.B = 16; // bind
+	$export.W = 32; // wrap
+	module.exports = $export;
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports) {
+
+	var core = module.exports = {version: '1.2.6'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	// optional / simple context binding
+	var aFunction = __webpack_require__(194);
+	module.exports = function(fn, that, length){
+	  aFunction(fn);
+	  if(that === undefined)return fn;
+	  switch(length){
+	    case 1: return function(a){
+	      return fn.call(that, a);
+	    };
+	    case 2: return function(a, b){
+	      return fn.call(that, a, b);
+	    };
+	    case 3: return function(a, b, c){
+	      return fn.call(that, a, b, c);
+	    };
+	  }
+	  return function(/* ...args */){
+	    return fn.apply(that, arguments);
+	  };
+	};
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports) {
+
+	module.exports = function(it){
+	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+	  return it;
+	};
+
+/***/ }),
+/* 195 */
+/***/ (function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
 
 /***/ })
 /******/ ]);
