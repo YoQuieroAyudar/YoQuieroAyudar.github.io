@@ -11940,19 +11940,20 @@
 
 	      console.log("getCurrentState");
 	      var rememberMe = localStorage.getItem('rememberMe');
+	      console.log("rememberMe = " + rememberMe);
 	      if (rememberMe) {
 	        // read the saved token from localStorage
-	        user_token = localStorage.getItem('user_token');
+	        var user_token = localStorage.getItem('user_token');
 	        // if found user is loggedin
 	        if (user_token) {
 	          // check if the currentState is empty
 	          if (this.$store.getters.getCurrentState == "") {
-	            this.$store.commit("changeCurrentState", "loggedin");
+	            this.$store.commit("setCurrentState", "loggedin");
 	            return "loggedin";
 	          }
 	        } else {
 	          // no token means not signed in
-	          this.$store.commit("changeCurrentState", "login");
+	          this.$store.commit("setCurrentState", "login");
 	          return "login";
 	        }
 
@@ -12063,18 +12064,18 @@
 	//
 	// <template>
 	//   <div id="wrapper" v-bind:class="getWidthClass">
+	//     <span class="hidden">{{currentState}}</span>
 	//
 	//     <div class="top-container" v-if="!$store.getters.getLoading">
 	//       <div class="top-menu">
 	//         <message-items></message-items>
-	//         <span class="hidden">{{currentState}}</span>
 	//         <!-- <button class="btn btn-success pull-right" @click="goToNextPage">Next</button> -->
 	//         <button class="btn btn-plain" @click="goToPrevPage"><i class="fa fa-angle-left fa-fw"></i> </button>
 	//       </div>
 	//     </div>
 	//
 	//     <div class="loading" v-if="$store.getters.getLoading">
-	//       <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Loading...</h4>
+	//       <h1><i class="fa fa-spinner fa-spin fa-fw"></i> Loading...</h1>
 	//     </div>
 	//     <div class="content" v-show="!$store.getters.getLoading">
 	//
@@ -12440,7 +12441,7 @@
 	//       If you don't have an account yet <a class="" @click="goToSignupPage" > Sign up here</a>
 	//
 	//       <button class="btn btn-primary btn-block login-btn" @click="loginUser" > <i class="fa fa-paper-plane" aria-hidden="true"></i> Login</button>
-	//       Remember me <input name="remember_me" v-model="rememberMe" @input="updateRemember" aria-describedby="password-addon1" type="checkbox" :value="rememberMe" />
+	//       Remember me <input name="remember_me" v-model="rememberMe" :checked="rememberMe" aria-describedby="password-addon1" type="checkbox" :value="rememberMe" />
 	//     </form>
 	//
 	//     <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no"></iframe></div>
@@ -12474,7 +12475,7 @@
 	        mail: "",
 	        password: ""
 	      },
-	      rememberMe: false,
+	      rememberMe: localStorage.getItem("rememberMe"),
 	      facebookLogin: false
 	    };
 	  },
@@ -12485,10 +12486,6 @@
 	      e.preventDefault();
 	      this.$store.commit("resetMessages");
 	      this.$store.commit('setCurrentPage', "signup");
-	    },
-	    updateRemember: function updateRemember(e) {
-	      console.log(e);
-	      //localStorage.setItem('rememberMe', e.rememberMe.value())
 	    },
 	    updateEmail: function updateEmail(e) {
 	      this.$store.commit('updateEmail', this.login.mail);
@@ -12528,6 +12525,7 @@
 	      console.log("setting token:");
 	      this.$store.commit("setToken", token);
 	      console.log("setting current_state");
+	      localStorage.setItem("rememberMe", this.rememberMe);
 	      this.$store.commit("setCurrentState", "loggedin");
 	      this.$store.commit('setCurrentPage', "home");
 	    },
@@ -12782,7 +12780,7 @@
 /* 104 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">Login</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" placeholder=\"Email\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" placeholder=\"Password\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      If you don't have an account yet <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> Sign up here</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> Login</button>\n      Remember me <input name=\"remember_me\" v-model=\"rememberMe\" @input=\"updateRemember\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\" _v-1d2afbaf=\"\"><iframe src=\"https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen=\"\" scrolling=\"no\" _v-1d2afbaf=\"\"></iframe></div>\n\n  </div>\n";
+	module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">Login</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" placeholder=\"Email\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" placeholder=\"Password\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      If you don't have an account yet <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> Sign up here</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> Login</button>\n      Remember me <input name=\"remember_me\" v-model=\"rememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\" _v-1d2afbaf=\"\"><iframe src=\"https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen=\"\" scrolling=\"no\" _v-1d2afbaf=\"\"></iframe></div>\n\n  </div>\n";
 
 /***/ }),
 /* 105 */
@@ -13761,12 +13759,21 @@
 	//     <h1>
 	//       Recharge Account
 	//     </h1>
+	//
+	//
 	//   </div>
 	// </template>
 	//
 	// <script>
 	exports.default = {
-	  methods: {}
+	  methods: {
+	    rechargeAmount: function rechargeAmount(amount) {
+	      // if no amount return error
+	      if (!amount) {
+	        this.$store.commit('setError', { "error": "Invalid amount to recharge" });
+	      }
+	    }
+	  }
 	};
 	// </script>
 	//
@@ -13775,7 +13782,7 @@
 /* 136 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div>\n    <h1>\n      Recharge Account\n    </h1>\n  </div>\n";
+	module.exports = "\n  <div>\n    <h1>\n      Recharge Account\n    </h1>\n\n\n  </div>\n";
 
 /***/ }),
 /* 137 */,
@@ -29045,7 +29052,7 @@
 /* 182 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\">\n      <div class=\"top-menu\">\n        <message-items></message-items>\n        <span class=\"hidden\">{{currentState}}</span>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h4><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h4>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n        <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n          <login-form></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n          <signup-form></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else >\n        <div class=\"logout-area\">\n          <logout-button></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n          <home-page></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n          <associations-page></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n          <association-page></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n          <donations-page></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n          <solidarity-account-page></solidarity-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'recharge'\">\n          <recharge-account-page></recharge-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <span class=\"hidden\">{{currentState}}</span>\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\">\n      <div class=\"top-menu\">\n        <message-items></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n        <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n          <login-form></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n          <signup-form></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else >\n        <div class=\"logout-area\">\n          <logout-button></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n          <home-page></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n          <associations-page></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n          <association-page></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n          <donations-page></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n          <solidarity-account-page></solidarity-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'recharge'\">\n          <recharge-account-page></recharge-account-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n  </div>\n";
 
 /***/ })
 /******/ ]);
