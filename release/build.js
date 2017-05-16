@@ -12038,7 +12038,11 @@
 	    goToPrevPage: function goToPrevPage(e) {
 	      e.preventDefault();
 	      //this.$store.commit('goToPreviousPage')
-	      this.$store.commit('setCurrentPage', "home");
+	      if (this.$store.getters.getCurrentState != 'login') {
+	        this.$store.commit('setCurrentPage', "home");
+	        return;
+	      }
+	      this.$store.commit('setCurrentPage', "");
 	    },
 	    goToNextPage: function goToNextPage(e) {
 	      e.preventDefault();
@@ -12552,6 +12556,7 @@
 	      e.preventDefault();
 	      this.$store.commit("resetMessages");
 	      this.$store.commit('setCurrentPage', "signup");
+	      this.$store.commit('setCurrentState', "");
 	    },
 	    updateEmail: function updateEmail(e) {
 	      this.$store.commit('updateEmail', this.login.mail);
@@ -13853,7 +13858,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.recharge-btn[_v-1e130e5e] {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n", ""]);
+	exports.push([module.id, "\n.recharge-btn[_v-1e130e5e] {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n.month-input .form-control[_v-1e130e5e], .year-input .form-control[_v-1e130e5e] {\n  width: 5em;\n}\n", ""]);
 
 	// exports
 
@@ -13877,21 +13882,31 @@
 	exports.default = {
 	  data: function data() {
 	    return {
-	      amount: 1.0,
+	      amount: 10,
+	      cardNo: '',
+	      CVV: '',
+	      expirationDate: '',
 	      registerCardResponse: {}
 	    };
 	  },
 
+	  computed: {
+	    totalAmountCharged: function totalAmountCharged() {
+	      return parseFloat(this.amount) + parseFloat(this.amount) * .018 + 0.18;
+	    }
+	  },
 	  methods: {
-	    rechargeAmount: function rechargeAmount(amount) {
+	    updateAmount: function updateAmount(e) {
+	      e.preventDefault();
+	      this.totalAmountCharged = parseFloat(this.amount) + parseFloat(this.amount) * .018 + 0.18;
+	    },
+	    rechargeAccount: function rechargeAccount() {
 	      // if no amount return error
-	      if (!amount) {
+	      if (!this.amount) {
 	        this.$store.commit('setError', { "error": "Invalid amount to recharge" });
 	        return;
 	      }
 	    },
-
-	    computed: {},
 	    registerCard: function registerCard() {
 	      var jwt_token = localStorage.getItem("user_token");
 	      var vm = this;
@@ -13903,7 +13918,9 @@
 	          console.log("data");
 	          console.log(resp.data);
 	          vm.$store.commit("setRegCardResponse", resp.data);
-	          vm.$store.commit("setSuccess", "Register card successful");
+	          //vm.$store.commit("setSuccess", "Register card successful")
+	          // make the registerCard call with the response data
+	          vm.rechargeAccount();
 	        } else {
 	          if (resp.error) {
 	            vm.$store.commit("setError", { error: resp.error });
@@ -13931,18 +13948,42 @@
 	//     <h1>
 	//       Recharge Account
 	//     </h1>
+	//     <p>Account balance: {{$store.getters.getBalance}}</p>
 	//
 	//     <form class="form">
-	//       <div class="input-group">
+	//       <div class="input-group"  title="Net Amount">
 	//         <span class="input-group-addon" id="amount-addon1"> <i class="fa fa-euro fa-fw" aria-hidden="true"></i> </span>
-	//         <input name="amount" class="form-control" v-model="amount" aria-describedby="amount-addon1" type="number" min="1" step=0.01 placeholder="Amount" :value="amount" />
-	//         <button class="btn btn-primary btn-block recharge-btn" type="button">Recharge</button>
+	//         <input name="amount" class="form-control" v-model="amount" @input="updateAmount" aria-describedby="amount-addon1" type="number" min="1" step=1 placeholder="Net Amount" :value="amount" />
 	//       </div>
+	//       <div class="input-group" title="Card NO.">
+	//         <span class="input-group-addon" id="cardNo-addon1"> <i class="fa fa-credit-card fa-fw" aria-hidden="true"></i> </span>
+	//         <input name="cardNo" class="form-control" v-model="cardNo" aria-describedby="cardNo-addon1" type="number" min="1" step=1 placeholder="Card No" :value="cardNo" />
+	//       </div>
+	//       <div class="input-group" title="CVV Code">
+	//         <span class="input-group-addon" id="CVV-addon1"> <i class="fa fa-key fa-fw" aria-hidden="true"></i> </span>
+	//         <input name="CVV" class="form-control" v-model="CVV" aria-describedby="CVV-addon1" type="number" min="1" step=1 placeholder="CVV" :value="CVV" />
+	//       </div>
+	//       <div class="input-group" title="Expiration Date">
+	//         <span class="input-group-addon" id="expirationDate-addon1"> <i class="fa fa-calendar-times-o fa-fw" aria-hidden="true"></i> </span>
+	//         <div class="">
+	//           <div class="month-input">
+	//             <input name="expirationDateMonth" class="form-control" v-model="expirationDate.month" aria-describedby="expirationDate-addon1" type="number" min="1" step=1 placeholder="MM" :value="expirationDate.month" />
+	//           </div>
+	//           <div class="year-input">
+	//             <input name="expirationDateYear" class="form-control" v-model="expirationDate.year" width=3 aria-describedby="expirationDate-addon1" type="number" min="1" step=1 placeholder="YY" :value="expirationDate.year" />
+	//           </div>
+	//         </div>
+	//       </div>
+	//       <div class="input-group" title="Charged Amount">
+	//         <span class="input-group-addon" id="ChargedAmount-addon1"> <i class="fa fa-money fa-fw" aria-hidden="true"></i> </span>
+	//         <input name="ChargedAmount" class="form-control" v-model="totalAmountCharged" disabled aria-describedby="ChargedAmount-addon1" type="number" min="1" step=1 placeholder="Charged Ammount" :value="totalAmountCharged" />
+	//       </div>
+	//       <button class="btn btn-primary btn-block recharge-btn" type="button">Recharge</button>
 	//     </form>
 	//
 	//     <hr>
 	//     <div v-if="$store.getters.getRegCardResponse.accessKeyRef != ''">
-	//       <button class="btn btn-primary btn-block" type="button" @click="registerCard">Register Card</button>
+	//       <!-- <button class="btn btn-primary btn-block" type="button" @click="registerCard">Register Card</button> -->
 	//     </div>
 	//
 	//   </div>
@@ -13953,6 +13994,9 @@
 	//   border-top-left-radius: 0;
 	//   border-bottom-left-radius: 0;
 	// }
+	// .month-input .form-control, .year-input .form-control {
+	//   width: 5em;
+	// }
 	// </style>
 	//
 	// <script>
@@ -13961,7 +14005,7 @@
 /* 138 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div _v-1e130e5e=\"\">\n    <h1 _v-1e130e5e=\"\">\n      Recharge Account\n    </h1>\n\n    <form class=\"form\" _v-1e130e5e=\"\">\n      <div class=\"input-group\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=\"0.01\" placeholder=\"Amount\" :value=\"amount\" _v-1e130e5e=\"\">\n        <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" _v-1e130e5e=\"\">Recharge</button>\n      </div>\n    </form>\n\n    <hr _v-1e130e5e=\"\">\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\" _v-1e130e5e=\"\">\n      <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\" _v-1e130e5e=\"\">Register Card</button>\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div _v-1e130e5e=\"\">\n    <h1 _v-1e130e5e=\"\">\n      Recharge Account\n    </h1>\n    <p _v-1e130e5e=\"\">Account balance: {{$store.getters.getBalance}}</p>\n\n    <form class=\"form\" _v-1e130e5e=\"\">\n      <div class=\"input-group\" title=\"Net Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" @input=\"updateAmount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Net Amount\" :value=\"amount\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Card NO.\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"cardNo-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-credit-card fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"cardNo\" class=\"form-control\" v-model=\"cardNo\" aria-describedby=\"cardNo-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Card No\" :value=\"cardNo\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"CVV Code\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"CVV-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-key fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"CVV\" class=\"form-control\" v-model=\"CVV\" aria-describedby=\"CVV-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"CVV\" :value=\"CVV\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Expiration Date\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"expirationDate-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-calendar-times-o fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <div class=\"\" _v-1e130e5e=\"\">\n          <div class=\"month-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateMonth\" class=\"form-control\" v-model=\"expirationDate.month\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"MM\" :value=\"expirationDate.month\" _v-1e130e5e=\"\">\n          </div>\n          <div class=\"year-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateYear\" class=\"form-control\" v-model=\"expirationDate.year\" width=\"3\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"YY\" :value=\"expirationDate.year\" _v-1e130e5e=\"\">\n          </div>\n        </div>\n      </div>\n      <div class=\"input-group\" title=\"Charged Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"ChargedAmount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-money fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"ChargedAmount\" class=\"form-control\" v-model=\"totalAmountCharged\" disabled=\"\" aria-describedby=\"ChargedAmount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Charged Ammount\" :value=\"totalAmountCharged\" _v-1e130e5e=\"\">\n      </div>\n      <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" _v-1e130e5e=\"\">Recharge</button>\n    </form>\n\n    <hr _v-1e130e5e=\"\">\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\" _v-1e130e5e=\"\">\n      <!-- <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\">Register Card</button> -->\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 139 */
@@ -14857,7 +14901,7 @@
 	  value: true
 	});
 	var state = {
-	  Version: "0.0.1",
+	  Version: "0.0.2",
 	  CurrentState: "",
 	  CurrentPage: "",
 	  PreviousPage: "",
@@ -15982,7 +16026,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var state = {
-	  RegisterCardResponse: {}
+	  RegisterCardResponse: {},
+	  AccountBalance: 0
 	};
 
 	var getters = {
@@ -15993,12 +16038,18 @@
 	    // Object.keys(obj).length === 0 && obj.constructor === Object
 	    // all this is to check if obj is empty
 	    return Boolean((0, _keys2.default)(state.RegisterCardResponse) === 0 && state.RegisterCardResponse === Object);
+	  },
+	  getBalance: function getBalance(state) {
+	    return parseInt(state.AccountBalance);
 	  }
 	};
 
 	var mutations = {
 	  setRegCardResponse: function setRegCardResponse(state, context) {
 	    state.RegisterCardResponse = context;
+	  },
+	  setBalance: function setBalance(state, context) {
+	    state.AccountBalance = parseInt(context);
 	  }
 	};
 
@@ -29530,7 +29581,13 @@
 	  },
 
 	  methods: {
-	    checkOldPassword: function checkOldPassword() {}
+	    checkOldPassword: function checkOldPassword() {
+	      var email = this.$store.getters.getEmail;
+	      if (!email) {
+	        this.$store.commit("setError", "No email in the store, please logout and login again");
+	      }
+	      var creds = { "email": email, password: this.oldPass };
+	    }
 	  }
 	};
 	// </script>
