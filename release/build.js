@@ -11562,7 +11562,7 @@
 
 
 	// module
-	exports.push([module.id, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n", ""]);
+	exports.push([module.id, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n", ""]);
 
 	// exports
 
@@ -12009,7 +12009,7 @@
 	//
 	//
 	//     <div class="bottom-menu">
-	//       <label class="version">Version: {{$store.getters.getVersion}} (BETA)</label>
+	//       <label class="version"> <a target="_blank" href="https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki"> Version: {{$store.getters.getVersion}} (BETA) </a> </label>
 	//     </div>
 	//
 	//   </div>
@@ -12178,6 +12178,7 @@
 	//   text-align: center;
 	//   margin: 0;
 	//   padding: .1em;
+	//   width: 100%;
 	// }
 	// #wrapper #title {
 	//   text-align: center;
@@ -13966,7 +13967,7 @@
 /* 139 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <span class=\"hidden\">{{currentState}}</span>\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\">\n      <div class=\"top-menu\">\n        <message-items></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n        <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n          <login-form></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n          <signup-form></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else >\n        <div class=\"logout-area\">\n          <logout-button></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n          <home-page></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n          <associations-page></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n          <association-page></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n          <donations-page></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n          <solidarity-account-page></solidarity-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'recharge'\">\n          <recharge-account-page></recharge-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n          <settings-page></settings-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\">Version: {{$store.getters.getVersion}} (BETA)</label>\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <span class=\"hidden\">{{currentState}}</span>\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\">\n      <div class=\"top-menu\">\n        <message-items></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n        <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n          <login-form></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n          <signup-form></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else >\n        <div class=\"logout-area\">\n          <logout-button></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n          <home-page></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n          <associations-page></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n          <association-page></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n          <donations-page></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n          <solidarity-account-page></solidarity-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'recharge'\">\n          <recharge-account-page></recharge-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n          <settings-page></settings-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} (BETA) </a> </label>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 140 */
@@ -29528,7 +29529,9 @@
 	    };
 	  },
 
-	  methods: {}
+	  methods: {
+	    checkOldPassword: function checkOldPassword() {}
+	  }
 	};
 	// </script>
 	// <style media="screen">
