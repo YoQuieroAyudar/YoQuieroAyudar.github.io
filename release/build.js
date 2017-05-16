@@ -11562,7 +11562,7 @@
 
 
 	// module
-	exports.push([module.id, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n", ""]);
+	exports.push([module.id, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n  font-weight: bold;\n}\n#wrapper h1 {\n  font-size: 1.6em;\n}\n#wrapper h2{\n  font-size: 1.45em;\n}\n#wrapper h3{\n  font-size: 1.3em;\n}\n#wrapper h4 {\n  font-size: 1.15em;\n}\n#wrapper h5 {\n  font-size: 1em;\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n", ""]);
 
 	// exports
 
@@ -12142,7 +12142,22 @@
 	//   max-width: 300px;
 	// }
 	// #wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {
-	//
+	//   font-weight: bold;
+	// }
+	// #wrapper h1 {
+	//   font-size: 1.6em;
+	// }
+	// #wrapper h2{
+	//   font-size: 1.45em;
+	// }
+	// #wrapper h3{
+	//   font-size: 1.3em;
+	// }
+	// #wrapper h4 {
+	//   font-size: 1.15em;
+	// }
+	// #wrapper h5 {
+	//   font-size: 1em;
 	// }
 	// #wrapper .content {
 	//   height: 90%;
@@ -13896,10 +13911,6 @@
 	    }
 	  },
 	  methods: {
-	    updateAmount: function updateAmount(e) {
-	      e.preventDefault();
-	      this.totalAmountCharged = parseFloat(this.amount) + parseFloat(this.amount) * .018 + 0.18;
-	    },
 	    rechargeAccount: function rechargeAccount() {
 	      // if no amount return error
 	      if (!this.amount) {
@@ -13953,7 +13964,7 @@
 	//     <form class="form">
 	//       <div class="input-group"  title="Net Amount">
 	//         <span class="input-group-addon" id="amount-addon1"> <i class="fa fa-euro fa-fw" aria-hidden="true"></i> </span>
-	//         <input name="amount" class="form-control" v-model="amount" @input="updateAmount" aria-describedby="amount-addon1" type="number" min="1" step=1 placeholder="Net Amount" :value="amount" />
+	//         <input name="amount" class="form-control" v-model="amount" aria-describedby="amount-addon1" type="number" min="1" step=1 placeholder="Net Amount" :value="amount" />
 	//       </div>
 	//       <div class="input-group" title="Card NO.">
 	//         <span class="input-group-addon" id="cardNo-addon1"> <i class="fa fa-credit-card fa-fw" aria-hidden="true"></i> </span>
@@ -14005,7 +14016,7 @@
 /* 138 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div _v-1e130e5e=\"\">\n    <h1 _v-1e130e5e=\"\">\n      Recharge Account\n    </h1>\n    <p _v-1e130e5e=\"\">Account balance: {{$store.getters.getBalance}}</p>\n\n    <form class=\"form\" _v-1e130e5e=\"\">\n      <div class=\"input-group\" title=\"Net Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" @input=\"updateAmount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Net Amount\" :value=\"amount\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Card NO.\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"cardNo-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-credit-card fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"cardNo\" class=\"form-control\" v-model=\"cardNo\" aria-describedby=\"cardNo-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Card No\" :value=\"cardNo\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"CVV Code\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"CVV-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-key fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"CVV\" class=\"form-control\" v-model=\"CVV\" aria-describedby=\"CVV-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"CVV\" :value=\"CVV\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Expiration Date\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"expirationDate-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-calendar-times-o fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <div class=\"\" _v-1e130e5e=\"\">\n          <div class=\"month-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateMonth\" class=\"form-control\" v-model=\"expirationDate.month\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"MM\" :value=\"expirationDate.month\" _v-1e130e5e=\"\">\n          </div>\n          <div class=\"year-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateYear\" class=\"form-control\" v-model=\"expirationDate.year\" width=\"3\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"YY\" :value=\"expirationDate.year\" _v-1e130e5e=\"\">\n          </div>\n        </div>\n      </div>\n      <div class=\"input-group\" title=\"Charged Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"ChargedAmount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-money fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"ChargedAmount\" class=\"form-control\" v-model=\"totalAmountCharged\" disabled=\"\" aria-describedby=\"ChargedAmount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Charged Ammount\" :value=\"totalAmountCharged\" _v-1e130e5e=\"\">\n      </div>\n      <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" _v-1e130e5e=\"\">Recharge</button>\n    </form>\n\n    <hr _v-1e130e5e=\"\">\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\" _v-1e130e5e=\"\">\n      <!-- <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\">Register Card</button> -->\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div _v-1e130e5e=\"\">\n    <h1 _v-1e130e5e=\"\">\n      Recharge Account\n    </h1>\n    <p _v-1e130e5e=\"\">Account balance: {{$store.getters.getBalance}}</p>\n\n    <form class=\"form\" _v-1e130e5e=\"\">\n      <div class=\"input-group\" title=\"Net Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Net Amount\" :value=\"amount\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Card NO.\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"cardNo-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-credit-card fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"cardNo\" class=\"form-control\" v-model=\"cardNo\" aria-describedby=\"cardNo-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Card No\" :value=\"cardNo\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"CVV Code\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"CVV-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-key fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"CVV\" class=\"form-control\" v-model=\"CVV\" aria-describedby=\"CVV-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"CVV\" :value=\"CVV\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Expiration Date\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"expirationDate-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-calendar-times-o fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <div class=\"\" _v-1e130e5e=\"\">\n          <div class=\"month-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateMonth\" class=\"form-control\" v-model=\"expirationDate.month\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"MM\" :value=\"expirationDate.month\" _v-1e130e5e=\"\">\n          </div>\n          <div class=\"year-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateYear\" class=\"form-control\" v-model=\"expirationDate.year\" width=\"3\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"YY\" :value=\"expirationDate.year\" _v-1e130e5e=\"\">\n          </div>\n        </div>\n      </div>\n      <div class=\"input-group\" title=\"Charged Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"ChargedAmount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-money fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"ChargedAmount\" class=\"form-control\" v-model=\"totalAmountCharged\" disabled=\"\" aria-describedby=\"ChargedAmount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Charged Ammount\" :value=\"totalAmountCharged\" _v-1e130e5e=\"\">\n      </div>\n      <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" _v-1e130e5e=\"\">Recharge</button>\n    </form>\n\n    <hr _v-1e130e5e=\"\">\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\" _v-1e130e5e=\"\">\n      <!-- <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\">Register Card</button> -->\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 139 */
@@ -14901,7 +14912,7 @@
 	  value: true
 	});
 	var state = {
-	  Version: "0.0.2",
+	  Version: "0.0.3",
 	  CurrentState: "",
 	  CurrentPage: "",
 	  PreviousPage: "",
