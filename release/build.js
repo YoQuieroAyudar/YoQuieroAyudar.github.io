@@ -12038,7 +12038,7 @@
 	    goToPrevPage: function goToPrevPage(e) {
 	      e.preventDefault();
 	      //this.$store.commit('goToPreviousPage')
-	      if (this.$store.getters.getCurrentState != 'login') {
+	      if (!(this.$store.getters.getCurrentState == 'login' || this.$store.getters.getCurrentState == '')) {
 	        this.$store.commit('setCurrentPage', "home");
 	        return;
 	      }
