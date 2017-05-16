@@ -11925,13 +11925,15 @@
 
 	var _SolidarityAccount2 = _interopRequireDefault(_SolidarityAccount);
 
-	var _Recharge = __webpack_require__(134);
-
-	var _Recharge2 = _interopRequireDefault(_Recharge);
-
 	var _Settings = __webpack_require__(198);
 
 	var _Settings2 = _interopRequireDefault(_Settings);
+
+	var _api_variables = __webpack_require__(89);
+
+	var urls = _interopRequireWildcard(_api_variables);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11966,6 +11968,7 @@
 	//       </div>
 	//       <div class="loggedin-area" v-else >
 	//         <div class="logout-area">
+	//           <span class="hidden">{{getMyBalance}}</span>
 	//           <logout-button></logout-button>
 	//         </div>
 	//
@@ -11991,10 +11994,6 @@
 	//
 	//         <div v-if="$store.getters.getCurrentPage == 'solidarity'">
 	//           <solidarity-account-page></solidarity-account-page>
-	//         </div>
-	//
-	//         <div v-if="$store.getters.getCurrentPage == 'recharge'">
-	//           <recharge-account-page></recharge-account-page>
 	//         </div>
 	//
 	//         <div v-if="$store.getters.getCurrentPage == 'settings'">
@@ -12031,6 +12030,32 @@
 	  },
 
 	  methods: {
+	    getWalletBalance: function getWalletBalance() {
+	      console.log("getting WALLET_BALANCE_URL");
+	      if (!this.$store.getters.getLogin) {
+	        console.log("not loggedin");
+	        return;
+	      }
+	      var vm = this;
+	      var jwt_token = localStorage.getItem("user_token");
+	      console.log("setting header");
+	      this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
+	      console.log("making http call");
+	      this.$http.get(urls.WALLET_BALANCE_URL).then(function (resp) {
+	        console.log(resp.data);
+	        if (!resp.data) {
+	          return;
+	        }
+	        if (resp.data.balance) {
+	          vm.$store.commit("setCurrency", resp.data.balance.Currency);
+	          console.log("Currency: " + resp.data.balance.Currency);
+	          console.log("Balance: " + resp.data.balance.Amount);
+	          vm.$store.commit("setBalance", resp.data.balance.Amount);
+	        }
+	      }, function (err) {
+	        console.log(err.data);
+	      });
+	    },
 	    goSharePage: function goSharePage(e) {
 	      e.preventDefault();
 	      this.$store.commit('setCurrentPage', "share");
@@ -12050,6 +12075,14 @@
 	    }
 	  },
 	  computed: {
+	    getMyBalance: function getMyBalance() {
+	      console.log("get balance after 20 seconds");
+	      var vm = this;
+	      setTimeout(function () {
+	        vm.getWalletBalance();
+	      }, 20000);
+	      return this.$store.getters.getBalance;
+	    },
 	    getWidthClass: function getWidthClass() {
 	      var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
 	      console.log(width);
@@ -12122,7 +12155,6 @@
 	    "association-page": _Association2.default,
 	    "donations-page": _Donations2.default,
 	    "solidarity-account-page": _SolidarityAccount2.default,
-	    "recharge-account-page": _Recharge2.default,
 	    "settings-page": _Settings2.default
 	  }
 	};
@@ -12350,6 +12382,7 @@
 	var ASSO_SEARCH_URL = exports.ASSO_SEARCH_URL = API_URL + "search/asso";
 	var DONATION_URL = exports.DONATION_URL = API_URL + "metrics";
 	var REGISTER_CARD_URL = exports.REGISTER_CARD_URL = API_URL + "register_card";
+	var WALLET_BALANCE_URL = exports.WALLET_BALANCE_URL = API_URL + "wallet_balance";
 
 /***/ }),
 /* 90 */
@@ -12384,7 +12417,7 @@
 /* 92 */
 /***/ (function(module, exports) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -12392,8 +12425,9 @@
 	// <template>
 	//   <div class="logout-area">
 	//     <i class="fa fa-user" aria-hidden="true"></i> {{$store.state.user.user.email}}
-	//     <button class="btn btn-danger btn-xs pull-right" @click="logoutUser">Logout</button>
+	//     <button class="btn btn-danger btn-xs pull-right" title="Logout" @click="logoutUser">Logout</button>
 	//     <button class="btn btn-default btn-xs pull-right" title="Settings" @click="goToSettingsPage"> <i class="fa fa-cog fa-fw"></i> </button>
+	//     <label :class="balanceLabelClasses" title="Wallet Balance" @click="goToSolidarityAccount">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>
 	//   </div>
 	// </template>
 	//
@@ -12402,6 +12436,11 @@
 	  methods: {
 	    goToSettingsPage: function goToSettingsPage(e) {
 	      this.$store.commit('setCurrentPage', "settings");
+	    },
+	    goToSolidarityAccount: function goToSolidarityAccount(e) {
+	      e.preventDefault();
+	      this.$store.commit("setCurrentPage", "solidarity");
+	      this.$store.commit("resetMessages");
 	    },
 	    logoutUser: function logoutUser(e) {
 	      e.preventDefault();
@@ -12412,12 +12451,29 @@
 	      localStorage.removeItem('user_token');
 	      localStorage.removeItem('rememberMe');
 	    }
+	  },
+	  computed: {
+	    walletBalance: function walletBalance() {
+	      return this.$store.getters.getBalance;
+	    },
+	    balanceLabelClasses: function balanceLabelClasses() {
+	      var cs = 'label pull-right balance-label label-';
+	      this.walletBalance > 0 ? cs += 'success' : cs += 'warning';
+	      return cs;
+	    }
 	  }
 	};
 	// </script>
 	// <style scoped>
 	// .logout-area button {
 	//   margin-left: .2em;
+	// }
+	// .balance-label {
+	//   padding: .15em;
+	//   padding-left: .5em;
+	//   padding-right: .5em;
+	//   font-size: 1.2em;
+	//   cursor: pointer;
 	// }
 	// </style>
 	//
@@ -13788,32 +13844,46 @@
 
 /***/ }),
 /* 132 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _Recharge = __webpack_require__(134);
+
+	var _Recharge2 = _interopRequireDefault(_Recharge);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  methods: {},
+	  components: {
+	    "recharge-account-page": _Recharge2.default
+	  }
+	};
+	// </script>
+	//
 	// <template>
 	//   <div>
 	//     <h2>Solidarity Account</h2>
 	//     <label class="label label-warning">Page is under-construction</label>
 	//   </div>
+	//   <div>
+	//     <recharge-account-page></recharge-account-page>
+	//   </div>
+	//
 	// </template>
 	//
 	// <script>
-	exports.default = {
-	  methods: {}
-	};
-	// </script>
-	//
 
 /***/ }),
 /* 133 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div>\n    <h2>Solidarity Account</h2>\n    <label class=\"label label-warning\">Page is under-construction</label>\n  </div>\n";
+	module.exports = "\n  <div>\n    <h2>Solidarity Account</h2>\n    <label class=\"label label-warning\">Page is under-construction</label>\n  </div>\n  <div>\n    <recharge-account-page></recharge-account-page>\n  </div>\n\n";
 
 /***/ }),
 /* 134 */
@@ -13956,10 +14026,8 @@
 	//
 	// <template>
 	//   <div>
-	//     <h1>
-	//       Recharge Account
-	//     </h1>
-	//     <p>Account balance: {{$store.getters.getBalance}}</p>
+	//
+	//     <p>Account balance: {{$store.getters.getCurrency}} {{$store.getters.getBalance}}</p>
 	//
 	//     <form class="form">
 	//       <div class="input-group"  title="Net Amount">
@@ -14016,13 +14084,13 @@
 /* 138 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div _v-1e130e5e=\"\">\n    <h1 _v-1e130e5e=\"\">\n      Recharge Account\n    </h1>\n    <p _v-1e130e5e=\"\">Account balance: {{$store.getters.getBalance}}</p>\n\n    <form class=\"form\" _v-1e130e5e=\"\">\n      <div class=\"input-group\" title=\"Net Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Net Amount\" :value=\"amount\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Card NO.\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"cardNo-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-credit-card fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"cardNo\" class=\"form-control\" v-model=\"cardNo\" aria-describedby=\"cardNo-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Card No\" :value=\"cardNo\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"CVV Code\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"CVV-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-key fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"CVV\" class=\"form-control\" v-model=\"CVV\" aria-describedby=\"CVV-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"CVV\" :value=\"CVV\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Expiration Date\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"expirationDate-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-calendar-times-o fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <div class=\"\" _v-1e130e5e=\"\">\n          <div class=\"month-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateMonth\" class=\"form-control\" v-model=\"expirationDate.month\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"MM\" :value=\"expirationDate.month\" _v-1e130e5e=\"\">\n          </div>\n          <div class=\"year-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateYear\" class=\"form-control\" v-model=\"expirationDate.year\" width=\"3\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"YY\" :value=\"expirationDate.year\" _v-1e130e5e=\"\">\n          </div>\n        </div>\n      </div>\n      <div class=\"input-group\" title=\"Charged Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"ChargedAmount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-money fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"ChargedAmount\" class=\"form-control\" v-model=\"totalAmountCharged\" disabled=\"\" aria-describedby=\"ChargedAmount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Charged Ammount\" :value=\"totalAmountCharged\" _v-1e130e5e=\"\">\n      </div>\n      <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" _v-1e130e5e=\"\">Recharge</button>\n    </form>\n\n    <hr _v-1e130e5e=\"\">\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\" _v-1e130e5e=\"\">\n      <!-- <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\">Register Card</button> -->\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div _v-1e130e5e=\"\">\n\n    <p _v-1e130e5e=\"\">Account balance: {{$store.getters.getCurrency}} {{$store.getters.getBalance}}</p>\n\n    <form class=\"form\" _v-1e130e5e=\"\">\n      <div class=\"input-group\" title=\"Net Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Net Amount\" :value=\"amount\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Card NO.\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"cardNo-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-credit-card fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"cardNo\" class=\"form-control\" v-model=\"cardNo\" aria-describedby=\"cardNo-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Card No\" :value=\"cardNo\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"CVV Code\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"CVV-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-key fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"CVV\" class=\"form-control\" v-model=\"CVV\" aria-describedby=\"CVV-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"CVV\" :value=\"CVV\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" title=\"Expiration Date\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"expirationDate-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-calendar-times-o fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <div class=\"\" _v-1e130e5e=\"\">\n          <div class=\"month-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateMonth\" class=\"form-control\" v-model=\"expirationDate.month\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"MM\" :value=\"expirationDate.month\" _v-1e130e5e=\"\">\n          </div>\n          <div class=\"year-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateYear\" class=\"form-control\" v-model=\"expirationDate.year\" width=\"3\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"YY\" :value=\"expirationDate.year\" _v-1e130e5e=\"\">\n          </div>\n        </div>\n      </div>\n      <div class=\"input-group\" title=\"Charged Amount\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"ChargedAmount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-money fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"ChargedAmount\" class=\"form-control\" v-model=\"totalAmountCharged\" disabled=\"\" aria-describedby=\"ChargedAmount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"Charged Ammount\" :value=\"totalAmountCharged\" _v-1e130e5e=\"\">\n      </div>\n      <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" _v-1e130e5e=\"\">Recharge</button>\n    </form>\n\n    <hr _v-1e130e5e=\"\">\n    <div v-if=\"$store.getters.getRegCardResponse.accessKeyRef != ''\" _v-1e130e5e=\"\">\n      <!-- <button class=\"btn btn-primary btn-block\" type=\"button\" @click=\"registerCard\">Register Card</button> -->\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 139 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <span class=\"hidden\">{{currentState}}</span>\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\">\n      <div class=\"top-menu\">\n        <message-items></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n        <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n          <login-form></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n          <signup-form></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else >\n        <div class=\"logout-area\">\n          <logout-button></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n          <home-page></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n          <associations-page></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n          <association-page></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n          <donations-page></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n          <solidarity-account-page></solidarity-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'recharge'\">\n          <recharge-account-page></recharge-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n          <settings-page></settings-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} (BETA) </a> </label>\n    </div>\n\n  </div>\n";
+	module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <span class=\"hidden\">{{currentState}}</span>\n\n    <div class=\"top-container\" v-if=\"!$store.getters.getLoading\">\n      <div class=\"top-menu\">\n        <message-items></message-items>\n        <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n        <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n      </div>\n    </div>\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n\n      <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n        <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n          <login-form></login-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n          <signup-form></signup-form>\n        </div>\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n      </div>\n      <div class=\"loggedin-area\" v-else >\n        <div class=\"logout-area\">\n          <span class=\"hidden\">{{getMyBalance}}</span>\n          <logout-button></logout-button>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n          <home-page></home-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n          <share-page></share-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n          <associations-page></associations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n          <association-page></association-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n          <donations-page></donations-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n          <solidarity-account-page></solidarity-account-page>\n        </div>\n\n        <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n          <settings-page></settings-page>\n        </div>\n\n\n      </div>\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} (BETA) </a> </label>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 140 */
@@ -16024,7 +16092,7 @@
 /* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -16038,7 +16106,8 @@
 
 	var state = {
 	  RegisterCardResponse: {},
-	  AccountBalance: 0
+	  AccountBalance: 0,
+	  BalanceCurrency: 'EUR'
 	};
 
 	var getters = {
@@ -16052,6 +16121,9 @@
 	  },
 	  getBalance: function getBalance(state) {
 	    return parseInt(state.AccountBalance);
+	  },
+	  getCurrency: function getCurrency(state) {
+	    return state.BalanceCurrency;
 	  }
 	};
 
@@ -16061,6 +16133,9 @@
 	  },
 	  setBalance: function setBalance(state, context) {
 	    state.AccountBalance = parseInt(context);
+	  },
+	  setCurrency: function setCurrency(state, context) {
+	    state.BalanceCurrency = context;
 	  }
 	};
 
@@ -29518,7 +29593,7 @@
 
 
 	// module
-	exports.push([module.id, "\n.logout-area button[_v-5574fa98] {\n  margin-left: .2em;\n}\n", ""]);
+	exports.push([module.id, "\n.logout-area button[_v-5574fa98] {\n  margin-left: .2em;\n}\n.balance-label[_v-5574fa98] {\n  padding: .15em;\n  padding-left: .5em;\n  padding-right: .5em;\n  font-size: 1.2em;\n  cursor: pointer;\n}\n", ""]);
 
 	// exports
 
@@ -29527,7 +29602,7 @@
 /* 197 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div class=\"logout-area\" _v-5574fa98=\"\">\n    <i class=\"fa fa-user\" aria-hidden=\"true\" _v-5574fa98=\"\"></i> {{$store.state.user.user.email}}\n    <button class=\"btn btn-danger btn-xs pull-right\" @click=\"logoutUser\" _v-5574fa98=\"\">Logout</button>\n    <button class=\"btn btn-default btn-xs pull-right\" title=\"Settings\" @click=\"goToSettingsPage\" _v-5574fa98=\"\"> <i class=\"fa fa-cog fa-fw\" _v-5574fa98=\"\"></i> </button>\n  </div>\n";
+	module.exports = "\n  <div class=\"logout-area\" _v-5574fa98=\"\">\n    <i class=\"fa fa-user\" aria-hidden=\"true\" _v-5574fa98=\"\"></i> {{$store.state.user.user.email}}\n    <button class=\"btn btn-danger btn-xs pull-right\" title=\"Logout\" @click=\"logoutUser\" _v-5574fa98=\"\">Logout</button>\n    <button class=\"btn btn-default btn-xs pull-right\" title=\"Settings\" @click=\"goToSettingsPage\" _v-5574fa98=\"\"> <i class=\"fa fa-cog fa-fw\" _v-5574fa98=\"\"></i> </button>\n    <label :class=\"balanceLabelClasses\" title=\"Wallet Balance\" @click=\"goToSolidarityAccount\" _v-5574fa98=\"\">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>\n  </div>\n";
 
 /***/ }),
 /* 198 */
