@@ -13977,7 +13977,7 @@
 
 	  computed: {
 	    totalAmountCharged: function totalAmountCharged() {
-	      return parseFloat(this.amount) + parseFloat(this.amount) * .018 + 0.18;
+	      return (parseFloat(this.amount) + parseFloat(this.amount) * .018 + 0.18).toFixed(2);
 	    }
 	  },
 	  methods: {
