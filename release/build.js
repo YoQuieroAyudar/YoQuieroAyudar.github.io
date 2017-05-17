@@ -12041,7 +12041,8 @@
 	      console.log("setting header");
 	      this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
 	      console.log("making http call");
-	      this.$http.get(urls.WALLET_BALANCE_URL).then(function (resp) {
+	      var url = urls.API_URL.CurrentUrl + urls.WALLET_BALANCE_URL;
+	      this.$http.get(url).then(function (resp) {
 	        console.log(resp.data);
 	        if (!resp.data) {
 	          return;
@@ -12281,7 +12282,9 @@
 
 	exports.default = {
 	  data: function data() {
-	    return {};
+	    return {
+	      loadingDonationMetrics: false
+	    };
 	  },
 
 	  methods: {
@@ -12307,12 +12310,14 @@
 	      }
 	      console.log("check donations metrics in: " + this.$store.getters.getCurrentPage);
 	      var vm = this;
-	      this.$http.get(urls.DONATION_URL).then(function (resp) {
+	      var url = urls.API_URL.CurrentUrl + urls.DONATION_URL;
+	      this.$http.get(url).then(function (resp) {
 	        console.log("call success");
 	        console.log(resp.data);
 	        if (resp.data) {
 	          if (resp.data.total_donations) {
 	            vm.$store.commit("setDonationTotal", resp.data);
+	            vm.loadingDonationMetrics = true;
 	          }
 	        }
 	      }, function (err) {
@@ -12329,6 +12334,9 @@
 	        return parts[0];
 	      }
 	      return parts[0];
+	    },
+	    gettingDonationSum: function gettingDonationSum() {
+	      return this.loadingDonationMetrics;
 	    },
 	    getDonationSum: function getDonationSum() {
 	      // get the donation
@@ -12355,7 +12363,7 @@
 	//       <button class="btn btn-default" @click="goToDonations" >My Donations</button>
 	//       <button class="btn btn-default" @click="goToSolidarityAccount">Solidarity Account</button>
 	//     </div>
-	//     <p v-if="getDonationSum">
+	//     <p v-if="gettingDonationSum">
 	//       Total Donations: <span class="">&euro;{{getDonationSum}}</span>
 	//     </p>
 	//     <p v-else>
@@ -12393,7 +12401,7 @@
 /* 90 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div>\n    <h4>Welcome, {{getUsername}}</h4>\n    <p>\n      Thanks for your generous heart. You're changing the world for a lot of people who lost hope.\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\">\n      <button class=\"btn btn-default active\">Home</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\">Associations</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" >My Donations</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\">Solidarity Account</button>\n    </div>\n    <p v-if=\"getDonationSum\">\n      Total Donations: <span class=\"\">&euro;{{getDonationSum}}</span>\n    </p>\n    <p v-else>\n      <i class=\"fa fa-spinner fa-spin fa-fw\"></i>\n    </p>\n  </div>\n";
+	module.exports = "\n  <div>\n    <h4>Welcome, {{getUsername}}</h4>\n    <p>\n      Thanks for your generous heart. You're changing the world for a lot of people who lost hope.\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\">\n      <button class=\"btn btn-default active\">Home</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\">Associations</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" >My Donations</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\">Solidarity Account</button>\n    </div>\n    <p v-if=\"gettingDonationSum\">\n      Total Donations: <span class=\"\">&euro;{{getDonationSum}}</span>\n    </p>\n    <p v-else>\n      <i class=\"fa fa-spinner fa-spin fa-fw\"></i>\n    </p>\n  </div>\n";
 
 /***/ }),
 /* 91 */
@@ -13142,7 +13150,8 @@
 	      };
 	      this.$store.commit("resetMessages");
 
-	      this.$http.post(urls.SIGNUP_URL, creds).then(function (resp) {
+	      var url = urls.API_URL.CurrentUrl + urls.SIGNUP_URL;
+	      this.$http.post(url, creds).then(function (resp) {
 	        // return the success code
 	        var data = {};
 	        console.log(resp);
@@ -13613,7 +13622,8 @@
 	      var jwt_token = localStorage.getItem("user_token");
 	      var vm = this;
 	      this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
-	      this.$http.post(urls.ASSO_SEARCH_URL + "?country=ES", { POS_id: 1 }).then(function (resp) {
+	      var url = urls.API_URL.CurrentUrl + urls.ASSO_SEARCH_URL;
+	      this.$http.post(url + "?country=ES", { POS_id: 1 }).then(function (resp) {
 	        console.log(resp.status);
 	        console.log(resp.statusText);
 	        console.log(resp);
@@ -14061,7 +14071,7 @@
 	      // this.$http.headers.common['Authorization'] = 'Bearer '+jwt_token
 	      var authorizationHeader = 'Bearer ' + jwt_token;
 	      var options = {
-	        url: urls.REGISTER_CARD_URL,
+	        url: urls.API_URL + urls.REGISTER_CARD_URL,
 	        method: 'POST',
 	        headers: { 'Authorization': authorizationHeader }
 	      };
@@ -14155,7 +14165,8 @@
 	      var rechargeData = { amount: parseFloat(this.amount) * 100, token: token };
 	      console.log("calling " + urls.RECHARGE_ACCOUNT_URL);
 	      this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
-	      this.$http.post(urls.RECHARGE_ACCOUNT_URL, rechargeData).then(function (resp) {
+	      var url = urls.API_URL.CurrentUrl + urls.RECHARGE_ACCOUNT_URL;
+	      this.$http.post(url, rechargeData).then(function (resp) {
 	        console.log("rechargeAccount Response");
 	        console.log(resp);
 	        vm.$store.commit("setLoading", false);
@@ -15313,7 +15324,7 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var state = {
-	  Version: "0.0.8",
+	  Version: "0.0.9",
 	  CurrentState: "",
 	  CurrentPage: "",
 	  PreviousPage: "",
