@@ -12379,15 +12379,15 @@
 	var LOCAL_API_URL = exports.LOCAL_API_URL = "http://localhost:8080";
 	var MHS_API_URL = exports.MHS_API_URL = "https://api.microhuchasolidaria.org";
 
-	var API_URL = exports.API_URL = MHS_API_URL;
-	var LOGIN_URL = exports.LOGIN_URL = API_URL + "/signin";
-	var SIGNUP_URL = exports.SIGNUP_URL = API_URL + "/signup";
-	var FACEBOOK_LOGIN_URL = exports.FACEBOOK_LOGIN_URL = API_URL + "/signin/facebook";
-	var ASSO_SEARCH_URL = exports.ASSO_SEARCH_URL = API_URL + "/search/asso";
-	var DONATION_URL = exports.DONATION_URL = API_URL + "/metrics";
-	var REGISTER_CARD_URL = exports.REGISTER_CARD_URL = API_URL + "/register_card";
-	var WALLET_BALANCE_URL = exports.WALLET_BALANCE_URL = API_URL + "/wallet_balance";
-	var RECHARGE_ACCOUNT_URL = exports.RECHARGE_ACCOUNT_URL = API_URL + "/recharge_account";
+	var API_URL = exports.API_URL = { CurrentUrl: MHS_API_URL };
+	var LOGIN_URL = exports.LOGIN_URL = "/signin";
+	var SIGNUP_URL = exports.SIGNUP_URL = "/signup";
+	var FACEBOOK_LOGIN_URL = exports.FACEBOOK_LOGIN_URL = "/signin/facebook";
+	var ASSO_SEARCH_URL = exports.ASSO_SEARCH_URL = "/search/asso";
+	var DONATION_URL = exports.DONATION_URL = "/metrics";
+	var REGISTER_CARD_URL = exports.REGISTER_CARD_URL = "/register_card";
+	var WALLET_BALANCE_URL = exports.WALLET_BALANCE_URL = "/wallet_balance";
+	var RECHARGE_ACCOUNT_URL = exports.RECHARGE_ACCOUNT_URL = "/recharge_account";
 
 /***/ }),
 /* 90 */
@@ -12620,6 +12620,13 @@
 	//
 	//     <form class="form">
 	//       <div class="input-group">
+	//         <span class="input-group-addon" title="Country" id="country-addon1"> <i class="fa fa-globe fa-fw" aria-hidden="true"></i> </span>
+	//         <select class="form-control" aria-describedby="nationality-addon1" @change="updateAPI" v-model="country">
+	//           <option v-for="country in $store.getters.getTopCountries" :selected="country.code == 'ES'" :value="country">{{country.name}}</option>
+	//         </select>
+	//
+	//       </div>
+	//       <div class="input-group">
 	//         <span class="input-group-addon" id="email-addon1"> <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> </span>
 	//         <input name="mail" class="form-control" v-model="login.mail" @input="updateEmail" aria-describedby="email-addon1" type="email" placeholder="Email" :value="login.email" />
 	//       </div>
@@ -12667,12 +12674,18 @@
 	        password: ""
 	      },
 	      rememberMe: localStorage.getItem("rememberMe"),
-	      facebookLogin: false
+	      facebookLogin: false,
+	      country: {}
 	    };
 	  },
 
 	  computed: {},
 	  methods: {
+	    updateAPI: function updateAPI() {
+	      console.log("before url change: " + urls.API_URL.CurrentUrl);
+	      this.$store.commit('setAPI', this.country.db);
+	      console.log("after url change: " + urls.API_URL.CurrentUrl);
+	    },
 	    goToSignupPage: function goToSignupPage(e) {
 	      e.preventDefault();
 	      this.$store.commit("resetMessages");
@@ -12728,7 +12741,8 @@
 	      var setMyToken = this.setUserToken;
 	      var setReponseMessage = this.setMessage;
 	      this.$store.commit("resetMessages");
-	      this.$http.post(urls.LOGIN_URL, creds).then(function (resp) {
+	      var url = urls.API_URL.CurrentUrl + urls.LOGIN_URL;
+	      this.$http.post(url, creds).then(function (resp) {
 	        // return the success code
 	        var data = {};
 	        console.log(resp);
@@ -12972,7 +12986,7 @@
 /* 106 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">Login</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" placeholder=\"Email\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" placeholder=\"Password\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      If you don't have an account yet <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> Sign up here</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> Login</button>\n      Remember me <input name=\"remember_me\" v-model=\"rememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\" _v-1d2afbaf=\"\"><iframe src=\"https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen=\"\" scrolling=\"no\" _v-1d2afbaf=\"\"></iframe></div>\n\n  </div>\n";
+	module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">Login</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" title=\"Country\" id=\"country-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\" _v-1d2afbaf=\"\">\n          <option v-for=\"country in $store.getters.getTopCountries\" :selected=\"country.code == 'ES'\" :value=\"country\" _v-1d2afbaf=\"\">{{country.name}}</option>\n        </select>\n\n      </div>\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" placeholder=\"Email\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" placeholder=\"Password\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      If you don't have an account yet <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> Sign up here</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> Login</button>\n      Remember me <input name=\"remember_me\" v-model=\"rememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\" _v-1d2afbaf=\"\"><iframe src=\"https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen=\"\" scrolling=\"no\" _v-1d2afbaf=\"\"></iframe></div>\n\n  </div>\n";
 
 /***/ }),
 /* 107 */
@@ -15284,21 +15298,29 @@
 
 /***/ }),
 /* 149 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _api_variables = __webpack_require__(89);
+
+	var urls = _interopRequireWildcard(_api_variables);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 	var state = {
-	  Version: "0.0.7",
+	  Version: "0.0.8",
 	  CurrentState: "",
 	  CurrentPage: "",
 	  PreviousPage: "",
 	  NexPage: "",
 	  PageHistory: [],
-	  loading: false
+	  loading: false,
+	  api_url: "http://localhost:8080"
 	};
 
 	var getters = {
@@ -15320,6 +15342,17 @@
 	};
 
 	var mutations = {
+	  setAPI: function setAPI(state, apiName) {
+	    console.log("changing api");
+	    if (apiName == "mhs") {
+	      state.api_url = "https://api.microhuchasolidaria.org";
+	    } else if (apiName == "iwth") {
+	      state.api_url = "http://api.iwanttohelp.org.uk";
+	    } else {
+	      state.api_url = "https://api.jevaisaider.org";
+	    }
+	    urls.API_URL.CurrentUrl = state.api_url;
+	  },
 	  setCurrentState: function setCurrentState(state, newState) {
 	    console.log("setting current_state");
 	    state.CurrentState = newState;
@@ -15528,21 +15561,26 @@
 	var state = {
 	    list: [{
 	        "name": "Spain",
-	        "code": "ES"
+	        "db": "mhs", "code": "ES"
 	    }, {
 	        "name": "France",
+	        "db": "jva",
 	        "code": "FR"
 	    }, {
 	        "name": "Belgium",
+	        "db": "jva",
 	        "code": "BE"
 	    }, {
 	        "name": "Switzerland",
+	        "db": "jva",
 	        "code": "CH"
 	    }, {
 	        "name": "United Kingdom",
+	        "db": "iwth",
 	        "code": "GB"
 	    }, {
 	        "name": "United States",
+	        "db": "iwth",
 	        "code": "US"
 	    }, {
 	        "name": "_________________",
@@ -16267,10 +16305,10 @@
 	    },
 	    getTopCountries: function getTopCountries(state) {
 	        var topCountries = {};
-	        var j = 0;
-	        for (var i = 0; i < state.list.length; i++) {
-	            topCountries[j] = state.list[i];
-	            j++;
+	        // TODO: if the top countries list length change please change this number
+	        var topSix = 6;
+	        for (var i = 0; i < topSix; i++) {
+	            topCountries[i] = state.list[i];
 	        }
 	        return topCountries;
 	    },
