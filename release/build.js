@@ -12692,6 +12692,7 @@
 	    updateAPI: function updateAPI() {
 	      console.log("before url change: " + urls.API_URL.CurrentUrl);
 	      this.$store.commit('setAPI', this.country.db);
+	      localStorage.setItem("country", this.country);
 	      console.log("after url change: " + urls.API_URL.CurrentUrl);
 	    },
 	    goToSignupPage: function goToSignupPage(e) {
@@ -12745,6 +12746,10 @@
 	    loginUser: function loginUser(e) {
 	      e.preventDefault();
 	      this.$store.commit("setLoading", true);
+	      var country = localStorage.getItem('country');
+	      if (!country) {
+	        localStorage.setItem('country', { name: "Spain", db: mhs, code: "ES" });
+	      }
 	      var creds = this.login;
 	      var setMyToken = this.setUserToken;
 	      var setReponseMessage = this.setMessage;
@@ -13623,7 +13628,8 @@
 	      var vm = this;
 	      this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
 	      var url = urls.API_URL.CurrentUrl + urls.ASSO_SEARCH_URL;
-	      this.$http.post(url + "?country=ES", { POS_id: 1 }).then(function (resp) {
+	      var country = localStorage.getItem('country');
+	      this.$http.post(url, { POS_id: 1 }).then(function (resp) {
 	        console.log(resp.status);
 	        console.log(resp.statusText);
 	        console.log(resp);
@@ -15283,7 +15289,7 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var state = {
-	  Version: "0.1.3",
+	  Version: "0.1.4",
 	  CurrentState: "",
 	  CurrentPage: "",
 	  PreviousPage: "",
