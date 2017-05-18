@@ -14071,10 +14071,12 @@
 	      // this.$http.headers.common['Authorization'] = 'Bearer '+jwt_token
 	      var authorizationHeader = 'Bearer ' + jwt_token;
 	      var options = {
-	        url: urls.API_URL + urls.REGISTER_CARD_URL,
+	        url: urls.API_URL.CurrentUrl + urls.REGISTER_CARD_URL,
 	        method: 'POST',
 	        headers: { 'Authorization': authorizationHeader }
 	      };
+	      console.log("options");
+	      console.log(options);
 	      this.$http(options).then(function (resp) {
 	        console.log("success");
 	        console.log(resp);
@@ -15324,7 +15326,7 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var state = {
-	  Version: "0.0.9",
+	  Version: "0.1.0",
 	  CurrentState: "",
 	  CurrentPage: "",
 	  PreviousPage: "",
