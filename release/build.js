@@ -14059,15 +14059,12 @@
 	  },
 	  methods: {
 	    registerCard: function registerCard() {
-	      console.log("registerCard:");
 	      if (!this.rechargeFormIsValid()) {
-	        console.log('recharge form is not valid');
 	        return;
 	      }
 	      var jwt_token = localStorage.getItem("user_token");
 	      var vm = this;
 
-	      console.log("calling " + urls.REGISTER_CARD_URL);
 	      // this.$http.headers.common['Authorization'] = 'Bearer '+jwt_token
 	      var authorizationHeader = 'Bearer ' + jwt_token;
 	      var options = {
@@ -14075,14 +14072,8 @@
 	        method: 'POST',
 	        headers: { 'Authorization': authorizationHeader }
 	      };
-	      console.log("options");
-	      console.log(options);
 	      this.$http(options).then(function (resp) {
-	        console.log("success");
-	        console.log(resp);
 	        if (resp.data) {
-	          console.log("data");
-	          console.log(resp.data);
 	          vm.$store.commit("setRegCardResponse", resp.data);
 	          //vm.$store.commit("setSuccess", "Register card successful")
 	          // make the registerCard call with the response data
@@ -14095,7 +14086,6 @@
 	          }
 	        }
 	      }, function (err) {
-	        console.log("failed");
 	        if (!err.data) {
 	          vm.$store.commit("setError", { error: "Card registeration error" });
 	          return;
@@ -14105,18 +14095,12 @@
 	        }
 	        vm.$store.commit("setLoading", false);
 	      });
-
-	      console.log("end of registerCard");
 	    },
 	    callToMangoPayToGetToken: function callToMangoPayToGetToken(data) {
-	      console.log("callToMangoPayToGetToken:");
 	      // resp.data.accessKeyRef, resp.data.cardRegistrationURL, resp.data.data
 	      this.sendToMangopay(data.accessKeyRef, data.cardRegistrationURL, data.data, this.cardNo, this.expirationDate, this.CVV, this.rechargeAccount);
-	      console.log("end of callToMangoPayToGetToken");
 	    },
 	    sendToMangopay: function sendToMangopay(accessKeyRef, cardRegistrationURL, data, cardNo, expirationDate, CVV, rechargeAccountCallBack) {
-	      console.log("sendToMangopay:");
-	      console.log("generate mangopayData");
 	      var mangopayData = {
 	        data: data,
 	        accessKeyRef: accessKeyRef,
@@ -14124,18 +14108,14 @@
 	        cardExpirationDate: expirationDate.month + expirationDate.year, //MMYY
 	        cardCvx: CVV
 	      };
-	      console.log(mangopayData);
 	      var mangoParameters = "";
 	      for (var key in mangopayData) {
 	        mangoParameters += (mangoParameters.length > 0 ? '&' : '') + key + "=" + encodeURIComponent(mangopayData[key]);
 	      }
-	      console.log("generated mangoParameters");
-	      console.log(mangoParameters);
 
 	      var jwt_token = localStorage.getItem("user_token");
 	      var vm = this;
 
-	      console.log("calling " + cardRegistrationURL);
 	      //this.$http.headers.common['Authorization'] = 'Bearer '+jwt_token
 	      delete this.$http.headers.common['Authorization'];
 	      // 'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'
@@ -14147,35 +14127,22 @@
 	        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 	      };
 	      this.$http(options).then(function (resp) {
-	        console.log("MangoPay Response");
-	        console.log(resp);
 	        rechargeAccountCallBack(resp.data);
 	      }, function (err) {
-	        console.log("MangoPay Error");
-	        console.log(err);
 	        vm.$store.commit("setLoading", false);
 	      });
-
-	      console.log("end of sendToMangopay");
 	    },
 	    rechargeAccount: function rechargeAccount(token) {
-	      console.log("rechargeAccount:");
-	      console.log("token:");
 	      token = "data=" + token;
 	      var jwt_token = localStorage.getItem("user_token");
 	      var vm = this;
 	      var rechargeData = { amount: parseFloat(this.amount) * 100, token: token };
-	      console.log("calling " + urls.RECHARGE_ACCOUNT_URL);
 	      this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
 	      var url = urls.API_URL.CurrentUrl + urls.RECHARGE_ACCOUNT_URL;
 	      this.$http.post(url, rechargeData).then(function (resp) {
-	        console.log("rechargeAccount Response");
-	        console.log(resp);
 	        vm.$store.commit("setLoading", false);
 	        vm.$store.commit("setSuccess", "Recharge successful");
 	      }, function (err) {
-	        console.log("rechargeAccount Error");
-	        console.log(err);
 	        if (err.error) {
 	          vm.$store.commit("setError", err.error);
 	        } else if (err.errors) {
@@ -14190,8 +14157,6 @@
 
 	        vm.$store.commit("setLoading", false);
 	      });
-
-	      console.log("end of rechargeAccount");
 	    },
 	    rechargeFormIsValid: function rechargeFormIsValid() {
 	      var isValid = true;
@@ -14211,28 +14176,8 @@
 
 	      return isValid;
 	    },
-
-	    // takes accessKeyRef, cardRegistrationURL and data from REGISTER_CARD_URL response
-	    // rechargeAccount (accessKeyRef, cardRegistrationURL, data) {
-	    //   // if no amount return error
-	    //   if (!this.amount) {
-	    //     this.$store.commit('setError', {"error":"Invalid amount to recharge"})
-	    //     return
-	    //   }
-	    //
-	    //   var mangopayData = {
-	    //     amount: this.amount,
-	    //     cardNumber: this.cardNo,
-	    //     cardCvx: CVV
-	    //   }
-	    //
-	    //   console.log("recharging your account using");
-	    //   console.log({accessKeyRef, cardRegistrationURL, data});
-	    //   console.log(this.$data);
-	    // },
 	    registerCardAndRecharge: function registerCardAndRecharge() {
 	      if (!this.rechargeFormIsValid()) {
-	        console.log("invalid form");
 	        return;
 	      }
 	      this.$store.commit("setLoading", true);
@@ -15338,7 +15283,7 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var state = {
-	  Version: "0.1.1",
+	  Version: "0.1.2",
 	  CurrentState: "",
 	  CurrentPage: "",
 	  PreviousPage: "",
@@ -16331,8 +16276,8 @@
 	    getTopCountries: function getTopCountries(state) {
 	        var topCountries = {};
 	        // TODO: if the top countries list length change please change this number
-	        var topSix = 6;
-	        for (var i = 0; i < topSix; i++) {
+	        var topNumber = 4;
+	        for (var i = 0; i < topNumber; i++) {
 	            topCountries[i] = state.list[i];
 	        }
 	        return topCountries;
