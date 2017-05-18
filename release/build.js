@@ -15283,7 +15283,7 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var state = {
-	  Version: "0.1.2",
+	  Version: "0.1.3",
 	  CurrentState: "",
 	  CurrentPage: "",
 	  PreviousPage: "",
@@ -15544,6 +15544,14 @@
 	        "name": "Switzerland",
 	        "db": "jva",
 	        "code": "CH"
+	    }, {
+	        "name": "Morocco",
+	        "db": "jva",
+	        "code": "MA"
+	    }, {
+	        "name": "Tunisia",
+	        "db": "jva",
+	        "code": "TN"
 	    }, {
 	        "name": "United Kingdom",
 	        "db": "iwth",
@@ -15991,9 +15999,6 @@
 	        "name": "Montserrat",
 	        "code": "MS"
 	    }, {
-	        "name": "Morocco",
-	        "code": "MA"
-	    }, {
 	        "name": "Mozambique",
 	        "code": "MZ"
 	    }, {
@@ -16204,9 +16209,6 @@
 	        "name": "Trinidad and Tobago",
 	        "code": "TT"
 	    }, {
-	        "name": "Tunisia",
-	        "code": "TN"
-	    }, {
 	        "name": "Turkey",
 	        "code": "TR"
 	    }, {
@@ -16276,7 +16278,7 @@
 	    getTopCountries: function getTopCountries(state) {
 	        var topCountries = {};
 	        // TODO: if the top countries list length change please change this number
-	        var topNumber = 4;
+	        var topNumber = 6;
 	        for (var i = 0; i < topNumber; i++) {
 	            topCountries[i] = state.list[i];
 	        }
