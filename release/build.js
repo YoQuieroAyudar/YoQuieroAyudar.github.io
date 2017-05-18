@@ -22321,7 +22321,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.1.9",
+  Version: "0.2.0",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
