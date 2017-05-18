@@ -14161,7 +14161,7 @@
 	    rechargeAccount: function rechargeAccount(token) {
 	      console.log("rechargeAccount:");
 	      console.log("token:");
-	      console.log(token);
+	      token = "data=" + token;
 	      var jwt_token = localStorage.getItem("user_token");
 	      var vm = this;
 	      var rechargeData = { amount: parseFloat(this.amount) * 100, token: token };
@@ -14176,6 +14176,18 @@
 	      }, function (err) {
 	        console.log("rechargeAccount Error");
 	        console.log(err);
+	        if (err.error) {
+	          vm.$store.commit("setError", err.error);
+	        } else if (err.errors) {
+	          vm.$store.commit("setErrors", err.errors);
+	        } else if (err.data.errors) {
+	          vm.$store.commit("setErrors", err.data.errors);
+	        } else if (err.data.error) {
+	          vm.$store.commit("setError", err.data.error);
+	        } else {
+	          vm.$store.commit("setError", "Error rechargin account");
+	        }
+
 	        vm.$store.commit("setLoading", false);
 	      });
 
