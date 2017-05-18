@@ -23574,42 +23574,43 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   mounted: function mounted() {},
   beforeCreate: function beforeCreate() {
-    var _this = this;
-
     var vm = this;
-    this.CurrentState = function () {
-      console.log("computed.currentState");
+    setTimeout(function () {
+      vm.$store.commit("resetMessages");
+    }, 5000);
 
-      setTimeout(function () {
-        vm.$store.commit("resetMessages");
-      }, 5000);
+    var rememberMe = localStorage.getItem('rememberMe');
 
-      var rememberMe = localStorage.getItem('rememberMe');
-
-      if (rememberMe == null) {
-        _this.$store.commit("setCurrentState", "login");
-        _this.$store.commit("setCurrentPage", "login");
+    if (!rememberMe) {
+      this.$store.commit("setCurrentState", "login");
+      this.$store.commit("setCurrentPage", "login");
+      return "login";
+    }
+    if (rememberMe != null) {
+      // read the saved token from localStorage
+      var user_token = localStorage.getItem('user_token');
+      var email = localStorage.getItem('user_email');
+      // if found user is loggedin
+      if (user_token) {
+        // check if the currentState is empty
+        if (this.$store.getters.getCurrentState == "") {
+          if (email) {
+            this.$store.commit("updateEmail", email);
+          } else {
+            this.$store.commit("updateEmail", "User");
+          }
+          this.$store.commit("setCurrentState", "loggedin");
+          this.$store.commit("setToken", user_token);
+          return "loggedin";
+        }
+      } else {
+        // no token means not signed in
+        this.$store.commit("setCurrentState", "login");
         return "login";
       }
-      if (rememberMe != null) {
-        // read the saved token from localStorage
-        var user_token = localStorage.getItem('user_token');
-        // if found user is loggedin
-        if (user_token) {
-          // check if the currentState is empty
-          if (_this.$store.getters.getCurrentState == "") {
-            _this.$store.commit("setCurrentState", "loggedin");
-            _this.$store.commit("setToken", user_token);
-            return "loggedin";
-          }
-        } else {
-          // no token means not signed in
-          _this.$store.commit("setCurrentState", "login");
-          return "login";
-        }
-      }
-      return _this.$store.getters.getCurrentState;
-    };
+
+      return this.$store.getters.getCurrentState;
+    }
   },
   beforeMount: function beforeMount() {
     this.$events.listen('testEvent', function (eventData) {
@@ -24148,6 +24149,9 @@ exports.default = {
   computed: {
     getUsername: function getUsername() {
       var email = this.$store.getters.getEmail;
+      if (!email) {
+        return "user";
+      }
       var parts = email.split('@');
       if (parts > 1) {
         return parts[0];
@@ -24241,7 +24245,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //       If you don't have an account yet <a class="" @click="goToSignupPage" > Sign up here</a>
 //
 //       <button class="btn btn-primary btn-block login-btn" @click="loginUser" > <i class="fa fa-paper-plane" aria-hidden="true"></i> Login</button>
-//       Remember me <input name="remember_me" v-model="rememberMe" :checked="rememberMe" aria-describedby="password-addon1" type="checkbox" :value="rememberMe" />
+//       Remember me <input name="remember_me" v-model="rememberMe" @click="setRememberMe" :checked="rememberMe" aria-describedby="password-addon1" type="checkbox" :value="rememberMe" />
 //     </form>
 //
 //     <div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;"><iframe src="https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1" style="border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;" allowfullscreen scrolling="no"></iframe></div>
@@ -24283,6 +24287,10 @@ exports.default = {
 
   computed: {},
   methods: {
+    setRememberMe: function setRememberMe() {
+      console.log("setting rememberMe: " + this.rememberMe);
+      localStorage.setItem('rememberMe', this.rememberMe);
+    },
     updateAPI: function updateAPI() {
       console.log("before url change: " + urls.API_URL.CurrentUrl);
       this.$store.commit('setAPI', this.country.db);
@@ -24363,6 +24371,7 @@ exports.default = {
               console.log(data.token);
               setMyToken(data.token);
               setReponseMessage({ "success": "Login successfully!" });
+              localStorage.setItem('user_email', creds.mail);
               vm.$events.$emit('loginEvent', { token: data.token, user: creds.email });
             }
           }
@@ -24395,10 +24404,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 // <template>
 //   <div class="logout-area">
-//     <i class="fa fa-user" aria-hidden="true"></i> {{$store.state.user.user.email}}
-//     <button class="btn btn-danger btn-xs pull-right" title="Logout" @click="logoutUser">Logout</button>
-//     <button class="btn btn-default btn-xs pull-right" title="Settings" @click="goToSettingsPage"> <i class="fa fa-cog fa-fw"></i> </button>
-//     <label :class="balanceLabelClasses" title="Wallet Balance" @click="goToSolidarityAccount">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>
+//     <nav class="navbar navbar-default">
+//       <div class="container-fluid">
+//         <p class="navbar-text"><i class="fa fa-user" aria-hidden="true"></i> {{$store.state.user.user.email}}</p>
+//       </div>
+//       <div class="navbar-right">
+//         <button class="btn btn-danger btn-xs pull-right" title="Logout" @click="logoutUser">Logout</button>
+//         <button class="btn btn-default btn-xs pull-right" title="Settings" @click="goToSettingsPage"> <i class="fa fa-cog fa-fw"></i> </button>
+//         <label :class="balanceLabelClasses" title="Wallet Balance" @click="goToSolidarityAccount">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>
+//       </div>
+//     </nav>
 //   </div>
 // </template>
 //
@@ -28326,7 +28341,7 @@ module.exports = "\n  <div class=\"associations-list\" _v-0737b088=\"\">\n    <h
 /* 108 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">Login</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" title=\"Country\" id=\"country-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\" _v-1d2afbaf=\"\">\n          <option v-for=\"(ctry, i) in $store.getters.getTopCountries\" :selected=\"true\" :value=\"ctry\" _v-1d2afbaf=\"\">{{ctry.name}}</option>\n        </select>\n\n      </div>\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" placeholder=\"Email\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" placeholder=\"Password\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      If you don't have an account yet <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> Sign up here</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> Login</button>\n      Remember me <input name=\"remember_me\" v-model=\"rememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\" _v-1d2afbaf=\"\"><iframe src=\"https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen=\"\" scrolling=\"no\" _v-1d2afbaf=\"\"></iframe></div>\n\n  </div>\n";
+module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">Login</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" title=\"Country\" id=\"country-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\" _v-1d2afbaf=\"\">\n          <option v-for=\"(ctry, i) in $store.getters.getTopCountries\" :selected=\"true\" :value=\"ctry\" _v-1d2afbaf=\"\">{{ctry.name}}</option>\n        </select>\n\n      </div>\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" placeholder=\"Email\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" placeholder=\"Password\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      If you don't have an account yet <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> Sign up here</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> Login</button>\n      Remember me <input name=\"remember_me\" v-model=\"rememberMe\" @click=\"setRememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\" _v-1d2afbaf=\"\"><iframe src=\"https://www.youtube.com/embed/Nek1FT5vs4o?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen=\"\" scrolling=\"no\" _v-1d2afbaf=\"\"></iframe></div>\n\n  </div>\n";
 
 /***/ }),
 /* 109 */
@@ -28350,7 +28365,7 @@ module.exports = "\n  <div class=\"messages\" _v-257d20f6=\"\">\n    <div class=
 /* 112 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"logout-area\" _v-5574fa98=\"\">\n    <i class=\"fa fa-user\" aria-hidden=\"true\" _v-5574fa98=\"\"></i> {{$store.state.user.user.email}}\n    <button class=\"btn btn-danger btn-xs pull-right\" title=\"Logout\" @click=\"logoutUser\" _v-5574fa98=\"\">Logout</button>\n    <button class=\"btn btn-default btn-xs pull-right\" title=\"Settings\" @click=\"goToSettingsPage\" _v-5574fa98=\"\"> <i class=\"fa fa-cog fa-fw\" _v-5574fa98=\"\"></i> </button>\n    <label :class=\"balanceLabelClasses\" title=\"Wallet Balance\" @click=\"goToSolidarityAccount\" _v-5574fa98=\"\">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>\n  </div>\n";
+module.exports = "\n  <div class=\"logout-area\" _v-5574fa98=\"\">\n    <nav class=\"navbar navbar-default\" _v-5574fa98=\"\">\n      <div class=\"container-fluid\" _v-5574fa98=\"\">\n        <p class=\"navbar-text\" _v-5574fa98=\"\"><i class=\"fa fa-user\" aria-hidden=\"true\" _v-5574fa98=\"\"></i> {{$store.state.user.user.email}}</p>\n      </div>\n      <div class=\"navbar-right\" _v-5574fa98=\"\">\n        <button class=\"btn btn-danger btn-xs pull-right\" title=\"Logout\" @click=\"logoutUser\" _v-5574fa98=\"\">Logout</button>\n        <button class=\"btn btn-default btn-xs pull-right\" title=\"Settings\" @click=\"goToSettingsPage\" _v-5574fa98=\"\"> <i class=\"fa fa-cog fa-fw\" _v-5574fa98=\"\"></i> </button>\n        <label :class=\"balanceLabelClasses\" title=\"Wallet Balance\" @click=\"goToSolidarityAccount\" _v-5574fa98=\"\">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>\n      </div>\n    </nav>\n  </div>\n";
 
 /***/ }),
 /* 113 */
