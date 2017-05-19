@@ -22321,7 +22321,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.2.1",
+  Version: "0.2.2",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -24453,12 +24453,12 @@ exports.default = {
       return cs;
     },
     getUserEmail: function getUserEmail() {
-      var email = $store.state.user.user.email;
+      var email = this.$store.state.user.user.email;
       email = email.split('@');
       if (email.length > 1) {
         return email[1];
       }
-      return $store.state.user.user.email;
+      return this.$store.state.user.user.email;
     }
   }
 };
