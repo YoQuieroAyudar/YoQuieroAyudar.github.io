@@ -21290,8 +21290,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__store__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_events__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue_events__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vuex_i18n__ = __webpack_require__(207);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vuex_i18n___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vuex_i18n__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__translations_locales_es__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__translations_locales_ar__ = __webpack_require__(208);
 
 
+
+
+
+
+
+// import translations
 
 
 
@@ -21305,6 +21316,17 @@ __webpack_require__(58);
 __webpack_require__(99);
 
 // Vue.use(VueMaterial)
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vuex_i18n___default.a.plugin, __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('es', __WEBPACK_IMPORTED_MODULE_6__translations_locales_es__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('fr', __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('ar', __WEBPACK_IMPORTED_MODULE_8__translations_locales_ar__["a" /* default */]);
+
+// if no translation for current locale use english
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.fallback('en');
+var user_locale = localStorage.getItem('user_locale');
+// user locale from the stored locale or set to english as default
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.set(user_locale ? user_locale : 'en');
+
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_resource__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.http.interceptors.push(function (request, next) {
 
@@ -22321,7 +22343,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.2.2",
+  Version: "0.2.3",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -23485,6 +23507,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // <template>
 //   <div id="wrapper" v-bind:class="getWidthClass">
+//     <div class="langs btn-group btn-group-xs" role="group">
+//       <button type="button" @click="$i18n.set('es')" class="btn btn-default">Spanish</button>
+//       <button type="button" @click="$i18n.set('fr')" class="btn btn-default">French</button>
+//       <button type="button" @click="$i18n.set('ar')" class="btn btn-default">العربية</button>
+//     </div>
 //     <span class="hidden">{{currentState}}</span>
 //
 //
@@ -23574,6 +23601,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   mounted: function mounted() {},
   beforeCreate: function beforeCreate() {
+    console.log("i18n -> hi");
+    console.log(this.$t("hi"));
+    this.$i18n.set('ar');
+    console.log(this.$t("hi"));
+    this.$i18n.set('es');
+    console.log(this.$t("hi"));
+    this.$i18n.set('fr');
+    console.log(this.$t("hi"));
     var vm = this;
     setTimeout(function () {
       vm.$store.commit("resetMessages");
@@ -23715,6 +23750,7 @@ exports.default = {
 //   border: 1px solid #555;
 //   height: 500px;
 //   padding: 0.5em;
+//   overflow: hidden;
 // }
 // .mobile-full-page {
 //   max-width: 100%;
@@ -23786,6 +23822,11 @@ exports.default = {
 // }
 // #wrapper .page-title {
 //   border: 1px solid #888;
+// }
+// .langs {
+//   z-index: 999;
+//   margin-top: -1.5em;
+//   position: absolute;
 // }
 // </style>
 //
@@ -24175,9 +24216,9 @@ exports.default = {
 //
 // <template>
 //   <div>
-//     <h4>Welcome, {{getUsername}}</h4>
+//     <h4>{{$t('hi')}}, {{getUsername}}</h4>
 //     <p>
-//       Thanks for your generous heart. You're changing the world for a lot of people who lost hope.
+//       {{$t('Thanks for your generous heart. You\'re changing the world for a lot of people who lost hope.')}} 
 //     </p>
 //
 //     <div class="btn-group btn-group-vertical btn-block" role="group" aria-label="home-menu-items">
@@ -25333,7 +25374,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n  font-weight: bold;\n}\n#wrapper h1 {\n  font-size: 1.6em;\n}\n#wrapper h2{\n  font-size: 1.45em;\n}\n#wrapper h3{\n  font-size: 1.3em;\n}\n#wrapper h4 {\n  font-size: 1.15em;\n}\n#wrapper h5 {\n  font-size: 1em;\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n", ""]);
+exports.push([module.i, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n  overflow: hidden;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n  font-weight: bold;\n}\n#wrapper h1 {\n  font-size: 1.6em;\n}\n#wrapper h2{\n  font-size: 1.45em;\n}\n#wrapper h3{\n  font-size: 1.3em;\n}\n#wrapper h4 {\n  font-size: 1.15em;\n}\n#wrapper h5 {\n  font-size: 1em;\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n.langs {\n  z-index: 999;\n  margin-top: -1.5em;\n  position: absolute;\n}\n", ""]);
 
 // exports
 
@@ -28310,7 +28351,7 @@ exports.default = plugin;
 /* 101 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <message-items></message-items>\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} (BETA) </a> </label>\n    </div>\n\n  </div>\n";
+module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"$i18n.set('es')\" class=\"btn btn-default\">Spanish</button>\n      <button type=\"button\" @click=\"$i18n.set('fr')\" class=\"btn btn-default\">French</button>\n      <button type=\"button\" @click=\"$i18n.set('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <message-items></message-items>\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} (BETA) </a> </label>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 102 */
@@ -28322,7 +28363,7 @@ module.exports = "\n  <div>\n    <h1>My Donations</h1>\n    <label class=\"label
 /* 103 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div>\n    <h4>Welcome, {{getUsername}}</h4>\n    <p>\n      Thanks for your generous heart. You're changing the world for a lot of people who lost hope.\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\">\n      <button class=\"btn btn-default active\">Home</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\">Associations</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" >My Donations</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\">Solidarity Account</button>\n    </div>\n    <p v-if=\"gettingDonationSum\">\n      Total Donations: <span class=\"\">&euro;{{getDonationSum}}</span>\n    </p>\n    <p v-else>\n      <i class=\"fa fa-spinner fa-spin fa-fw\"></i>\n    </p>\n  </div>\n";
+module.exports = "\n  <div>\n    <h4>{{$t('hi')}}, {{getUsername}}</h4>\n    <p>\n      {{$t('Thanks for your generous heart. You\\'re changing the world for a lot of people who lost hope.')}} \n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\">\n      <button class=\"btn btn-default active\">Home</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\">Associations</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" >My Donations</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\">Solidarity Account</button>\n    </div>\n    <p v-if=\"gettingDonationSum\">\n      Total Donations: <span class=\"\">&euro;{{getDonationSum}}</span>\n    </p>\n    <p v-else>\n      <i class=\"fa fa-spinner fa-spin fa-fw\"></i>\n    </p>\n  </div>\n";
 
 /***/ }),
 /* 104 */
@@ -33105,6 +33146,532 @@ module.exports = Array.isArray || function (arr) {
 
 module.exports = __webpack_require__(15);
 
+
+/***/ }),
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.vuexI18n = factory());
+}(this, (function () { 'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+  return typeof obj;
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
+
+/* vuex-i18n-store defines a vuex module to store locale translations. Make sure
+** to also include the file vuex-i18n.js to enable easy access to localized
+** strings in your vue components.
+*/
+
+// define a simple vuex module to handle locale translations
+var i18nVuexModule = {
+	state: {
+		locale: null,
+		fallback: null,
+		translations: {}
+	},
+	mutations: {
+
+		// set the current locale
+		SET_LOCALE: function SET_LOCALE(state, payload) {
+			state.locale = payload.locale;
+		},
+
+
+		// add a new locale
+		ADD_LOCALE: function ADD_LOCALE(state, payload) {
+			// reduce the given translations to a single-depth tree
+			var translations = flattenTranslations(payload.translations);
+			state.translations[payload.locale] = translations;
+		},
+
+
+		// add a new locale
+		REMOVE_LOCALE: function REMOVE_LOCALE(state, payload) {
+
+			// check if the given locale is present in the state
+			if (state.translations.hasOwnProperty(payload.locale)) {
+
+				// check if the current locale is the given locale to remvoe
+				if (state.locale === payload.locale) {
+					// reset the current locale
+					state.locale = null;
+				}
+
+				// create a copy of the translations object
+				var translationCopy = Object.assign({}, state.translations);
+
+				// remove the given locale
+				delete translationCopy[payload.locale];
+
+				// set the state to the new object
+				state.translations = translationCopy;
+			}
+		},
+		SET_FALLBACK_LOCALE: function SET_FALLBACK_LOCALE(state, payload) {
+			state.fallback = payload.locale;
+		}
+	},
+	actions: {
+
+		// set the current locale
+		setLocale: function setLocale(context, payload) {
+			context.commit({
+				type: 'SET_LOCALE',
+				locale: payload.locale
+			});
+		},
+
+
+		// add a new locale with translations
+		addLocale: function addLocale(context, payload) {
+			context.commit({
+				type: 'ADD_LOCALE',
+				locale: payload.locale,
+				translations: payload.translations
+			});
+		},
+
+
+		// remove the given locale translations
+		removeLocale: function removeLocale(context, payload) {
+			context.commit({
+				type: 'REMOVE_LOCALE',
+				locale: payload.locale,
+				translations: payload.translations
+			});
+		},
+		setFallbackLocale: function setFallbackLocale(context, payload) {
+			context.commit({
+				type: 'SET_FALLBACK_LOCALE',
+				locale: payload.locale
+			});
+		}
+	}
+};
+
+// flattenTranslations will convert object trees for translations into a
+// single-depth object tree
+var flattenTranslations = function flattenTranslations(translations) {
+
+	var toReturn = {};
+
+	for (var i in translations) {
+
+		// check if the property is present
+		if (!translations.hasOwnProperty(i)) {
+			continue;
+		}
+
+		// get the type of the property
+		var objType = _typeof(translations[i]);
+
+		// allow unflattened array of strings
+		if (isArray(translations[i])) {
+
+			var count = translations[i].length;
+
+			for (var index = 0; index < count; index++) {
+				var itemType = _typeof(translations[i][index]);
+
+				if (itemType !== 'string') {
+					console.warn('vuex-i18n:', 'currently only arrays of strings are fully supported', translations[i]);
+					break;
+				}
+			}
+
+			toReturn[i] = translations[i];
+		} else if (objType == 'object' && objType !== null) {
+
+			var flatObject = flattenTranslations(translations[i]);
+
+			for (var x in flatObject) {
+				if (!flatObject.hasOwnProperty(x)) continue;
+
+				toReturn[i + '.' + x] = flatObject[x];
+			}
+		} else {
+			toReturn[i] = translations[i];
+		}
+	}
+	return toReturn;
+};
+
+// check if the given object is an array
+function isArray(obj) {
+	return !!obj && Array === obj.constructor;
+}
+
+/* vuex-i18n defines the Vuexi18nPlugin to enable localization using a vuex
+** module to store the translation information. Make sure to also include the
+** file vuex-i18n-store.js to include a respective vuex module.
+*/
+
+// initialize the plugin object
+var VuexI18nPlugin = {};
+
+// internationalization plugin for vue js using vuex
+VuexI18nPlugin.install = function install(Vue, store) {
+	var moduleName = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'i18n';
+
+
+	store.registerModule(moduleName, i18nVuexModule);
+
+	// check if the plugin was correctly initialized
+	if (store.state.hasOwnProperty(moduleName) === false) {
+		console.error('i18n vuex module is not correctly initialized. Please check the module name:', moduleName);
+
+		// always return the key if module is not initialized correctly
+		Vue.prototype.$i18n = function (key) {
+			return key;
+		};
+
+		Vue.prototype.$getLanguage = function () {
+			return null;
+		};
+
+		Vue.prototype.$setLanguage = function () {
+			console.error('i18n vuex module is not correctly initialized');
+		};
+
+		return;
+	}
+
+	// get localized string from store
+	var translate = function $t(key, options, pluralization) {
+
+		// get the current language from the store
+		var locale = store.state[moduleName].locale;
+
+		return translateInLanguage(locale, key, options, pluralization);
+	};
+
+	// get localized string from store in a given language if available
+	var translateInLanguage = function translateInLanguage(locale, key, options, pluralization) {
+
+		// get the current language from the store
+		var fallback = store.state[moduleName].fallback;
+		var translations = store.state[moduleName].translations;
+
+		// flag for translation to exist or not
+		var translationExist = true;
+
+		// check if the language exists in the store. return the key if not
+		if (translations.hasOwnProperty(locale) === false) {
+			translationExist = false;
+
+			// check if the key exists in the store. return the key if not
+		} else if (translations[locale].hasOwnProperty(key) === false) {
+			translationExist = false;
+		}
+
+		// return the value from the store
+		if (translationExist === true) {
+			return render(translations[locale][key], options, pluralization);
+		}
+
+		// check if a vaild fallback exists in the store. return the key if not
+		if (translations.hasOwnProperty(fallback) === false) {
+			return render(key, options, pluralization);
+		}
+
+		// check if the key exists in the fallback in the store. return the key if not
+		if (translations[fallback].hasOwnProperty(key) === false) {
+			return render(key, options, pluralization);
+		}
+
+		return render(translations[fallback][key], options, pluralization);
+	};
+
+	// set fallback locale
+	var setFallbackLocale = function setFallbackLocale(locale) {
+		store.dispatch({
+			type: 'setFallbackLocale',
+			locale: locale
+		});
+	};
+
+	var setLocale = function setLocale(locale) {
+		store.dispatch({
+			type: 'setLocale',
+			locale: locale
+		});
+	};
+
+	var getLocale = function getLocale() {
+		return store.state[moduleName].locale;
+	};
+
+	// add predefined translations to the store
+	var addLocale = function addLocale(locale, translations) {
+		return store.dispatch({
+			type: 'addLocale',
+			locale: locale,
+			translations: translations
+		});
+	};
+
+	// remove the givne locale from the store
+	var removeLocale = function removeLocale(locale) {
+		if (store.state[moduleName].translations.hasOwnProperty(locale)) {
+			store.dispatch({
+				type: 'removeLocale',
+				locale: locale
+			});
+		}
+	};
+
+	// check if the given locale is already loaded
+	var checkLocaleExists = function checkLocaleExists(locale) {
+		return store.state[moduleName].translations.hasOwnProperty(locale);
+	};
+
+	// register vue prototype methods
+	Vue.prototype.$i18n = {
+		locale: getLocale,
+		set: setLocale,
+		add: addLocale,
+		remove: removeLocale,
+		fallback: setFallbackLocale,
+		exists: checkLocaleExists
+	};
+
+	// register global methods
+	Vue.i18n = {
+		locale: getLocale,
+		set: setLocale,
+		add: addLocale,
+		remove: removeLocale,
+		fallback: setFallbackLocale,
+		exists: checkLocaleExists,
+		translate: translate,
+		translateIn: translateInLanguage
+	};
+
+	// register the translation function on the vue instance
+	Vue.prototype.$t = translate;
+
+	// register the specific language translation function on the vue instance
+	Vue.prototype.$tlang = translateInLanguage;
+
+	// register a filter function for translations
+	Vue.filter('translate', translate);
+};
+
+// replace will replace the given replacements in the translation string
+var replace = function replace(translation, replacements) {
+	var warn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+
+	// check if the object has a replace property
+	if (!translation.replace) {
+		return translation;
+	}
+
+	return translation.replace(/\{\w+\}/g, function (placeholder) {
+
+		var key = placeholder.replace('{', '').replace('}', '');
+
+		if (replacements[key] !== undefined) {
+			return replacements[key];
+		}
+
+		// warn user that the placeholder has not been found
+		if (warn === true) {
+			console.group('Not all placeholder founds');
+			console.warn('Text:', translation);
+			console.warn('Placeholder:', placeholder);
+			console.groupEnd();
+		}
+
+		// return the original placeholder
+		return placeholder;
+	});
+};
+
+// render will return the given translation object
+var render = function render(translation) {
+	var replacements = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	var pluralization = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+
+	// get the type of the property
+	var objType = typeof translation === 'undefined' ? 'undefined' : _typeof(translation);
+	var pluralizationType = typeof pluralization === 'undefined' ? 'undefined' : _typeof(pluralization);
+
+	var replacedText = function replacedText() {
+
+		if (isArray$1(translation)) {
+
+			// replace the placeholder elements in all sub-items
+			return translation.map(function (item) {
+				return replace(item, replacements, false);
+			});
+		} else if (objType === 'string') {
+			return replace(translation, replacements);
+		}
+	};
+
+	// return translation item directly
+	if (pluralization === null) {
+		return replacedText();
+	}
+
+	// check if pluralization value is countable
+	if (pluralizationType !== 'number') {
+		console.warn('pluralization is not a number');
+		return replacedText();
+	}
+
+	// check for pluralization and return the correct part of the string
+	var translatedText = replacedText().split(':::');
+
+	// return the left side on singular, the right side for plural
+	// 0 has plural notation
+	if (pluralization === 1) {
+		return translatedText[0].trim();
+	}
+
+	// use singular version for -1 as well
+	if (pluralization === -1) {
+		return translatedText[0].trim();
+	}
+
+	if (translatedText.length > 1) {
+		return translatedText[1].trim();
+	}
+
+	console.warn('no pluralized translation provided in ', translation);
+	return translatedText[0].trim();
+};
+
+// check if the given object is an array
+function isArray$1(obj) {
+	return !!obj && Array === obj.constructor;
+}
+
+// import the vuex module for localization
+// import the corresponding plugin for vue
+// export both modules as one file
+var index = {
+	store: i18nVuexModule,
+	plugin: VuexI18nPlugin
+};
+
+return index;
+
+})));
+
+
+/***/ }),
+/* 208 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const localizations = {
+	"hi": "أهلا وسهلا",
+	"Thanks for your generous heart. You\'re changing the world for a lot of people who lost hope.": ".شكرا لقلبكم السخي. أنت تغير حياة الكثير من الناس الذين فقدوا الأمل",
+	"": ""
+};
+
+/* harmony default export */ __webpack_exports__["a"] = localizations;
+
+/***/ }),
+/* 209 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const localizations = {
+  "hi": "Hola"
+};
+
+/* harmony default export */ __webpack_exports__["a"] = localizations;
+
+/***/ }),
+/* 210 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+const localizations = {
+  "hi": "Bonjour"
+};
+
+/* harmony default export */ __webpack_exports__["a"] = localizations;
 
 /***/ })
 /******/ ]);
