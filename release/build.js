@@ -22343,7 +22343,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.2.3",
+  Version: "0.2.4",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -23506,11 +23506,11 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // <template>
-//   <div id="wrapper" v-bind:class="getWidthClass">
+//   <div :dir="langDirection" id="wrapper" v-bind:class="getWidthClass">
 //     <div class="langs btn-group btn-group-xs" role="group">
-//       <button type="button" @click="$i18n.set('es')" class="btn btn-default">Spanish</button>
-//       <button type="button" @click="$i18n.set('fr')" class="btn btn-default">French</button>
-//       <button type="button" @click="$i18n.set('ar')" class="btn btn-default">العربية</button>
+//       <button type="button" @click="setLang('es')" class="btn btn-default">Spanish</button>
+//       <button type="button" @click="setLang('fr')" class="btn btn-default">French</button>
+//       <button type="button" @click="setLang('ar')" class="btn btn-default">العربية</button>
 //     </div>
 //     <span class="hidden">{{currentState}}</span>
 //
@@ -23655,10 +23655,17 @@ exports.default = {
   },
   beforeUpdate: function beforeUpdate() {},
   data: function data() {
-    return {};
+    return {
+      langDirection: 'ltr'
+    };
   },
 
   methods: {
+    setLang: function setLang(lang) {
+      this.$i18n.set(lang);
+      localStorage.setItem('user_locale', lang);
+      this.langDirection = this.getLangDir();
+    },
     getWalletBalance: function getWalletBalance() {
 
       if (!this.$store.getters.getLogin) {
@@ -23696,6 +23703,15 @@ exports.default = {
     goToNextPage: function goToNextPage(e) {
       e.preventDefault();
       this.$store.commit('goToNextPage');
+    },
+    getLangDir: function getLangDir() {
+      var lang = localStorage.getItem('user_locale');
+      console.log("lang " + lang);
+      console.log("dir " + this.langDirection);
+      if (lang != 'ar') {
+        return 'ltr';
+      }
+      return 'rtl';
     }
   },
   computed: {
@@ -28351,7 +28367,7 @@ exports.default = plugin;
 /* 101 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"$i18n.set('es')\" class=\"btn btn-default\">Spanish</button>\n      <button type=\"button\" @click=\"$i18n.set('fr')\" class=\"btn btn-default\">French</button>\n      <button type=\"button\" @click=\"$i18n.set('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <message-items></message-items>\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} (BETA) </a> </label>\n    </div>\n\n  </div>\n";
+module.exports = "\n  <div :dir=\"langDirection\" id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\">Spanish</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\">French</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> Loading...</h1>\n    </div>\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <message-items></message-items>\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"$store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != ''\" class=\"btn btn-plain\" @click=\"goToPrevPage\"><i class=\"fa fa-angle-left fa-fw\"></i> </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} (BETA) </a> </label>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 102 */
@@ -33657,7 +33673,8 @@ const localizations = {
 
 "use strict";
 const localizations = {
-  "hi": "Hola"
+  "hi": "Hola",
+  "Thanks for your generous heart. You\'re changing the world for a lot of people who lost hope.": "Gracias por tu generoso corazón. Estás cambiando el mundo para muchas personas que ayudas"
 };
 
 /* harmony default export */ __webpack_exports__["a"] = localizations;
@@ -33668,7 +33685,8 @@ const localizations = {
 
 "use strict";
 const localizations = {
-  "hi": "Bonjour"
+  "hi": "Bonjour",
+  "Thanks for your generous heart. You\'re changing the world for a lot of people who lost hope.": "Merci pour votre cœur généreux. Vous changez le monde pour beaucoup de gens que vous aidez"
 };
 
 /* harmony default export */ __webpack_exports__["a"] = localizations;
