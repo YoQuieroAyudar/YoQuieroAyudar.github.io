@@ -22321,7 +22321,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.2.0",
+  Version: "0.2.1",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -24406,12 +24406,15 @@ Object.defineProperty(exports, "__esModule", {
 //   <div class="logout-area">
 //     <nav class="navbar navbar-default">
 //       <div class="container-fluid">
-//         <p class="navbar-text"><i class="fa fa-user" aria-hidden="true"></i> {{$store.state.user.user.email}}</p>
+//         <p class="navbar-text"><i class="fa fa-user" aria-hidden="true"></i> {{getUserEmail}}</p>
 //       </div>
 //       <div class="navbar-right">
-//         <button class="btn btn-danger btn-xs pull-right" title="Logout" @click="logoutUser">Logout</button>
-//         <button class="btn btn-default btn-xs pull-right" title="Settings" @click="goToSettingsPage"> <i class="fa fa-cog fa-fw"></i> </button>
-//         <label :class="balanceLabelClasses" title="Wallet Balance" @click="goToSolidarityAccount">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>
+//         <div class="container">
+//           <button class="btn btn-danger btn-xs pull-right" title="Logout" @click="logoutUser">Logout</button>
+//           <button class="btn btn-default btn-xs pull-right" title="Settings" @click="goToSettingsPage"> <i class="fa fa-cog fa-fw"></i> </button>
+//           <label :class="balanceLabelClasses" title="Wallet Balance" @click="goToSolidarityAccount">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>
+//         </div>
+//
 //       </div>
 //     </nav>
 //   </div>
@@ -24448,6 +24451,14 @@ exports.default = {
       var cs = 'label pull-right balance-label label-';
       this.walletBalance > 0 ? cs += 'success' : cs += 'warning';
       return cs;
+    },
+    getUserEmail: function getUserEmail() {
+      var email = $store.state.user.user.email;
+      email = email.split('@');
+      if (email.length > 1) {
+        return email[1];
+      }
+      return $store.state.user.user.email;
     }
   }
 };
@@ -28365,7 +28376,7 @@ module.exports = "\n  <div class=\"messages\" _v-257d20f6=\"\">\n    <div class=
 /* 112 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"logout-area\" _v-5574fa98=\"\">\n    <nav class=\"navbar navbar-default\" _v-5574fa98=\"\">\n      <div class=\"container-fluid\" _v-5574fa98=\"\">\n        <p class=\"navbar-text\" _v-5574fa98=\"\"><i class=\"fa fa-user\" aria-hidden=\"true\" _v-5574fa98=\"\"></i> {{$store.state.user.user.email}}</p>\n      </div>\n      <div class=\"navbar-right\" _v-5574fa98=\"\">\n        <button class=\"btn btn-danger btn-xs pull-right\" title=\"Logout\" @click=\"logoutUser\" _v-5574fa98=\"\">Logout</button>\n        <button class=\"btn btn-default btn-xs pull-right\" title=\"Settings\" @click=\"goToSettingsPage\" _v-5574fa98=\"\"> <i class=\"fa fa-cog fa-fw\" _v-5574fa98=\"\"></i> </button>\n        <label :class=\"balanceLabelClasses\" title=\"Wallet Balance\" @click=\"goToSolidarityAccount\" _v-5574fa98=\"\">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>\n      </div>\n    </nav>\n  </div>\n";
+module.exports = "\n  <div class=\"logout-area\" _v-5574fa98=\"\">\n    <nav class=\"navbar navbar-default\" _v-5574fa98=\"\">\n      <div class=\"container-fluid\" _v-5574fa98=\"\">\n        <p class=\"navbar-text\" _v-5574fa98=\"\"><i class=\"fa fa-user\" aria-hidden=\"true\" _v-5574fa98=\"\"></i> {{getUserEmail}}</p>\n      </div>\n      <div class=\"navbar-right\" _v-5574fa98=\"\">\n        <div class=\"container\" _v-5574fa98=\"\">\n          <button class=\"btn btn-danger btn-xs pull-right\" title=\"Logout\" @click=\"logoutUser\" _v-5574fa98=\"\">Logout</button>\n          <button class=\"btn btn-default btn-xs pull-right\" title=\"Settings\" @click=\"goToSettingsPage\" _v-5574fa98=\"\"> <i class=\"fa fa-cog fa-fw\" _v-5574fa98=\"\"></i> </button>\n          <label :class=\"balanceLabelClasses\" title=\"Wallet Balance\" @click=\"goToSolidarityAccount\" _v-5574fa98=\"\">{{$store.getters.getCurrency}} {{$store.getters.getBalance}}</label>\n        </div>\n\n      </div>\n    </nav>\n  </div>\n";
 
 /***/ }),
 /* 113 */
