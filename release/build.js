@@ -21294,7 +21294,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vuex_i18n___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vuex_i18n__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__translations_locales_es__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__translations_locales_ar__ = __webpack_require__(43);
 
 
@@ -21319,7 +21318,7 @@ __webpack_require__(105);
 // Vue.use(VueMaterial)
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vuex_i18n___default.a.plugin, __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('es', __WEBPACK_IMPORTED_MODULE_6__translations_locales_es__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('fr', __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__["default"]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('fr', __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('ar', __WEBPACK_IMPORTED_MODULE_8__translations_locales_ar__["a" /* default */]);
 
 // if no translation for current locale use english
@@ -23581,10 +23580,71 @@ const localizations = {
 
 /***/ }),
 /* 45 */
-/***/ (function(module, __webpack_exports__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: SyntaxError: Unterminated string constant (22:34)\n\n\u001b[0m \u001b[90m 20 | \u001b[39m  \u001b[32m\"Settings\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Réglages\"\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 21 | \u001b[39m  \u001b[32m\"Wallet Balance\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Votre solde\"\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 22 | \u001b[39m  \u001b[32m\"Account balance\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Votre solde\"\u001b[39m\u001b[32m\",\u001b[39m\n \u001b[90m    | \u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 23 | \u001b[39m  \u001b[32m\"Net Amount\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Montant net\"\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 24 | \u001b[39m  \u001b[32m\"Card Number\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Número de la carte de crédit\"\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 25 | \u001b[39m  \u001b[32m\"CVV Code\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Code validation CVV\"\u001b[39m\u001b[33m,\u001b[39m\u001b[0m\n");
+const localizations = {
+  "hi": "Bonjour",
+  "Thanks for your generous heart. You\'re changing the world for a lot of people who lost hope": "Merci pour votre cœur généreux. Vous changez le monde pour beaucoup de gens que vous aidez",
+  "Login successfully!": "Connexion valide!",
+  "Loading": "Chargement",
+  "Page is under-construction": "Page en construction",
+  "address": "adresse",
+  "city": "ville",
+  "twitter": "twitter",
+  "Charities": "Organismes solidaires",
+  "My Donations": "Mes dons",
+  "Sign in using Facebook": "Connectez-vous avec Facebook",
+  "Home": "Accueil",
+  "Solidarity Account": "Compte solidaire",
+  "Total Donations": "Total des dons",
+  "Country": "Pays",
+  "Email": "Email",
+  "Password": "Mot de passe",
+  "Logout": "Fermer la session",
+  "Settings": "Réglages",
+  "Wallet Balance": "Votre solde",
+  "Account balance": "Votre solde",
+  "Net Amount": "Montant net",
+  "Card Number": "Número de la carte de crédit",
+  "CVV Code": "Code validation CVV",
+  "Expiration Date": "Date de validité",
+  "MM": "MM",
+  "YY": "YY",
+  "Charged Amount": "Montant total débité",
+  "Refill": "Recharger",
+  "Old Password": "Ancien mot de passe",
+  "New Password": "Nouveau mot de passe",
+  "Confirm Password": "Confirmer mot de passe",
+  "Change Password": "Modifier mot de passe",
+  "Sign up": "Créer un compte",
+  "First name": "Prénom",
+  "Last name": "Nom",
+  "Birthday": "Date de naissance",
+  "Gender": "Sexe",
+  "Male": "Homme",
+  "Female": "Femme",
+  "Nationality": "Nationalité",
+  "If you already have an account": "Si vous avez un compte",
+  "Login here": "Connexion ici",
+  "If you don't have an account yet": "Si vous n´avez pas de compte",
+  "Sign up here": "Enregistrez vous ici",
+  "Unable to set charities list": "Impossible d´obtenir la liste des organismes",
+  "Error while loading charities list": "Erreur lors du chargement de la liste des organismes",
+  "Not data in resp": "Pas de données disponibles",
+  "Card registration error": "Erreur d'enregistrement de la carte",
+  "Error occured while waiting for the payments service": "Une erreur s'est produite en attendant le service de paiement",
+  "The card number is too short": "Numération de la carte trop courte",
+  "The expiration date is either invalid or already expired": "La date d'expiration est soit invalide, soit déjà expirée",
+  "No email, please logout and login again": "Pas de courrier électronique, fermez la session et connectez-vous à nouveau",
+  "Error recharging account": "Erreur de recharge du compte",
+  "Recharge successful": "Recharge réussie",
+  "Login": "Connectez-vous",
+  "Logout": "Fermer la session",
+  "EURO": "Euro"
+};
+
+/* harmony default export */ __webpack_exports__["a"] = localizations;
 
 /***/ }),
 /* 46 */
