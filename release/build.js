@@ -22346,7 +22346,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.3.2",
+  Version: "0.3.3",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -23597,12 +23597,12 @@ const localizations = {
   "2 euros are the least amount you can donate": "Su donativo es como mínimo 2 euros",
   "Invalid association id": "ID organisme invalide",
   "Donate": "Donar",
-  "ES": "",
-  "FR": "",
-  "BE": "",
-  "CH": "",
-  "MA": "",
-  "TN": "",
+  "ES": "España",
+  "FR": "Francia",
+  "BE": "Bélgica",
+  "CH": "Suiza",
+  "MA": "Marruecos",
+  "TN": "Túnez",
   "GB": "",
   "US": ""
 };
@@ -23679,12 +23679,12 @@ const localizations = {
   "2 euros are the least amount you can donate": "Son don est de minimum 2 euros",
   "Invalid association id": "ID organisme invalide",
   "Donate": "Donner",
-  "ES": "",
-  "FR": "",
-  "BE": "",
-  "CH": "",
-  "MA": "",
-  "TN": "",
+  "ES": "Espagne",
+  "FR": "France",
+  "BE": "Belgique",
+  "CH": "Suisse",
+  "MA": "Maroc",
+  "TN": "Tunisie",
   "GB": "",
   "US": ""
 };
@@ -23775,7 +23775,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //       <div class="top-container">
 //         <div class="top-menu">
 //           <!-- <button class="btn btn-success pull-right" @click="goToNextPage">Next</button> -->
-//           <button v-if="($store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != '' && $store.getters.getCurrentPage != 'signup')" class="btn btn-plain" @click="goToPrevPage">
+//           <button v-if="($store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != '' && $store.getters.getCurrentPage != 'signup')" class="btn btn-plain btn-back" @click="goToPrevPage">
 //             <i v-if="langDirection == 'rtl'" class="fa fa-angle-right fa-fw"></i>
 //             <i v-else class="fa fa-angle-left fa-fw"></i>
 //           </button>
@@ -24058,7 +24058,7 @@ exports.default = {
 //   margin: .2em;
 // }
 // #wrapper .top-menu {
-//   position: sticky;
+//   position: relative;
 // }
 // #wrapper .btn-plain {
 //   border-top-right-radius: 0;
@@ -24093,6 +24093,12 @@ exports.default = {
 //   z-index: 999;
 //   margin-top: -1.5em;
 //   position: absolute;
+// }
+// .btn-back {
+//   margin: .3em;
+//   padding: .3em;
+//   color: #000;
+//   background: #AAA;
 // }
 // </style>
 //
@@ -24131,8 +24137,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 //           <button type="button" @click="donationAmount=600" :class="'btn btn-default' + (donationAmount == 600 ? ' active' : '')">&euro;6</button>
 //           <button type="button" @click="donationAmount=800" :class="'btn btn-default' + (donationAmount == 800 ? ' active' : '')">&euro;8</button>
 //           <button type="button" @click="donationAmount=1000" :class="'btn btn-default' + (donationAmount == 1000 ? ' active' : '')">&euro;10</button>
+//           <button :disabled="donationAmount < 200" @click="submitDonation" class="btn btn-primary pull-right donate-btn" type="button" name="donate">{{$t('Donate')}}</button>
 //         </div>
-//         <button :disabled="donationAmount < 200" @click="submitDonation" class="btn btn-primary pull-right" type="button" name="donate">{{$t('Donate')}}</button>
+//
 //       </div>
 //
 //       <img class="assoc-logo-large" :src="assoc.logo_url" :alt="assoc.short_description">
@@ -24215,6 +24222,13 @@ exports.default = {
 //   font-weight: bolder;
 //   text-align: right;
 //   margin-left: .5em;
+// }
+// .donation-section button {
+//   padding-left: .5em;
+//   padding-right: .5em;
+// }
+// .donation-section button .donate-btn {
+//   padding-left: 2em;
 // }
 // </style>
 //
@@ -25721,7 +25735,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.associations-list[_v-21807b72] {\n\n}\n.association-box[_v-21807b72] {\n  box-shadow: 1px 1px 1px #999;\n}\n.assoc-logo-large[_v-21807b72] {\n  float: left;\n  margin: .3em;\n  width: 100%;\n  box-shadow: 1px 1px 1px #000;\n}\n.assoc-labels[_v-21807b72] {\n  font-weight: bolder;\n  text-align: right;\n  margin-left: .5em;\n}\n", ""]);
+exports.push([module.i, "\n.associations-list[_v-21807b72] {\n\n}\n.association-box[_v-21807b72] {\n  box-shadow: 1px 1px 1px #999;\n}\n.assoc-logo-large[_v-21807b72] {\n  float: left;\n  margin: .3em;\n  width: 100%;\n  box-shadow: 1px 1px 1px #000;\n}\n.assoc-labels[_v-21807b72] {\n  font-weight: bolder;\n  text-align: right;\n  margin-left: .5em;\n}\n.donation-section button[_v-21807b72] {\n  padding-left: .5em;\n  padding-right: .5em;\n}\n.donation-section button .donate-btn[_v-21807b72] {\n  padding-left: 2em;\n}\n", ""]);
 
 // exports
 
@@ -25777,7 +25791,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n  overflow: hidden;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n  font-weight: bold;\n}\n#wrapper h1 {\n  font-size: 1.6em;\n}\n#wrapper h2{\n  font-size: 1.45em;\n}\n#wrapper h3{\n  font-size: 1.3em;\n}\n#wrapper h4 {\n  font-size: 1.15em;\n}\n#wrapper h5 {\n  font-size: 1em;\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: -webkit-sticky;\n  position: sticky;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n.langs {\n  z-index: 999;\n  margin-top: -1.5em;\n  position: absolute;\n}\n", ""]);
+exports.push([module.i, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n  overflow: hidden;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n  font-weight: bold;\n}\n#wrapper h1 {\n  font-size: 1.6em;\n}\n#wrapper h2{\n  font-size: 1.45em;\n}\n#wrapper h3{\n  font-size: 1.3em;\n}\n#wrapper h4 {\n  font-size: 1.15em;\n}\n#wrapper h5 {\n  font-size: 1em;\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: relative;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n.langs {\n  z-index: 999;\n  margin-top: -1.5em;\n  position: absolute;\n}\n.btn-back {\n  margin: .3em;\n  padding: .3em;\n  color: #000;\n  background: #AAA;\n}\n", ""]);
 
 // exports
 
@@ -28780,7 +28794,7 @@ exports.default = plugin;
 /* 107 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div :dir=\"currentLangDirection\" id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"setLang('en')\" class=\"btn btn-default\">English</button>\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\">Español</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\">Français</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> {{$t('Loading')}}...</h1>\n    </div>\n\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <message-items></message-items>\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"($store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != '' && $store.getters.getCurrentPage != 'signup')\" class=\"btn btn-plain\" @click=\"goToPrevPage\">\n            <i v-if=\"langDirection == 'rtl'\" class=\"fa fa-angle-right fa-fw\"></i>\n            <i v-else class=\"fa fa-angle-left fa-fw\"></i>\n          </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} BETA </a> </label>\n    </div>\n\n  </div>\n";
+module.exports = "\n  <div :dir=\"currentLangDirection\" id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"setLang('en')\" class=\"btn btn-default\">English</button>\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\">Español</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\">Français</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> {{$t('Loading')}}...</h1>\n    </div>\n\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <message-items></message-items>\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"($store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != '' && $store.getters.getCurrentPage != 'signup')\" class=\"btn btn-plain btn-back\" @click=\"goToPrevPage\">\n            <i v-if=\"langDirection == 'rtl'\" class=\"fa fa-angle-right fa-fw\"></i>\n            <i v-else class=\"fa fa-angle-left fa-fw\"></i>\n          </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} BETA </a> </label>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 108 */
@@ -28840,7 +28854,7 @@ module.exports = "\n  <div _v-1e130e5e=\"\">\n\n    <p _v-1e130e5e=\"\">{{ $t('A
 /* 117 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"associations-list\" _v-21807b72=\"\">\n    <label class=\"label label-warning\" _v-21807b72=\"\">{{ $t('Page is under-construction')}}</label>\n    <div class=\"association-box\" _v-21807b72=\"\">\n      <div class=\"\" _v-21807b72=\"\">\n        <div class=\"btn-group donation-section\" role=\"group\" aria-label=\"donation-section\" _v-21807b72=\"\">\n          <button type=\"button\" @click=\"donationAmount=200\" :class=\"'btn btn-default' + (donationAmount == 200 ? ' active' : '')\" _v-21807b72=\"\">€2</button>\n          <button type=\"button\" @click=\"donationAmount=400\" :class=\"'btn btn-default' + (donationAmount == 400 ? ' active' : '')\" _v-21807b72=\"\">€4</button>\n          <button type=\"button\" @click=\"donationAmount=600\" :class=\"'btn btn-default' + (donationAmount == 600 ? ' active' : '')\" _v-21807b72=\"\">€6</button>\n          <button type=\"button\" @click=\"donationAmount=800\" :class=\"'btn btn-default' + (donationAmount == 800 ? ' active' : '')\" _v-21807b72=\"\">€8</button>\n          <button type=\"button\" @click=\"donationAmount=1000\" :class=\"'btn btn-default' + (donationAmount == 1000 ? ' active' : '')\" _v-21807b72=\"\">€10</button>\n        </div>\n        <button :disabled=\"donationAmount < 200\" @click=\"submitDonation\" class=\"btn btn-primary pull-right\" type=\"button\" name=\"donate\" _v-21807b72=\"\">{{$t('Donate')}}</button>\n      </div>\n\n      <img class=\"assoc-logo-large\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\" _v-21807b72=\"\">\n      <h4 _v-21807b72=\"\">{{assoc.name}}</h4>\n      <p _v-21807b72=\"\">{{assoc.description}}</p>\n\n      <ul class=\"list-group\" _v-21807b72=\"\">\n        <li class=\"list-group-item\" :title=\"$t('address')\" _v-21807b72=\"\"><i class=\"fa fa-map fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.address}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('city')\" _v-21807b72=\"\"><i class=\"fa fa-map-marker fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.city}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('twitter')\" _v-21807b72=\"\"><i class=\"fa fa-twitter fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\"><a target=\"_blank\" :href=\"'https://twitter.com/'+assoc.twitter_username\" _v-21807b72=\"\">@{{assoc.twitter_username}}</a></span></li>\n        <li class=\"list-group-item\" :title=\"$t('Total Donations')\" _v-21807b72=\"\"><i class=\"fa fa-line-chart fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">€{{assoc.total_donations/100}}</span></li>\n      </ul>\n    </div>\n\n  </div>\n";
+module.exports = "\n  <div class=\"associations-list\" _v-21807b72=\"\">\n    <label class=\"label label-warning\" _v-21807b72=\"\">{{ $t('Page is under-construction')}}</label>\n    <div class=\"association-box\" _v-21807b72=\"\">\n      <div class=\"\" _v-21807b72=\"\">\n        <div class=\"btn-group donation-section\" role=\"group\" aria-label=\"donation-section\" _v-21807b72=\"\">\n          <button type=\"button\" @click=\"donationAmount=200\" :class=\"'btn btn-default' + (donationAmount == 200 ? ' active' : '')\" _v-21807b72=\"\">€2</button>\n          <button type=\"button\" @click=\"donationAmount=400\" :class=\"'btn btn-default' + (donationAmount == 400 ? ' active' : '')\" _v-21807b72=\"\">€4</button>\n          <button type=\"button\" @click=\"donationAmount=600\" :class=\"'btn btn-default' + (donationAmount == 600 ? ' active' : '')\" _v-21807b72=\"\">€6</button>\n          <button type=\"button\" @click=\"donationAmount=800\" :class=\"'btn btn-default' + (donationAmount == 800 ? ' active' : '')\" _v-21807b72=\"\">€8</button>\n          <button type=\"button\" @click=\"donationAmount=1000\" :class=\"'btn btn-default' + (donationAmount == 1000 ? ' active' : '')\" _v-21807b72=\"\">€10</button>\n          <button :disabled=\"donationAmount < 200\" @click=\"submitDonation\" class=\"btn btn-primary pull-right donate-btn\" type=\"button\" name=\"donate\" _v-21807b72=\"\">{{$t('Donate')}}</button>\n        </div>\n\n      </div>\n\n      <img class=\"assoc-logo-large\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\" _v-21807b72=\"\">\n      <h4 _v-21807b72=\"\">{{assoc.name}}</h4>\n      <p _v-21807b72=\"\">{{assoc.description}}</p>\n\n      <ul class=\"list-group\" _v-21807b72=\"\">\n        <li class=\"list-group-item\" :title=\"$t('address')\" _v-21807b72=\"\"><i class=\"fa fa-map fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.address}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('city')\" _v-21807b72=\"\"><i class=\"fa fa-map-marker fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.city}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('twitter')\" _v-21807b72=\"\"><i class=\"fa fa-twitter fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\"><a target=\"_blank\" :href=\"'https://twitter.com/'+assoc.twitter_username\" _v-21807b72=\"\">@{{assoc.twitter_username}}</a></span></li>\n        <li class=\"list-group-item\" :title=\"$t('Total Donations')\" _v-21807b72=\"\"><i class=\"fa fa-line-chart fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">€{{assoc.total_donations/100}}</span></li>\n      </ul>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 118 */
