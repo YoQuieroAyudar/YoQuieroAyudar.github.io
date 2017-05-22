@@ -21294,6 +21294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vuex_i18n___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vuex_i18n__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__translations_locales_es__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__translations_locales_ar__ = __webpack_require__(43);
 
 
@@ -21318,7 +21319,7 @@ __webpack_require__(105);
 // Vue.use(VueMaterial)
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vuex_i18n___default.a.plugin, __WEBPACK_IMPORTED_MODULE_3__store__["a" /* default */]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('es', __WEBPACK_IMPORTED_MODULE_6__translations_locales_es__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('fr', __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('fr', __WEBPACK_IMPORTED_MODULE_7__translations_locales_fr__["default"]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.i18n.add('ar', __WEBPACK_IMPORTED_MODULE_8__translations_locales_ar__["a" /* default */]);
 
 // if no translation for current locale use english
@@ -22343,7 +22344,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.2.7",
+  Version: "0.2.8",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -23493,14 +23494,14 @@ const localizations = {
 	"Login here": "أدخل هنا",
 	"If you don't have an account yet": "إذا لم يكن لديك حساب",
 	"Sign up here": "سجل هنا",
-	"Unable to set associations list": "غير قادر على تعيين قائمة الجمعيات الخيرية",
-	"Error while loading associations list": "حدث خطأ أثناء تحميل قائمة المؤسسات الخيرية",
+	"Unable to set charities list": "غير قادر على تعيين قائمة الجمعيات الخيرية",
+	"Error while loading charities list": "حدث خطأ أثناء تحميل قائمة المؤسسات الخيرية",
 	"Not data in resp": "لا توجد بيانات في الرد",
 	"Card registeration error": "خطأ في تسجيل البطاقة",
 	"Error occured while waiting for the payments service": "حدث خطأ أثناء انتظار خدمة الدفعات",
-	"The card is too short": "رقم البطاقة قصير جدا",
+	"The card number is too short": "رقم البطاقة قصير جدا",
 	"The expiration date is either invalid or already expired": "تاريخ انتهاء الصلاحية إما غير صالح أو منتهية الصلاحية",
-	"No email in the store, please logout and login again": "لا البريد الإلكتروني في المخزن، يرجى الخروج وتسجيل الدخول مرة أخرى",
+	"No email, please logout and login again": "لا البريد الإلكتروني في المخزن، يرجى الخروج وتسجيل الدخول مرة أخرى",
 	"Error rechargin account": "حدث خطأ أثناء إعادة شحن الحساب",
 	"Recharge successful": "نجحت بإعادة",
 	"Login": "الدخول",
@@ -23561,14 +23562,14 @@ const localizations = {
   "Login here": "Login aquí",
   "If you don't have an account yet": "Si no tiene cuenta",
   "Sign up here": "Regístrate aquí",
-  "Unable to set associations list": "Listado de asociaciones no disponible",
-  "Error while loading associations list": "Error para conseguir el listado de asociaciones",
+  "Unable to set charities list": "Listado de organizaciones no disponible",
+  "Error while loading charities list": "Error para conseguir el listado de organizaciones",
   "Not data in resp": "Sin datos en la consulta",
   "Card registration error": "Error de registro de la tarjeta",
   "Error occured while waiting for the payments service": "Error en el servicio de pagos",
-  "The card is too short": "Número demasiado corto",
+  "The card number is too short": "Número demasiado corto",
   "The expiration date is either invalid or already expired": "La fecha de vencimiento no es válida o ya ha vencido",
-  "No email in the store, please logout and login again": "No hay correo electrónic, por favor cierre la sesión y vuelva a iniciar sesión",
+  "No email, please logout and login again": "No hay correo electrónic, por favor cierre la sesión y vuelva a iniciar sesión",
   "Error recharging account": "Error al recargar la cuenta",
   "Recharge successful": "Recarga exitosa",
   "Login": "Iniciar sesión",
@@ -23580,71 +23581,10 @@ const localizations = {
 
 /***/ }),
 /* 45 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__) {
 
 "use strict";
-const localizations = {
-  "hi": "Bonjour",
-  "Thanks for your generous heart. You\'re changing the world for a lot of people who lost hope": "Merci pour votre cœur généreux. Vous changez le monde pour beaucoup de gens que vous aidez",
-  "Login successfully!": "",
-  "Loading": "",
-  "Page is under-construction": "",
-  "address": "",
-  "city": "",
-  "twitter": "",
-  "Charities": "",
-  "My Donations": "",
-  "Sign in using Facebook": "",
-  "Home": "",
-  "Solidarity Account": "",
-  "Total Donations": "",
-  "Country": "",
-  "Email": "",
-  "Password": "",
-  "Logout": "",
-  "Settings": "",
-  "Wallet Balance": "",
-  "Account balance": "",
-  "Net Amount": "",
-  "Card Number": "",
-  "CVV Code": "",
-  "Expiration Date": "",
-  "MM": "",
-  "YY": "",
-  "Charged Amount": "",
-  "Refill": "",
-  "Old Password": "",
-  "New Password": "",
-  "Confirm Password": "",
-  "Change Password": "",
-  "Sign up": "",
-  "First name": "",
-  "Last name": "",
-  "Birthday": "",
-  "Gender": "",
-  "Male": "",
-  "Female": "",
-  "Nationality": "",
-  "If you already have an account": "",
-  "Login here": "",
-  "If you don't have an account yet": "",
-  "Sign up here": "",
-  "Unable to set associations list": "",
-  "Error while loading associations list": "",
-  "Not data in resp": "",
-  "Card registeration error": "",
-  "Error occured while waiting for the payments service": "",
-  "The card is too short": "",
-  "The expiration date is either invalid or already expired": "",
-  "No email in the store, please logout and login again": "",
-  "Error rechargin account": "",
-  "Recharge successful": "",
-  "Login": "",
-  "Logout": "",
-  "EURO": ""
-};
-
-/* harmony default export */ __webpack_exports__["a"] = localizations;
+throw new Error("Module build failed: SyntaxError: Unterminated string constant (22:34)\n\n\u001b[0m \u001b[90m 20 | \u001b[39m  \u001b[32m\"Settings\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Réglages\"\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 21 | \u001b[39m  \u001b[32m\"Wallet Balance\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Votre solde\"\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 22 | \u001b[39m  \u001b[32m\"Account balance\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Votre solde\"\u001b[39m\u001b[32m\",\u001b[39m\n \u001b[90m    | \u001b[39m                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 23 | \u001b[39m  \u001b[32m\"Net Amount\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Montant net\"\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 24 | \u001b[39m  \u001b[32m\"Card Number\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Número de la carte de crédit\"\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 25 | \u001b[39m  \u001b[32m\"CVV Code\"\u001b[39m\u001b[33m:\u001b[39m \u001b[32m\"Code validation CVV\"\u001b[39m\u001b[33m,\u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 46 */
@@ -23810,14 +23750,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   mounted: function mounted() {},
   beforeCreate: function beforeCreate() {
-    console.log("i18n -> hi");
-    console.log(this.$t("hi"));
-    this.$i18n.set('ar');
-    console.log(this.$t("hi"));
-    this.$i18n.set('es');
-    console.log(this.$t("hi"));
-    this.$i18n.set('fr');
-    console.log(this.$t("hi"));
     var vm = this;
     setTimeout(function () {
       vm.$store.commit("resetMessages");
@@ -25368,7 +25300,7 @@ exports.default = {
 //       <div class="input-group">
 //         <span class="input-group-addon" title="Country of residence" id="country_of_residence-addon1"> <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> </span>
 //         <select class="form-control" aria-describedby="country_of_residence-addon1" v-model="signup.country_of_residence">
-//           <option v-for="country in $store.getters.getAllCountries" :disabled="country.code == '_'" :selected="country.code == 'ES'" @changed="signin.country_of_residence = country.code" :value="country.code"> {{$t('country.name')}}</option>
+//           <option v-for="country in $store.getters.getAllCountries" :disabled="country.code == '_'" :selected="country.code == 'ES'" @changed="signin.country_of_residence = country.code" :value="country.code"> {{$t(country.name)}}</option>
 //         </select>
 //
 //       </div>
@@ -28747,7 +28679,7 @@ module.exports = "\n  <div class=\"logout-area\" _v-5574fa98=\"\">\n    <nav cla
 /* 120 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"signup-area-wrapper\" _v-56e3317c=\"\">\n    <h1 _v-56e3317c=\"\">{{$t('Sign up')}}</h1>\n\n    <form class=\"form\" _v-56e3317c=\"\">\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('First name')\" id=\"fname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"first_name\" class=\"form-control\" v-model=\"signup.first_name\" aria-describedby=\"fname-addon1\" type=\"text\" :placeholder=\"$t('First name')\" :value=\"signup.first_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Last name')\" id=\"lname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"last_name\" class=\"form-control\" v-model=\"signup.last_name\" aria-describedby=\"lname-addon1\" type=\"text\" :placeholder=\"$t('Last name')\" :value=\"signup.last_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Birthday')\" id=\"birthday-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-birthday-cake fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"birthday\" class=\"form-control\" v-model=\"signup.birthday\" aria-describedby=\"birthday-addon1\" type=\"date\" :placeholder=\"$t('Birthday')\" :value=\"signup.birthday\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Gender')\" id=\"gender-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-venus-mars fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <div class=\"form-control\" aria-describedby=\"gender-addon1\" _v-56e3317c=\"\">\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" checked=\"\" value=\"M\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Male')}}</label>\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" value=\"F\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Female')}}</label>\n        </div>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Nationality')\" id=\"nationality-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" v-model=\"signup.nationality\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signup.nationality = country.code\" :value=\"country.code\" _v-56e3317c=\"\">{{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Country of residence\" id=\"country_of_residence-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-map-marker fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"country_of_residence-addon1\" v-model=\"signup.country_of_residence\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signin.country_of_residence = country.code\" :value=\"country.code\" _v-56e3317c=\"\"> {{$t('country.name')}}</option>\n        </select>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Email\" id=\"email-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"signup.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"signup.email\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Password\" id=\"password-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"signup.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"signup.password\" _v-56e3317c=\"\">\n      </div>\n\n      {{$t('If you already have an account')}} <a class=\"\" @click=\"goToLoginPage\" _v-56e3317c=\"\"> {{$t('Login here')}}</a>\n\n      <button class=\"btn btn-primary btn-block signup-btn\" @click=\"signupUser\" _v-56e3317c=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> {{$t('Sign up')}}</button>\n\n    </form>\n\n  </div>\n";
+module.exports = "\n  <div class=\"signup-area-wrapper\" _v-56e3317c=\"\">\n    <h1 _v-56e3317c=\"\">{{$t('Sign up')}}</h1>\n\n    <form class=\"form\" _v-56e3317c=\"\">\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('First name')\" id=\"fname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"first_name\" class=\"form-control\" v-model=\"signup.first_name\" aria-describedby=\"fname-addon1\" type=\"text\" :placeholder=\"$t('First name')\" :value=\"signup.first_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Last name')\" id=\"lname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"last_name\" class=\"form-control\" v-model=\"signup.last_name\" aria-describedby=\"lname-addon1\" type=\"text\" :placeholder=\"$t('Last name')\" :value=\"signup.last_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Birthday')\" id=\"birthday-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-birthday-cake fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"birthday\" class=\"form-control\" v-model=\"signup.birthday\" aria-describedby=\"birthday-addon1\" type=\"date\" :placeholder=\"$t('Birthday')\" :value=\"signup.birthday\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Gender')\" id=\"gender-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-venus-mars fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <div class=\"form-control\" aria-describedby=\"gender-addon1\" _v-56e3317c=\"\">\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" checked=\"\" value=\"M\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Male')}}</label>\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" value=\"F\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Female')}}</label>\n        </div>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Nationality')\" id=\"nationality-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" v-model=\"signup.nationality\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signup.nationality = country.code\" :value=\"country.code\" _v-56e3317c=\"\">{{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Country of residence\" id=\"country_of_residence-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-map-marker fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"country_of_residence-addon1\" v-model=\"signup.country_of_residence\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signin.country_of_residence = country.code\" :value=\"country.code\" _v-56e3317c=\"\"> {{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Email\" id=\"email-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"signup.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"signup.email\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Password\" id=\"password-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"signup.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"signup.password\" _v-56e3317c=\"\">\n      </div>\n\n      {{$t('If you already have an account')}} <a class=\"\" @click=\"goToLoginPage\" _v-56e3317c=\"\"> {{$t('Login here')}}</a>\n\n      <button class=\"btn btn-primary btn-block signup-btn\" @click=\"signupUser\" _v-56e3317c=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> {{$t('Sign up')}}</button>\n\n    </form>\n\n  </div>\n";
 
 /***/ }),
 /* 121 */
