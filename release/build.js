@@ -22343,7 +22343,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.2.9",
+  Version: "0.3.0",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -23496,7 +23496,7 @@ const localizations = {
 	"Unable to set charities list": "غير قادر على تعيين قائمة الجمعيات الخيرية",
 	"Error while loading charities list": "حدث خطأ أثناء تحميل قائمة المؤسسات الخيرية",
 	"Not data in resp": "لا توجد بيانات في الرد",
-	"Card registeration error": "خطأ في تسجيل البطاقة",
+	"Card registration error": "خطأ في تسجيل البطاقة",
 	"Error occured while waiting for the payments service": "حدث خطأ أثناء انتظار خدمة الدفعات",
 	"The card number is too short": "رقم البطاقة قصير جدا",
 	"The expiration date is either invalid or already expired": "تاريخ انتهاء الصلاحية إما غير صالح أو منتهية الصلاحية",
@@ -23710,7 +23710,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // <template>
-//   <div :dir="langDirection" id="wrapper" v-bind:class="getWidthClass">
+//   <div :dir="currentLangDirection" id="wrapper" v-bind:class="getWidthClass">
 //     <div class="langs btn-group btn-group-xs" role="group">
 //       <button type="button" @click="setLang('en')" class="btn btn-default">English</button>
 //       <button type="button" @click="setLang('es')" class="btn btn-default">Español</button>
@@ -23857,7 +23857,7 @@ exports.default = {
   beforeUpdate: function beforeUpdate() {},
   data: function data() {
     return {
-      langDirection: 'ltr'
+      langDirection: ''
     };
   },
 
@@ -23866,6 +23866,7 @@ exports.default = {
       this.$i18n.set(lang);
       localStorage.setItem('user_locale', lang);
       this.langDirection = this.getLangDir();
+      localStorage.getItem('lang_dir', this.langDirection);
     },
     getWalletBalance: function getWalletBalance() {
 
@@ -23916,6 +23917,9 @@ exports.default = {
     }
   },
   computed: {
+    currentLangDirection: function currentLangDirection() {
+      return this.getLangDir();
+    },
     currentState: function currentState() {
       return this.$store.getters.getCurrentState;
     },
@@ -24606,18 +24610,18 @@ exports.default = {
 //     <h1>{{$t('Login')}}</h1>
 //
 //     <form class="form">
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" :title="$t('Country')" id="country-addon1"> <i class="fa fa-globe fa-fw" aria-hidden="true"></i> </span>
 //         <select class="form-control" aria-describedby="nationality-addon1" @change="updateAPI" v-model="country">
 //           <option v-for="(ctry, i) in $store.getters.getTopCountries" :selected="true" :value="ctry">{{ctry.name}}</option>
 //         </select>
 //       </div>
-//       <div class="input-group" :title="$t('Email')">
+//       <div dir="ltr" class="input-group" :title="$t('Email')">
 //         <span class="input-group-addon" id="email-addon1"> <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> </span>
 //         <input name="mail" class="form-control" v-model="login.mail" @input="updateEmail" aria-describedby="email-addon1" type="email" :placeholder="$t('Email')" :value="login.email" />
 //       </div>
 //
-//       <div class="input-group" :title="$t('Password')">
+//       <div dir="ltr" class="input-group" :title="$t('Password')">
 //         <span class="input-group-addon" id="password-addon1"> <i class="fa fa-lock fa-fw" aria-hidden="true"></i> </span>
 //         <input name="password" class="form-control" v-model="login.password"  @input="updatePassword" aria-describedby="password-addon1" type="password" :placeholder="$t('Password')" :value="login.password" />
 //       </div>
@@ -25325,22 +25329,22 @@ exports.default = {
 //     <h1>{{$t('Sign up')}}</h1>
 //
 //     <form class="form">
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" :title="$t('First name')" id="fname-addon1"> <i class="fa fa-user-o fa-fw" aria-hidden="true"></i> </span>
 //         <input name="first_name" class="form-control" v-model="signup.first_name" aria-describedby="fname-addon1" type="text" :placeholder="$t('First name')" :value="signup.first_name" />
 //       </div>
 //
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" :title="$t('Last name')" id="lname-addon1"> <i class="fa fa-user-o fa-fw" aria-hidden="true"></i> </span>
 //         <input name="last_name" class="form-control" v-model="signup.last_name" aria-describedby="lname-addon1" type="text" :placeholder="$t('Last name')" :value="signup.last_name" />
 //       </div>
 //
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" :title="$t('Birthday')" id="birthday-addon1"> <i class="fa fa-birthday-cake fa-fw" aria-hidden="true"></i> </span>
 //         <input name="birthday" class="form-control" v-model="signup.birthday" aria-describedby="birthday-addon1" type="date" :placeholder="$t('Birthday')" :value="signup.birthday" />
 //       </div>
 //
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" :title="$t('Gender')" id="gender-addon1"> <i class="fa fa-venus-mars fa-fw" aria-hidden="true"></i> </span>
 //         <div class="form-control" aria-describedby="gender-addon1">
 //             <label><input type="radio" name="gender" checked value="M" v-model="signup.gender">{{$t('Male')}}</label>
@@ -25349,7 +25353,7 @@ exports.default = {
 //
 //       </div>
 //
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" :title="$t('Nationality')" id="nationality-addon1"> <i class="fa fa-globe fa-fw" aria-hidden="true"></i> </span>
 //         <select class="form-control" aria-describedby="nationality-addon1" v-model="signup.nationality">
 //           <option v-for="country in $store.getters.getAllCountries" :disabled="country.code == '_'" :selected="country.code == 'ES'" @changed="signup.nationality = country.code" :value="country.code">{{$t(country.name)}}</option>
@@ -25357,7 +25361,7 @@ exports.default = {
 //
 //       </div>
 //
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" title="Country of residence" id="country_of_residence-addon1"> <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i> </span>
 //         <select class="form-control" aria-describedby="country_of_residence-addon1" v-model="signup.country_of_residence">
 //           <option v-for="country in $store.getters.getAllCountries" :disabled="country.code == '_'" :selected="country.code == 'ES'" @changed="signin.country_of_residence = country.code" :value="country.code"> {{$t(country.name)}}</option>
@@ -25365,12 +25369,12 @@ exports.default = {
 //
 //       </div>
 //
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" title="Email" id="email-addon1"> <i class="fa fa-envelope fa-fw" aria-hidden="true"></i> </span>
 //         <input name="mail" class="form-control" v-model="signup.mail" @input="updateEmail" aria-describedby="email-addon1" type="email" :placeholder="$t('Email')" :value="signup.email" />
 //       </div>
 //
-//       <div class="input-group">
+//       <div dir="ltr" class="input-group">
 //         <span class="input-group-addon" title="Password" id="password-addon1"> <i class="fa fa-lock fa-fw" aria-hidden="true"></i> </span>
 //         <input name="password" class="form-control" v-model="signup.password"  @input="updatePassword" aria-describedby="password-addon1" type="password" :placeholder="$t('Password')" :value="signup.password" />
 //       </div>
@@ -28661,7 +28665,7 @@ exports.default = plugin;
 /* 107 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div :dir=\"langDirection\" id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"setLang('en')\" class=\"btn btn-default\">English</button>\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\">Español</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\">Français</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> {{$t('Loading')}}...</h1>\n    </div>\n\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <message-items></message-items>\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"($store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != '' && $store.getters.getCurrentPage != 'signup')\" class=\"btn btn-plain\" @click=\"goToPrevPage\">\n            <i v-if=\"langDirection == 'rtl'\" class=\"fa fa-angle-right fa-fw\"></i>\n            <i v-else class=\"fa fa-angle-left fa-fw\"></i>\n          </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} BETA </a> </label>\n    </div>\n\n  </div>\n";
+module.exports = "\n  <div :dir=\"currentLangDirection\" id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"setLang('en')\" class=\"btn btn-default\">English</button>\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\">Español</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\">Français</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> {{$t('Loading')}}...</h1>\n    </div>\n\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <message-items></message-items>\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"($store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != '' && $store.getters.getCurrentPage != 'signup')\" class=\"btn btn-plain\" @click=\"goToPrevPage\">\n            <i v-if=\"langDirection == 'rtl'\" class=\"fa fa-angle-right fa-fw\"></i>\n            <i v-else class=\"fa fa-angle-left fa-fw\"></i>\n          </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} BETA </a> </label>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 108 */
@@ -28709,7 +28713,7 @@ module.exports = "\n  <div class=\"vid-area\" _v-17fc282c=\"\">\n    <div style=
 /* 115 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">{{$t('Login')}}</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Country')\" id=\"country-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\" _v-1d2afbaf=\"\">\n          <option v-for=\"(ctry, i) in $store.getters.getTopCountries\" :selected=\"true\" :value=\"ctry\" _v-1d2afbaf=\"\">{{ctry.name}}</option>\n        </select>\n      </div>\n      <div class=\"input-group\" :title=\"$t('Email')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div class=\"input-group\" :title=\"$t('Password')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      {{ $t(\"If you don't have an account yet\") }} <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> {{ $t('Sign up here') }}</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> {{ $t('Login') }}</button>\n      {{ $t('Remember me') }} <input name=\"remember_me\" v-model=\"rememberMe\" @click=\"setRememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <video-frame _v-1d2afbaf=\"\"></video-frame>\n\n  </div>\n";
+module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">{{$t('Login')}}</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div dir=\"ltr\" class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Country')\" id=\"country-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\" _v-1d2afbaf=\"\">\n          <option v-for=\"(ctry, i) in $store.getters.getTopCountries\" :selected=\"true\" :value=\"ctry\" _v-1d2afbaf=\"\">{{ctry.name}}</option>\n        </select>\n      </div>\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Email')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Password')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      {{ $t(\"If you don't have an account yet\") }} <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> {{ $t('Sign up here') }}</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> {{ $t('Login') }}</button>\n      {{ $t('Remember me') }} <input name=\"remember_me\" v-model=\"rememberMe\" @click=\"setRememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <video-frame _v-1d2afbaf=\"\"></video-frame>\n\n  </div>\n";
 
 /***/ }),
 /* 116 */
@@ -28739,7 +28743,7 @@ module.exports = "\n  <div class=\"logout-area\" _v-5574fa98=\"\">\n    <nav cla
 /* 120 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"signup-area-wrapper\" _v-56e3317c=\"\">\n    <h1 _v-56e3317c=\"\">{{$t('Sign up')}}</h1>\n\n    <form class=\"form\" _v-56e3317c=\"\">\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('First name')\" id=\"fname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"first_name\" class=\"form-control\" v-model=\"signup.first_name\" aria-describedby=\"fname-addon1\" type=\"text\" :placeholder=\"$t('First name')\" :value=\"signup.first_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Last name')\" id=\"lname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"last_name\" class=\"form-control\" v-model=\"signup.last_name\" aria-describedby=\"lname-addon1\" type=\"text\" :placeholder=\"$t('Last name')\" :value=\"signup.last_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Birthday')\" id=\"birthday-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-birthday-cake fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"birthday\" class=\"form-control\" v-model=\"signup.birthday\" aria-describedby=\"birthday-addon1\" type=\"date\" :placeholder=\"$t('Birthday')\" :value=\"signup.birthday\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Gender')\" id=\"gender-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-venus-mars fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <div class=\"form-control\" aria-describedby=\"gender-addon1\" _v-56e3317c=\"\">\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" checked=\"\" value=\"M\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Male')}}</label>\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" value=\"F\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Female')}}</label>\n        </div>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Nationality')\" id=\"nationality-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" v-model=\"signup.nationality\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signup.nationality = country.code\" :value=\"country.code\" _v-56e3317c=\"\">{{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Country of residence\" id=\"country_of_residence-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-map-marker fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"country_of_residence-addon1\" v-model=\"signup.country_of_residence\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signin.country_of_residence = country.code\" :value=\"country.code\" _v-56e3317c=\"\"> {{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Email\" id=\"email-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"signup.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"signup.email\" _v-56e3317c=\"\">\n      </div>\n\n      <div class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Password\" id=\"password-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"signup.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"signup.password\" _v-56e3317c=\"\">\n      </div>\n\n      {{$t('If you already have an account')}} <a class=\"\" @click=\"goToLoginPage\" _v-56e3317c=\"\"> {{$t('Login here')}}</a>\n\n      <button class=\"btn btn-primary btn-block signup-btn\" @click=\"signupUser\" _v-56e3317c=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> {{$t('Sign up')}}</button>\n\n    </form>\n\n  </div>\n";
+module.exports = "\n  <div class=\"signup-area-wrapper\" _v-56e3317c=\"\">\n    <h1 _v-56e3317c=\"\">{{$t('Sign up')}}</h1>\n\n    <form class=\"form\" _v-56e3317c=\"\">\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('First name')\" id=\"fname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"first_name\" class=\"form-control\" v-model=\"signup.first_name\" aria-describedby=\"fname-addon1\" type=\"text\" :placeholder=\"$t('First name')\" :value=\"signup.first_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Last name')\" id=\"lname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"last_name\" class=\"form-control\" v-model=\"signup.last_name\" aria-describedby=\"lname-addon1\" type=\"text\" :placeholder=\"$t('Last name')\" :value=\"signup.last_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Birthday')\" id=\"birthday-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-birthday-cake fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"birthday\" class=\"form-control\" v-model=\"signup.birthday\" aria-describedby=\"birthday-addon1\" type=\"date\" :placeholder=\"$t('Birthday')\" :value=\"signup.birthday\" _v-56e3317c=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Gender')\" id=\"gender-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-venus-mars fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <div class=\"form-control\" aria-describedby=\"gender-addon1\" _v-56e3317c=\"\">\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" checked=\"\" value=\"M\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Male')}}</label>\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" value=\"F\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Female')}}</label>\n        </div>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Nationality')\" id=\"nationality-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" v-model=\"signup.nationality\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signup.nationality = country.code\" :value=\"country.code\" _v-56e3317c=\"\">{{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Country of residence\" id=\"country_of_residence-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-map-marker fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"country_of_residence-addon1\" v-model=\"signup.country_of_residence\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signin.country_of_residence = country.code\" :value=\"country.code\" _v-56e3317c=\"\"> {{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Email\" id=\"email-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"signup.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"signup.email\" _v-56e3317c=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Password\" id=\"password-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"signup.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"signup.password\" _v-56e3317c=\"\">\n      </div>\n\n      {{$t('If you already have an account')}} <a class=\"\" @click=\"goToLoginPage\" _v-56e3317c=\"\"> {{$t('Login here')}}</a>\n\n      <button class=\"btn btn-primary btn-block signup-btn\" @click=\"signupUser\" _v-56e3317c=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> {{$t('Sign up')}}</button>\n\n    </form>\n\n  </div>\n";
 
 /***/ }),
 /* 121 */
