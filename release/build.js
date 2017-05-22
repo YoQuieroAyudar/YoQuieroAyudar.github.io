@@ -10994,6 +10994,9 @@ const WALLET_BALANCE_URL = "/wallet_balance";
 const RECHARGE_ACCOUNT_URL = "/recharge_account";
 /* harmony export (immutable) */ __webpack_exports__["RECHARGE_ACCOUNT_URL"] = RECHARGE_ACCOUNT_URL;
 
+const DONATATION_URL = "/donation";
+/* harmony export (immutable) */ __webpack_exports__["DONATATION_URL"] = DONATATION_URL;
+
 
 /***/ }),
 /* 5 */
@@ -22343,7 +22346,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.3.0",
+  Version: "0.3.1",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -23505,7 +23508,21 @@ const localizations = {
 	"Recharge successful": "نجحت بإعادة",
 	"Login": "الدخول",
 	"Logout": "الخروج",
-	"EUR": "يورو"
+	"EUR": "يورو",
+	"Donation Destination": "",
+	"Sorry, your donation to this association failed": "",
+	"donation successful": "",
+	"2 euros are the least amount you can donate": "",
+	"Invalid association id": "",
+	"Donate": "",
+	"ES": "",
+	"FR": "",
+	"BE": "",
+	"CH": "",
+	"MA": "",
+	"TN": "",
+	"GB": "",
+	"US": ""
 };
 
 /* harmony default export */ __webpack_exports__["a"] = localizations;
@@ -23573,7 +23590,21 @@ const localizations = {
   "Recharge successful": "Recarga exitosa",
   "Login": "Iniciar sesión",
   "Logout": "Cerrar sesión",
-  "Euro": "Euro"
+  "Euro": "Euro",
+  "Donation Destination": "",
+  "Sorry, your donation to this association failed": "",
+  "donation successful": "",
+  "2 euros are the least amount you can donate": "",
+  "Invalid association id": "",
+  "Donate": "",
+  "ES": "",
+  "FR": "",
+  "BE": "",
+  "CH": "",
+  "MA": "",
+  "TN": "",
+  "GB": "",
+  "US": ""
 };
 
 /* harmony default export */ __webpack_exports__["a"] = localizations;
@@ -23585,7 +23616,7 @@ const localizations = {
 "use strict";
 const localizations = {
   "hi": "Bonjour",
-  "Thanks for your generous heart. You\'re changing the world for a lot of people who lost hope": "Merci pour votre cœur généreux. Vous changez le monde pour beaucoup de gens que vous aidez",
+  "Thanks for your generous heart. You\'re changing the world for a lot of people who lost hope": "Merci pour votre générosité. Vous changez le monde pour beaucoup de gens que vous aidez",
   "Login successfully!": "Connexion valide!",
   "Loading": "Chargement",
   "Page is under-construction": "Page en construction",
@@ -23641,7 +23672,21 @@ const localizations = {
   "Recharge successful": "Recharge réussie",
   "Login": "Connectez-vous",
   "Logout": "Fermer la session",
-  "EURO": "Euro"
+  "EURO": "Euro",
+  "Donation Destination": "",
+  "Sorry, your donation to this association failed": "",
+  "donation successful": "",
+  "2 euros are the least amount you can donate": "",
+  "Invalid association id": "",
+  "Donate": "",
+  "ES": "",
+  "FR": "",
+  "BE": "",
+  "CH": "",
+  "MA": "",
+  "TN": "",
+  "GB": "",
+  "US": ""
 };
 
 /* harmony default export */ __webpack_exports__["a"] = localizations;
@@ -24067,14 +24112,85 @@ var _api_variables = __webpack_require__(4);
 
 var urls = _interopRequireWildcard(_api_variables);
 
+var _axios = __webpack_require__(16);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+// <template>
+//   <div class="associations-list">
+//     <label class="label label-warning">{{ $t('Page is under-construction')}}</label>
+//     <div class="association-box">
+//       <div class="">
+//         <div class="btn-group donation-section" role="group" aria-label="donation-section">
+//           <button type="button" @click="donationAmount=200" :class="'btn btn-default' + (donationAmount == 200 ? ' active' : '')">&euro;2</button>
+//           <button type="button" @click="donationAmount=400" :class="'btn btn-default' + (donationAmount == 400 ? ' active' : '')">&euro;4</button>
+//           <button type="button" @click="donationAmount=600" :class="'btn btn-default' + (donationAmount == 600 ? ' active' : '')">&euro;6</button>
+//           <button type="button" @click="donationAmount=800" :class="'btn btn-default' + (donationAmount == 800 ? ' active' : '')">&euro;8</button>
+//           <button type="button" @click="donationAmount=1000" :class="'btn btn-default' + (donationAmount == 1000 ? ' active' : '')">&euro;10</button>
+//         </div>
+//         <button :disabled="donationAmount < 200" @click="submitDonation" class="btn btn-primary pull-right" type="button" name="donate">{{$t('Donate')}}</button>
+//       </div>
+//
+//       <img class="assoc-logo-large" :src="assoc.logo_url" :alt="assoc.short_description">
+//       <h4>{{assoc.name}}</h4>
+//       <p>{{assoc.description}}</p>
+//
+//       <ul class="list-group">
+//         <li class="list-group-item" :title="$t('address')"><i class="fa fa-map fa-fw"></i>  <span class="assoc-labels">{{assoc.address}}</span></li>
+//         <li class="list-group-item" :title="$t('city')"><i class="fa fa-map-marker fa-fw"></i>  <span class="assoc-labels">{{assoc.city}}</span></li>
+//         <li class="list-group-item" :title="$t('twitter')"><i class="fa fa-twitter fa-fw"></i>  <span class="assoc-labels"><a target="_blank" :href="'https://twitter.com/'+assoc.twitter_username">@{{assoc.twitter_username}}</a></span></li>
+//         <li class="list-group-item" :title="$t('Total Donations')"><i class="fa fa-line-chart fa-fw"></i>  <span class="assoc-labels">&euro;{{assoc.total_donations/100}}</span></li>
+//       </ul>
+//     </div>
+//
+//   </div>
+// </template>
+//
+// <script>
 exports.default = {
   data: function data() {
-    return {};
+    return {
+      donationAmount: 0
+    };
   },
 
-  methods: {},
+  methods: {
+    submitDonation: function submitDonation() {
+      if (!this.assoc.id) {
+        this.$store.commit('setError', "Invalid association id");
+        return;
+      }
+      console.log("donationAmount: " + this.donationAmount);
+      if (this.donationAmount < 200) {
+        this.$store.commit('setError', "2 euros are the least amount you can donate");
+        return;
+      }
+      var donation_url = urls.API_URL.CurrentUrl + urls.DONATATION_URL; // + "?Amount="+this.donationAmount+"&association_id="+this.assoc.id
+      var instance = _axios2.default.create({
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('user_token') }
+      });
+      var vm = this;
+      var donationData = {
+        "association_id": this.assoc.id,
+        "amount": this.donationAmount
+      };
+      this.$store.commit("setLoading", true);
+      instance.post(donation_url, donationData).then(function (resp) {
+        console.log("donation successful");
+        console.log(resp);
+        vm.$store.commit("setSuccess", resp.data.message);
+      }).catch(function (err) {
+        console.log("donation error");
+        console.log(err);
+        vm.$store.commit("setLoading", false);
+        vm.$store.commit("setError", "Sorry, your donation to this association failed");
+      });
+    }
+  },
   computed: {
     assoc: function assoc() {
       return this.$store.getters.getSelectedAssociation;
@@ -24102,25 +24218,6 @@ exports.default = {
 // }
 // </style>
 //
-// <template>
-//   <div class="associations-list">
-//     <label class="label label-warning">{{ $t('Page is under-construction')}}</label>
-//     <div class="association-box">
-//       <img class="assoc-logo-large" :src="assoc.logo_url" :alt="assoc.short_description">
-//       <h4>{{assoc.name}}</h4>
-//       <p>{{assoc.description}}</p>
-//       <ul class="list-group">
-//         <li class="list-group-item" :title="$t('address')"><i class="fa fa-map fa-fw"></i>  <span class="assoc-labels">{{assoc.address}}</span></li>
-//         <li class="list-group-item" :title="$t('city')"><i class="fa fa-map-marker fa-fw"></i>  <span class="assoc-labels">{{assoc.city}}</span></li>
-//         <li class="list-group-item" :title="$t('twitter')"><i class="fa fa-twitter fa-fw"></i>  <span class="assoc-labels"><a target="_blank" :href="'https://twitter.com/'+assoc.twitter_username">@{{assoc.twitter_username}}</a></span></li>
-//         <li class="list-group-item" :title="$t('Total Donations')"><i class="fa fa-line-chart fa-fw"></i>  <span class="assoc-labels">&euro;{{assoc.total_donations/100}}</span></li>
-//       </ul>
-//     </div>
-//
-//   </div>
-// </template>
-//
-// <script>
 
 /***/ }),
 /* 48 */
@@ -24154,8 +24251,9 @@ exports.default = {
       // TODO: use country from the users registeration data instead of this hard coded url query and POS_id in the body
       var jwt_token = localStorage.getItem("user_token");
       var vm = this;
-      var url = urls.API_URL.CurrentUrl + urls.ASSO_SEARCH_URL;
-      var country = localStorage.getItem('country');
+      var country = localStorage.getItem('country_code');
+      console.log("Searching for " + country);
+      var url = urls.API_URL.CurrentUrl + urls.ASSO_SEARCH_URL + "?country=" + country;
       this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
       this.$http.post(url, { POS_id: 1 }).then(function (resp) {
         console.log(resp.status);
@@ -24215,9 +24313,12 @@ exports.default = {
 //     <div class="association-box"
 //       @click="selectAssociation(assoc.id)"
 //       v-for="assoc in associations">
+//
 //       <img class="assoc-logo" :src="assoc.logo_url" :alt="$t(assoc.short_description)">
 //       <h4>{{assoc.name}}</h4>
 //       <p>{{assoc.description}}</p>
+//       <p><strong>{{$t(assoc.country)}}</strong></p>
+//
 //     </div>
 //   </div>
 // </template>
@@ -24508,6 +24609,9 @@ exports.default = {
       console.log("before url change: " + urls.API_URL.CurrentUrl);
       this.$store.commit('setAPI', this.country.db);
       localStorage.setItem("country", this.country);
+      console.log("COUNTRY:");
+      console.log(this.country.code);
+      localStorage.setItem("country_code", this.country.code);
       console.log("after url change: " + urls.API_URL.CurrentUrl);
     },
     goToSignupPage: function goToSignupPage(e) {
@@ -24611,7 +24715,7 @@ exports.default = {
 //
 //     <form class="form">
 //       <div dir="ltr" class="input-group">
-//         <span class="input-group-addon" :title="$t('Country')" id="country-addon1"> <i class="fa fa-globe fa-fw" aria-hidden="true"></i> </span>
+//         <span class="input-group-addon" :title="$t('Country')" id="country-addon1"> {{$t('Donation Destination')}}</span>
 //         <select class="form-control" aria-describedby="nationality-addon1" @change="updateAPI" v-model="country">
 //           <option v-for="(ctry, i) in $store.getters.getTopCountries" :selected="true" :value="ctry">{{ctry.name}}</option>
 //         </select>
@@ -25467,7 +25571,18 @@ exports.default = {
     return {
       youtube_link_prefix: "https://www.youtube.com/embed/",
       youtube_link_sufix: "?wmode=transparent&amp;rel=0&amp;autohide=1&amp;showinfo=0&amp;enablejsapi=1",
-      videos: [{ id: "8PMJNUjaivw" }, { id: "Zx1_6F-nCaw" }, { id: "WWVMXLSS1cA" }, { id: "Nek1FT5vs4o" }, { id: "rs40yxHjTxQ" }, { id: "h5EofwRzit0" }, { id: "bwLLbLSMMMo" }, { id: "2g0t41bYVCA" }, { id: "KDXOzr0GoA4" }, { id: "nBI0bDH8W28" }],
+      videos: [
+      // {id: "8PMJNUjaivw"},
+      // {id: "Zx1_6F-nCaw"},
+      // {id: "WWVMXLSS1cA"},
+      // {id: "Nek1FT5vs4o"},
+      // {id: "rs40yxHjTxQ"},
+      // {id: "h5EofwRzit0"},
+      // {id: "bwLLbLSMMMo"},
+      // {id: "2g0t41bYVCA"},
+      // {id: "KDXOzr0GoA4"},
+      // {id: "nBI0bDH8W28"}
+      { id: "fFIODvFNxJQ" }, { id: "Du0L6F2uquc" }, { id: "uGpufaTRlCM" }],
       currentVidID: { id: "8PMJNUjaivw" },
       videoLink: ""
     };
@@ -28701,7 +28816,7 @@ module.exports = "\n  <div>\n    <div>\n      <h2>{{$t('Solidarity Account')}}</
 /* 113 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"associations-list\" _v-0737b088=\"\">\n    <h1 @click=\"getAssociationsFromAPI\" _v-0737b088=\"\">{{ $t('Charities') }} <i class=\"fa fa-refresh fa-fw\" _v-0737b088=\"\"></i></h1>\n    <label class=\"label label-warning\" _v-0737b088=\"\"> {{ $t('Page is under-construction') }} </label>\n    <div class=\"association-box\" @click=\"selectAssociation(assoc.id)\" v-for=\"assoc in associations\" _v-0737b088=\"\">\n      <img class=\"assoc-logo\" :src=\"assoc.logo_url\" :alt=\"$t(assoc.short_description)\" _v-0737b088=\"\">\n      <h4 _v-0737b088=\"\">{{assoc.name}}</h4>\n      <p _v-0737b088=\"\">{{assoc.description}}</p>\n    </div>\n  </div>\n";
+module.exports = "\n  <div class=\"associations-list\" _v-0737b088=\"\">\n    <h1 @click=\"getAssociationsFromAPI\" _v-0737b088=\"\">{{ $t('Charities') }} <i class=\"fa fa-refresh fa-fw\" _v-0737b088=\"\"></i></h1>\n    <label class=\"label label-warning\" _v-0737b088=\"\"> {{ $t('Page is under-construction') }} </label>\n    <div class=\"association-box\" @click=\"selectAssociation(assoc.id)\" v-for=\"assoc in associations\" _v-0737b088=\"\">\n\n      <img class=\"assoc-logo\" :src=\"assoc.logo_url\" :alt=\"$t(assoc.short_description)\" _v-0737b088=\"\">\n      <h4 _v-0737b088=\"\">{{assoc.name}}</h4>\n      <p _v-0737b088=\"\">{{assoc.description}}</p>\n      <p _v-0737b088=\"\"><strong _v-0737b088=\"\">{{$t(assoc.country)}}</strong></p>\n\n    </div>\n  </div>\n";
 
 /***/ }),
 /* 114 */
@@ -28713,7 +28828,7 @@ module.exports = "\n  <div class=\"vid-area\" _v-17fc282c=\"\">\n    <div style=
 /* 115 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">{{$t('Login')}}</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div dir=\"ltr\" class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Country')\" id=\"country-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\" _v-1d2afbaf=\"\">\n          <option v-for=\"(ctry, i) in $store.getters.getTopCountries\" :selected=\"true\" :value=\"ctry\" _v-1d2afbaf=\"\">{{ctry.name}}</option>\n        </select>\n      </div>\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Email')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Password')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      {{ $t(\"If you don't have an account yet\") }} <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> {{ $t('Sign up here') }}</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> {{ $t('Login') }}</button>\n      {{ $t('Remember me') }} <input name=\"remember_me\" v-model=\"rememberMe\" @click=\"setRememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <video-frame _v-1d2afbaf=\"\"></video-frame>\n\n  </div>\n";
+module.exports = "\n  <div class=\"login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">{{$t('Login')}}</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div dir=\"ltr\" class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Country')\" id=\"country-addon1\" _v-1d2afbaf=\"\"> {{$t('Donation Destination')}}</span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\" _v-1d2afbaf=\"\">\n          <option v-for=\"(ctry, i) in $store.getters.getTopCountries\" :selected=\"true\" :value=\"ctry\" _v-1d2afbaf=\"\">{{ctry.name}}</option>\n        </select>\n      </div>\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Email')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Password')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      {{ $t(\"If you don't have an account yet\") }} <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> {{ $t('Sign up here') }}</a>\n\n      <button class=\"btn btn-primary btn-block login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> {{ $t('Login') }}</button>\n      {{ $t('Remember me') }} <input name=\"remember_me\" v-model=\"rememberMe\" @click=\"setRememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <video-frame _v-1d2afbaf=\"\"></video-frame>\n\n  </div>\n";
 
 /***/ }),
 /* 116 */
@@ -28725,7 +28840,7 @@ module.exports = "\n  <div _v-1e130e5e=\"\">\n\n    <p _v-1e130e5e=\"\">{{ $t('A
 /* 117 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"associations-list\" _v-21807b72=\"\">\n    <label class=\"label label-warning\" _v-21807b72=\"\">{{ $t('Page is under-construction')}}</label>\n    <div class=\"association-box\" _v-21807b72=\"\">\n      <img class=\"assoc-logo-large\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\" _v-21807b72=\"\">\n      <h4 _v-21807b72=\"\">{{assoc.name}}</h4>\n      <p _v-21807b72=\"\">{{assoc.description}}</p>\n      <ul class=\"list-group\" _v-21807b72=\"\">\n        <li class=\"list-group-item\" :title=\"$t('address')\" _v-21807b72=\"\"><i class=\"fa fa-map fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.address}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('city')\" _v-21807b72=\"\"><i class=\"fa fa-map-marker fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.city}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('twitter')\" _v-21807b72=\"\"><i class=\"fa fa-twitter fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\"><a target=\"_blank\" :href=\"'https://twitter.com/'+assoc.twitter_username\" _v-21807b72=\"\">@{{assoc.twitter_username}}</a></span></li>\n        <li class=\"list-group-item\" :title=\"$t('Total Donations')\" _v-21807b72=\"\"><i class=\"fa fa-line-chart fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">€{{assoc.total_donations/100}}</span></li>\n      </ul>\n    </div>\n\n  </div>\n";
+module.exports = "\n  <div class=\"associations-list\" _v-21807b72=\"\">\n    <label class=\"label label-warning\" _v-21807b72=\"\">{{ $t('Page is under-construction')}}</label>\n    <div class=\"association-box\" _v-21807b72=\"\">\n      <div class=\"\" _v-21807b72=\"\">\n        <div class=\"btn-group donation-section\" role=\"group\" aria-label=\"donation-section\" _v-21807b72=\"\">\n          <button type=\"button\" @click=\"donationAmount=200\" :class=\"'btn btn-default' + (donationAmount == 200 ? ' active' : '')\" _v-21807b72=\"\">€2</button>\n          <button type=\"button\" @click=\"donationAmount=400\" :class=\"'btn btn-default' + (donationAmount == 400 ? ' active' : '')\" _v-21807b72=\"\">€4</button>\n          <button type=\"button\" @click=\"donationAmount=600\" :class=\"'btn btn-default' + (donationAmount == 600 ? ' active' : '')\" _v-21807b72=\"\">€6</button>\n          <button type=\"button\" @click=\"donationAmount=800\" :class=\"'btn btn-default' + (donationAmount == 800 ? ' active' : '')\" _v-21807b72=\"\">€8</button>\n          <button type=\"button\" @click=\"donationAmount=1000\" :class=\"'btn btn-default' + (donationAmount == 1000 ? ' active' : '')\" _v-21807b72=\"\">€10</button>\n        </div>\n        <button :disabled=\"donationAmount < 200\" @click=\"submitDonation\" class=\"btn btn-primary pull-right\" type=\"button\" name=\"donate\" _v-21807b72=\"\">{{$t('Donate')}}</button>\n      </div>\n\n      <img class=\"assoc-logo-large\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\" _v-21807b72=\"\">\n      <h4 _v-21807b72=\"\">{{assoc.name}}</h4>\n      <p _v-21807b72=\"\">{{assoc.description}}</p>\n\n      <ul class=\"list-group\" _v-21807b72=\"\">\n        <li class=\"list-group-item\" :title=\"$t('address')\" _v-21807b72=\"\"><i class=\"fa fa-map fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.address}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('city')\" _v-21807b72=\"\"><i class=\"fa fa-map-marker fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">{{assoc.city}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('twitter')\" _v-21807b72=\"\"><i class=\"fa fa-twitter fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\"><a target=\"_blank\" :href=\"'https://twitter.com/'+assoc.twitter_username\" _v-21807b72=\"\">@{{assoc.twitter_username}}</a></span></li>\n        <li class=\"list-group-item\" :title=\"$t('Total Donations')\" _v-21807b72=\"\"><i class=\"fa fa-line-chart fa-fw\" _v-21807b72=\"\"></i>  <span class=\"assoc-labels\" _v-21807b72=\"\">€{{assoc.total_donations/100}}</span></li>\n      </ul>\n    </div>\n\n  </div>\n";
 
 /***/ }),
 /* 118 */
