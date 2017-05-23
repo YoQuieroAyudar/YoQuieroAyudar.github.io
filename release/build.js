@@ -22346,7 +22346,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.3.5",
+  Version: "0.3.6",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -23858,6 +23858,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   mounted: function mounted() {},
   beforeCreate: function beforeCreate() {
+    console.log("beforeCreate");
     var vm = this;
     setTimeout(function () {
       vm.$store.commit("resetMessages");
@@ -23890,6 +23891,7 @@ exports.default = {
       } else {
         // no token means not signed in
         this.$store.commit("setCurrentState", "login");
+        localStorage.setItem('country_code', 'ES');
         return "login";
       }
 
@@ -23914,7 +23916,6 @@ exports.default = {
       this.$i18n.set(lang);
       localStorage.setItem('user_locale', lang);
       this.langDirection = this.getLangDir();
-      localStorage.getItem('lang_dir', this.langDirection);
     },
     getWalletBalance: function getWalletBalance() {
 
@@ -24280,6 +24281,9 @@ exports.default = {
       var jwt_token = localStorage.getItem("user_token");
       var vm = this;
       var country = localStorage.getItem('country_code');
+      if (country == null) {
+        country = 'ES';
+      }
       console.log("Searching for " + country);
       var url = urls.API_URL.CurrentUrl + urls.ASSO_SEARCH_URL + "?country=" + country;
       this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
@@ -24823,9 +24827,10 @@ exports.default = {
       this.$store.commit('setCurrentPage', "login");
       this.$store.commit("resetMessages");
       this.$store.commit("resetAssoList");
-      localStorage.removeItem('country');
-      localStorage.removeItem('user_token');
-      localStorage.removeItem('rememberMe');
+      // localStorage.removeItem('country')
+      // localStorage.removeItem('user_token')
+      // localStorage.removeItem('rememberMe')
+      localStorage.clear();
     }
   },
   computed: {
