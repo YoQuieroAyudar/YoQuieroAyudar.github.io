@@ -22346,7 +22346,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.3.4",
+  Version: "0.3.5",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -24254,8 +24254,20 @@ var urls = _interopRequireWildcard(_api_variables);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 exports.default = {
+  beforeMount: function beforeMount() {
+    console.log("beforeUpdate");
+    this.associations = this.$store.getters.getAssociations;
+    if (this.associations.length == 0) {
+      console.log("associations length = 0");
+      console.log("Getting new list");
+      this.getAssociationsFromAPI();
+      this.associations = this.$store.getters.getAssociations;
+    }
+  },
   data: function data() {
-    return {};
+    return {
+      associations: []
+    };
   },
 
   methods: {
@@ -24265,7 +24277,6 @@ exports.default = {
       this.$store.commit('setCurrentPage', "asso_details");
     },
     getAssociationsFromAPI: function getAssociationsFromAPI() {
-      // TODO: use country from the users registeration data instead of this hard coded url query and POS_id in the body
       var jwt_token = localStorage.getItem("user_token");
       var vm = this;
       var country = localStorage.getItem('country_code');
@@ -24292,16 +24303,7 @@ exports.default = {
       });
     }
   },
-  computed: {
-    associations: function associations() {
-      var assos = this.$store.getters.getAssociations;
-      if (assos.length == 0) {
-        this.getAssociationsFromAPI();
-        assos = this.$store.getters.getAssociations;
-      }
-      return assos;
-    }
-  }
+  computed: {}
 };
 // </script>
 // <style scoped>
@@ -24329,7 +24331,7 @@ exports.default = {
 //     <label class="label label-warning"> {{ $t('Page is under-construction') }} </label>
 //     <div class="association-box"
 //       @click="selectAssociation(assoc.id)"
-//       v-for="assoc in associations">
+//       v-for="assoc in this.$store.getters.getAssociations">
 //
 //       <img class="assoc-logo" :src="assoc.logo_url" :alt="$t(assoc.short_description)">
 //       <h4>{{assoc.name}}</h4>
@@ -28833,7 +28835,7 @@ module.exports = "\n  <div>\n    <div>\n      <h2>{{$t('Solidarity Account')}}</
 /* 113 */
 /***/ (function(module, exports) {
 
-module.exports = "\n  <div class=\"associations-list\" _v-0737b088=\"\">\n    <h1 @click=\"getAssociationsFromAPI\" _v-0737b088=\"\">{{ $t('Charities') }} <i class=\"fa fa-refresh fa-fw\" _v-0737b088=\"\"></i></h1>\n    <label class=\"label label-warning\" _v-0737b088=\"\"> {{ $t('Page is under-construction') }} </label>\n    <div class=\"association-box\" @click=\"selectAssociation(assoc.id)\" v-for=\"assoc in associations\" _v-0737b088=\"\">\n\n      <img class=\"assoc-logo\" :src=\"assoc.logo_url\" :alt=\"$t(assoc.short_description)\" _v-0737b088=\"\">\n      <h4 _v-0737b088=\"\">{{assoc.name}}</h4>\n      <p _v-0737b088=\"\">{{assoc.description}}</p>\n      <p _v-0737b088=\"\"><strong _v-0737b088=\"\">{{$t(assoc.country)}}</strong></p>\n\n    </div>\n  </div>\n";
+module.exports = "\n  <div class=\"associations-list\" _v-0737b088=\"\">\n    <h1 @click=\"getAssociationsFromAPI\" _v-0737b088=\"\">{{ $t('Charities') }} <i class=\"fa fa-refresh fa-fw\" _v-0737b088=\"\"></i></h1>\n    <label class=\"label label-warning\" _v-0737b088=\"\"> {{ $t('Page is under-construction') }} </label>\n    <div class=\"association-box\" @click=\"selectAssociation(assoc.id)\" v-for=\"assoc in this.$store.getters.getAssociations\" _v-0737b088=\"\">\n\n      <img class=\"assoc-logo\" :src=\"assoc.logo_url\" :alt=\"$t(assoc.short_description)\" _v-0737b088=\"\">\n      <h4 _v-0737b088=\"\">{{assoc.name}}</h4>\n      <p _v-0737b088=\"\">{{assoc.description}}</p>\n      <p _v-0737b088=\"\"><strong _v-0737b088=\"\">{{$t(assoc.country)}}</strong></p>\n\n    </div>\n  </div>\n";
 
 /***/ }),
 /* 114 */
