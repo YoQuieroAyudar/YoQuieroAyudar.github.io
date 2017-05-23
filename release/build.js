@@ -22346,7 +22346,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.3.8",
+  Version: "0.3.9",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -23856,7 +23856,57 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 // <script>
 exports.default = {
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    /******************* IVENTS *************************/
+    this.$events.emit("testEvent");
+    this.$events.listen('logoutEvent', function (eventData) {
+      console.log("LOGING OUT EVENT");
+      console.log(eventData);
+    });
+
+    this.$events.listen("loginEvent", function (eventData) {
+      console.log("LOGIN EVENT");
+      console.log(eventData);
+      localStorage.setItem('user_email', eventData.user);
+      localStorage.setItem('user_token', eventData.token);
+      _this.$store.commit("setToken", eventData.token);
+      localStorage.setItem("rememberMe", eventData.rememberMe);
+      _this.$store.commit("setCurrentState", "loggedin");
+      _this.$store.commit('setCurrentPage', "home");
+    });
+
+    this.$events.listen("acountUpdate", function (eventData) {
+      console.log("acountUpdate EVENT");
+      if (!_this.$store.getters.getLogin) {
+        console.log("not loggedin, returning");
+        return;
+      }
+      var vm = _this;
+      var jwt_token = localStorage.getItem("user_token");
+      _this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
+      var url = urls.API_URL.CurrentUrl + urls.WALLET_BALANCE_URL;
+      _this.$http.get(url).then(function (resp) {
+        if (!resp.data) {
+          console.log("no response data");
+          return;
+        }
+        console.log("response data");
+        console.log(resp.data);
+        if (resp.data.balance) {
+          console.log("no balance data");
+          vm.$store.commit("setCurrency", resp.data.balance.Currency);
+          vm.$store.commit("setBalance", resp.data.balance.Amount);
+        }
+      }, function (err) {
+        console.log("failed");
+        console.log(err.data);
+      });
+    });
+
+    this.$events.$emit('acountUpdate', {});
+  },
   beforeCreate: function beforeCreate() {
     console.log("beforeCreate");
     var vm = this;
@@ -23917,27 +23967,8 @@ exports.default = {
       localStorage.setItem('user_locale', lang);
       this.langDirection = this.getLangDir();
     },
-    getWalletBalance: function getWalletBalance() {
 
-      if (!this.$store.getters.getLogin) {
-        return;
-      }
-      var vm = this;
-      var jwt_token = localStorage.getItem("user_token");
-      this.$http.headers.common['Authorization'] = 'Bearer ' + jwt_token;
-      var url = urls.API_URL.CurrentUrl + urls.WALLET_BALANCE_URL;
-      this.$http.get(url).then(function (resp) {
-        if (!resp.data) {
-          return;
-        }
-        if (resp.data.balance) {
-          vm.$store.commit("setCurrency", resp.data.balance.Currency);
-          vm.$store.commit("setBalance", resp.data.balance.Amount);
-        }
-      }, function (err) {
-        console.log(err.data);
-      });
-    },
+    // getWalletBalance () {},
     goSharePage: function goSharePage(e) {
       e.preventDefault();
       this.$store.commit('setCurrentPage', "share");
@@ -23974,9 +24005,7 @@ exports.default = {
     },
     getMyBalance: function getMyBalance() {
       var vm = this;
-      setTimeout(function () {
-        vm.getWalletBalance();
-      }, 20000);
+      // setTimeout(() => {vm.getWalletBalance()}, 20000)
       return this.$store.getters.getBalance;
     },
     getWidthClass: function getWidthClass() {
@@ -24198,6 +24227,7 @@ exports.default = {
           vm.$store.commit("setSuccess", successMessage);
           return;
         }
+        vm.$events.$emit('acountUpdate', {});
         vm.$store.commit("setSuccess", "Donation successful");
         vm.donationAmount = 0;
       }).catch(function (err) {
@@ -24678,12 +24708,7 @@ exports.default = {
 
       this.$store.commit("setLoading", false);
     },
-    setUserToken: function setUserToken(token) {
-      this.$store.commit("setToken", token);
-      localStorage.setItem("rememberMe", this.rememberMe);
-      this.$store.commit("setCurrentState", "loggedin");
-      this.$store.commit('setCurrentPage', "home");
-    },
+    setUserToken: function setUserToken(token) {},
     loginUser: function loginUser(e) {
       e.preventDefault();
       console.log("COUNTRY: " + this.country);
@@ -24708,11 +24733,9 @@ exports.default = {
             data = resp.data;
             if (data.token) {
               localStorage.setItem('user_token', data.token);
-
-              setMyToken(data.token);
               setReponseMessage({ "success": "Login successfully!" });
-              localStorage.setItem('user_email', creds.mail);
-              vm.$events.$emit('loginEvent', { token: data.token, user: creds.email });
+              vm.$events.$emit('loginEvent', { token: data.token, user: creds.mail, rememberMe: vm.rememberMe });
+              vm.$events.$emit('acountUpdate', {});
             }
           }
         }
@@ -24832,6 +24855,7 @@ exports.default = {
       // localStorage.removeItem('rememberMe')
       localStorage.clear();
       this.$store.commit('setAPI', "mhs");
+      this.$events.emit("logoutEvent");
     }
   },
   computed: {
@@ -25147,6 +25171,7 @@ exports.default = {
       var url = urls.API_URL.CurrentUrl + urls.RECHARGE_ACCOUNT_URL;
       this.$http.post(url, rechargeData).then(function (resp) {
         vm.$store.commit("setLoading", false);
+        vm.$events.$emit('acountUpdate', {});
         vm.$store.commit("setSuccess", "Recharge successful");
       }, function (err) {
         if (err.error) {
