@@ -22346,7 +22346,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.3.9",
+  Version: "0.4.0",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -24042,7 +24042,7 @@ exports.default = {
   }
 };
 // </script>
-// <style>
+// <style scoped>
 // #wrapper {
 //   position: relative;
 //   margin: auto;
@@ -24057,22 +24057,22 @@ exports.default = {
 // .desktop-max {
 //   max-width: 300px;
 // }
-// #wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {
+// h1, h2, h3, h4, h5 {
 //   font-weight: bold;
 // }
-// #wrapper h1 {
+// h1 {
 //   font-size: 1.6em;
 // }
-// #wrapper h2{
+// h2{
 //   font-size: 1.45em;
 // }
-// #wrapper h3{
+// h3{
 //   font-size: 1.3em;
 // }
-// #wrapper h4 {
+// h4 {
 //   font-size: 1.15em;
 // }
-// #wrapper h5 {
+// h5 {
 //   font-size: 1em;
 // }
 // #wrapper .content {
@@ -24270,6 +24270,25 @@ exports.default = {
 // .donation-section button .donate-btn {
 //   padding-left: 2em;
 // }
+//
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
 // </style>
 //
 
@@ -24363,6 +24382,25 @@ exports.default = {
 //   width: 4em;
 //   box-shadow: 1px 1px 1px #000;
 // }
+//
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
 // </style>
 //
 // <template>
@@ -24414,6 +24452,26 @@ exports.default = {
   }
 };
 // </script>
+// <style scoped>
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
+// </style>
 //
 
 /***/ }),
@@ -24593,6 +24651,26 @@ exports.default = {
   }
 };
 // </script>
+// <style scoped>
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
+// </style>
 //
 // <template>
 //   <div>
@@ -24788,6 +24866,25 @@ exports.default = {
 // </template>
 //
 // <style scoped>
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
+//
 // a {
 //   cursor: pointer;
 // }
@@ -24879,6 +24976,24 @@ exports.default = {
 };
 // </script>
 // <style scoped>
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
 // .logout-area button {
 //   margin-left: .2em;
 // }
@@ -25043,6 +25158,24 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 // </template>
 //
 // <style scoped>
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
 // .recharge-btn {
 //   border-top-left-radius: 0;
 //   border-bottom-left-radius: 0;
@@ -25271,7 +25404,25 @@ exports.default = {
   }
 };
 // </script>
-// <style media="screen">
+// <style scoped>
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
 // .input-group {
 //   margin: .2em;
 // }
@@ -25543,6 +25694,24 @@ exports.default = {
 // </template>
 //
 // <style scoped>
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
 // a {
 //   cursor: pointer;
 // }
@@ -25583,6 +25752,26 @@ exports.default = {
   }
 };
 // </script>
+// <style scoped>
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
+// </style>
 //
 // <template>
 //   <div>
@@ -25663,7 +25852,24 @@ exports.default = {
 };
 // </script>
 // <style scoped>
-//
+// h1, h2, h3, h4, h5 {
+//   font-weight: bold;
+// }
+// h1 {
+//   font-size: 1.6em;
+// }
+// h2{
+//   font-size: 1.45em;
+// }
+// h3{
+//   font-size: 1.3em;
+// }
+// h4 {
+//   font-size: 1.15em;
+// }
+// h5 {
+//   font-size: 1em;
+// }
 // </style>
 //
 
@@ -25715,7 +25921,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.associations-list[_v-0737b088] {\n\n}\n.association-box[_v-0737b088] {\n  box-shadow: 0 1px 8px #999;\n  margin: .2em;\n  margin-bottom: .4em;\n  cursor: pointer;\n  padding: .2em;\n}\n.assoc-logo[_v-0737b088] {\n  float: left;\n  margin: .3em;\n  width: 4em;\n  box-shadow: 1px 1px 1px #000;\n}\n", ""]);
+exports.push([module.i, "\n.associations-list[_v-0737b088] {\n\n}\n.association-box[_v-0737b088] {\n  box-shadow: 0 1px 8px #999;\n  margin: .2em;\n  margin-bottom: .4em;\n  cursor: pointer;\n  padding: .2em;\n}\n.assoc-logo[_v-0737b088] {\n  float: left;\n  margin: .3em;\n  width: 4em;\n  box-shadow: 1px 1px 1px #000;\n}\n\nh1[_v-0737b088], h2[_v-0737b088], h3[_v-0737b088], h4[_v-0737b088], h5[_v-0737b088] {\n  font-weight: bold;\n}\nh1[_v-0737b088] {\n  font-size: 1.6em;\n}\nh2[_v-0737b088]{\n  font-size: 1.45em;\n}\nh3[_v-0737b088]{\n  font-size: 1.3em;\n}\nh4[_v-0737b088] {\n  font-size: 1.15em;\n}\nh5[_v-0737b088] {\n  font-size: 1em;\n}\n", ""]);
 
 // exports
 
@@ -25729,7 +25935,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n\n", ""]);
+exports.push([module.i, "\nh1[_v-17fc282c], h2[_v-17fc282c], h3[_v-17fc282c], h4[_v-17fc282c], h5[_v-17fc282c] {\n  font-weight: bold;\n}\nh1[_v-17fc282c] {\n  font-size: 1.6em;\n}\nh2[_v-17fc282c]{\n  font-size: 1.45em;\n}\nh3[_v-17fc282c]{\n  font-size: 1.3em;\n}\nh4[_v-17fc282c] {\n  font-size: 1.15em;\n}\nh5[_v-17fc282c] {\n  font-size: 1em;\n}\n", ""]);
 
 // exports
 
@@ -25743,7 +25949,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\na[_v-1d2afbaf] {\n  cursor: pointer;\n}\n.login-btn[_v-1d2afbaf] {\n  margin-top: .5em;\n  margin-bottom: .3em;\n}\n.fb-login-button[_v-1d2afbaf] {\n}\n.login-area-wrapper[_v-1d2afbaf] {\n  margin: auto;\n}\n.input-group[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n", ""]);
+exports.push([module.i, "\nh1[_v-1d2afbaf], h2[_v-1d2afbaf], h3[_v-1d2afbaf], h4[_v-1d2afbaf], h5[_v-1d2afbaf] {\n  font-weight: bold;\n}\nh1[_v-1d2afbaf] {\n  font-size: 1.6em;\n}\nh2[_v-1d2afbaf]{\n  font-size: 1.45em;\n}\nh3[_v-1d2afbaf]{\n  font-size: 1.3em;\n}\nh4[_v-1d2afbaf] {\n  font-size: 1.15em;\n}\nh5[_v-1d2afbaf] {\n  font-size: 1em;\n}\n\na[_v-1d2afbaf] {\n  cursor: pointer;\n}\n.login-btn[_v-1d2afbaf] {\n  margin-top: .5em;\n  margin-bottom: .3em;\n}\n.fb-login-button[_v-1d2afbaf] {\n}\n.login-area-wrapper[_v-1d2afbaf] {\n  margin: auto;\n}\n.input-group[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n", ""]);
 
 // exports
 
@@ -25757,7 +25963,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.recharge-btn[_v-1e130e5e] {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n.month-input .form-control[_v-1e130e5e], .year-input .form-control[_v-1e130e5e] {\n  width: 5em;\n}\n", ""]);
+exports.push([module.i, "\nh1[_v-1e130e5e], h2[_v-1e130e5e], h3[_v-1e130e5e], h4[_v-1e130e5e], h5[_v-1e130e5e] {\n  font-weight: bold;\n}\nh1[_v-1e130e5e] {\n  font-size: 1.6em;\n}\nh2[_v-1e130e5e]{\n  font-size: 1.45em;\n}\nh3[_v-1e130e5e]{\n  font-size: 1.3em;\n}\nh4[_v-1e130e5e] {\n  font-size: 1.15em;\n}\nh5[_v-1e130e5e] {\n  font-size: 1em;\n}\n.recharge-btn[_v-1e130e5e] {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n.month-input .form-control[_v-1e130e5e], .year-input .form-control[_v-1e130e5e] {\n  width: 5em;\n}\n", ""]);
 
 // exports
 
@@ -25771,7 +25977,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.associations-list[_v-21807b72] {\n\n}\n.association-box[_v-21807b72] {\n  box-shadow: 1px 1px 1px #999;\n}\n.assoc-logo-large[_v-21807b72] {\n  float: left;\n  margin: .3em;\n  width: 100%;\n  box-shadow: 1px 1px 1px #000;\n}\n.assoc-labels[_v-21807b72] {\n  font-weight: bolder;\n  text-align: right;\n  margin-left: .5em;\n}\n.donation-section button[_v-21807b72] {\n  padding-left: .5em;\n  padding-right: .5em;\n}\n.donation-section button .donate-btn[_v-21807b72] {\n  padding-left: 2em;\n}\n", ""]);
+exports.push([module.i, "\n.associations-list[_v-21807b72] {\n\n}\n.association-box[_v-21807b72] {\n  box-shadow: 1px 1px 1px #999;\n}\n.assoc-logo-large[_v-21807b72] {\n  float: left;\n  margin: .3em;\n  width: 100%;\n  box-shadow: 1px 1px 1px #000;\n}\n.assoc-labels[_v-21807b72] {\n  font-weight: bolder;\n  text-align: right;\n  margin-left: .5em;\n}\n.donation-section button[_v-21807b72] {\n  padding-left: .5em;\n  padding-right: .5em;\n}\n.donation-section button .donate-btn[_v-21807b72] {\n  padding-left: 2em;\n}\n\nh1[_v-21807b72], h2[_v-21807b72], h3[_v-21807b72], h4[_v-21807b72], h5[_v-21807b72] {\n  font-weight: bold;\n}\nh1[_v-21807b72] {\n  font-size: 1.6em;\n}\nh2[_v-21807b72]{\n  font-size: 1.45em;\n}\nh3[_v-21807b72]{\n  font-size: 1.3em;\n}\nh4[_v-21807b72] {\n  font-size: 1.15em;\n}\nh5[_v-21807b72] {\n  font-size: 1em;\n}\n", ""]);
 
 // exports
 
@@ -25799,7 +26005,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.logout-area button[_v-5574fa98] {\n  margin-left: .2em;\n}\n.balance-label[_v-5574fa98] {\n  padding: .15em;\n  padding-left: .5em;\n  padding-right: .5em;\n  font-size: 1.2em;\n  cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "\nh1[_v-5574fa98], h2[_v-5574fa98], h3[_v-5574fa98], h4[_v-5574fa98], h5[_v-5574fa98] {\n  font-weight: bold;\n}\nh1[_v-5574fa98] {\n  font-size: 1.6em;\n}\nh2[_v-5574fa98]{\n  font-size: 1.45em;\n}\nh3[_v-5574fa98]{\n  font-size: 1.3em;\n}\nh4[_v-5574fa98] {\n  font-size: 1.15em;\n}\nh5[_v-5574fa98] {\n  font-size: 1em;\n}\n.logout-area button[_v-5574fa98] {\n  margin-left: .2em;\n}\n.balance-label[_v-5574fa98] {\n  padding: .15em;\n  padding-left: .5em;\n  padding-right: .5em;\n  font-size: 1.2em;\n  cursor: pointer;\n}\n", ""]);
 
 // exports
 
@@ -25813,26 +26019,13 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\na[_v-56e3317c] {\n  cursor: pointer;\n}\n.signup-btn[_v-56e3317c] {\n  margin-top: .5em;\n}\n.signup-area-wrapper[_v-56e3317c] {\n  margin: 1em auto;\n}\n.input-group[_v-56e3317c] {\n  margin-bottom: .3em;\n}\n", ""]);
+exports.push([module.i, "\nh1[_v-56e3317c], h2[_v-56e3317c], h3[_v-56e3317c], h4[_v-56e3317c], h5[_v-56e3317c] {\n  font-weight: bold;\n}\nh1[_v-56e3317c] {\n  font-size: 1.6em;\n}\nh2[_v-56e3317c]{\n  font-size: 1.45em;\n}\nh3[_v-56e3317c]{\n  font-size: 1.3em;\n}\nh4[_v-56e3317c] {\n  font-size: 1.15em;\n}\nh5[_v-56e3317c] {\n  font-size: 1em;\n}\na[_v-56e3317c] {\n  cursor: pointer;\n}\n.signup-btn[_v-56e3317c] {\n  margin-top: .5em;\n}\n.signup-area-wrapper[_v-56e3317c] {\n  margin: 1em auto;\n}\n.input-group[_v-56e3317c] {\n  margin-bottom: .3em;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n#wrapper {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n  overflow: hidden;\n}\n.mobile-full-page {\n  max-width: 100%;\n}\n.desktop-max {\n  max-width: 300px;\n}\n#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5 {\n  font-weight: bold;\n}\n#wrapper h1 {\n  font-size: 1.6em;\n}\n#wrapper h2{\n  font-size: 1.45em;\n}\n#wrapper h3{\n  font-size: 1.3em;\n}\n#wrapper h4 {\n  font-size: 1.15em;\n}\n#wrapper h5 {\n  font-size: 1em;\n}\n#wrapper .content {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na {\n  cursor: pointer;\n}\n#wrapper .top-container {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu {\n  position: relative;\n}\n#wrapper .btn-plain {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title {\n  border: 1px solid #888;\n}\n.langs {\n  z-index: 999;\n  margin-top: -1.5em;\n  position: absolute;\n}\n.btn-back {\n  margin: .3em;\n  padding: .3em;\n  color: #000;\n  background: #AAA;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 72 */,
 /* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25847,20 +26040,7 @@ exports.push([module.i, "\n.fb-login-button[_v-6412aa1a] {\n  margin-bottom: .3e
 
 
 /***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.input-group {\n  margin: .2em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 74 */,
 /* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28577,32 +28757,7 @@ if(false) {
 }
 
 /***/ }),
-/* 98 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(72);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 98 */,
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28629,32 +28784,7 @@ if(false) {
 }
 
 /***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(74);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-de18cf66&file=Settings.vue!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Settings.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-de18cf66&file=Settings.vue!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Settings.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 100 */,
 /* 101 */
 /***/ (function(module, exports) {
 
@@ -28827,42 +28957,17 @@ if (typeof window !== 'undefined' && window.Vue) {
 exports.default = plugin;
 
 /***/ }),
-/* 107 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div :dir=\"currentLangDirection\" id=\"wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"setLang('en')\" class=\"btn btn-default\">English</button>\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\">Español</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\">Français</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> {{$t('Loading')}}...</h1>\n    </div>\n\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\">\n      <message-items></message-items>\n      <div class=\"top-container\">\n        <div class=\"top-menu\">\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"($store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != '' && $store.getters.getCurrentPage != 'signup')\" class=\"btn btn-plain btn-back\" @click=\"goToPrevPage\">\n            <i v-if=\"langDirection == 'rtl'\" class=\"fa fa-angle-right fa-fw\"></i>\n            <i v-else class=\"fa fa-angle-left fa-fw\"></i>\n          </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\">\n      <label class=\"version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} BETA </a> </label>\n    </div>\n\n  </div>\n";
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div>\n    <h1>{{$t('My Donations')}}</h1>\n    <label class=\"label label-warning\">{{ $t('Page is under-construction') }}</label>\n    <br>\n\n  </div>\n";
-
-/***/ }),
-/* 109 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div>\n    <h4>{{$t('hi')}}, {{getUsername}}</h4>\n    <p>\n      {{$t('Thanks for your generous heart. You\\'re changing the world for a lot of people who lost hope')}}\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\">\n      <button class=\"btn btn-default active\">{{ $t('Home') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\">{{ $t('Charities') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" >{{ $t('My Donations') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\"> {{ $t('Solidarity Account') }} </button>\n    </div>\n    <p v-if=\"gettingDonationSum\">\n      {{ $t('Total Donations') }}: <span class=\"\">&euro;{{getDonationSum}}</span>\n    </p>\n    <p v-else>\n      <i class=\"fa fa-spinner fa-spin fa-fw\"></i>\n    </p>\n  </div>\n";
-
-/***/ }),
-/* 110 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div>\n    <h1>{{$t('Settings')}}</h1>\n    <label class=\"label label-warning\">{{$t('Page is under-construction')}}</label>\n    <br>\n    <form class=\"form\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\" id=\"oldpass-addon1\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"oldpassword\" class=\"form-control\" v-model=\"oldPass\" aria-describedby=\"oldpass-addon1\" type=\"password\" :placeholder=\"$t('Old Password')\" :value=\"oldPass\" />\n      </div>\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\" id=\"newPass1-addon1\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"newpassword1\" class=\"form-control\" v-model=\"newPass1\" aria-describedby=\"newPass1-addon1\" type=\"password\" :placeholder=\"$t('New Password')\" :value=\"newPass1\" />\n        <input name=\"newpassword2\" class=\"form-control\" v-model=\"newPass2\" aria-describedby=\"newPass1-addon1\" type=\"password\" :placeholder=\"$t('Confirm Password')\" :value=\"newPass2\" />\n      </div>\n      <button class=\"btn btn-primary btn-block\" type=\"button\">{{ $t('Change Password') }}</button>\n    </form>\n  </div>\n";
-
-/***/ }),
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
 /* 111 */
 /***/ (function(module, exports) {
 
 module.exports = "\n  <div>\n    <social-sharing url=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget\"\n                      title=\"Fundraising API user widget\"\n                      description=\"Working on a vueJS user widget that works with # fundraising API. Work in progress...\"\n                      quote=\"This registration form is designed to a compact web-component, to be easily integrated/personalized in a third-party website\"\n                      hashtags=\"fundraising,user,widget\"\n                      twitter-user=\"YQuieroAyudar\"\n                      v-cloak inline-template>\n    <div>\n        <ul>\n          <li>\n            <network network=\"facebook\" id=\"facebook\">\n              <i class=\"fa fa-fw fa-facebook\"></i> Facebook\n            </network>\n          </li>\n          <li>\n            <network network=\"googleplus\" id=\"googleplus\">\n              <i class=\"fa fa-fw fa-google-plus\"></i> Google +\n            </network>\n          </li>\n          <li>\n            <network network=\"linkedin\" id=\"linkedin\">\n              <i class=\"fa fa-fw fa-linkedin\"></i> LinkedIn\n            </network>\n          </li>\n          <li>\n            <network network=\"pinterest\" id=\"pinterest\">\n              <i class=\"fa fa-fw fa-pinterest\"></i> Pinterest\n            </network>\n          </li>\n          <li>\n            <network network=\"reddit\" id=\"reddit\">\n              <i class=\"fa fa-fw fa-reddit\"></i> Reddit\n            </network>\n          </li>\n          <li>\n            <network network=\"twitter\" id=\"twitter\">\n              <i class=\"fa fa-fw fa-twitter\"></i> Twitter\n            </network>\n          </li>\n          <li>\n            <network network=\"vk\" id=\"vk\">\n              <i class=\"fa fa-fw fa-vk\"></i> VKontakte\n            </network>\n          </li>\n          <li>\n            <network network=\"weibo\" id=\"weibo\">\n              <i class=\"fa fa-fw fa-weibo\"></i> Weibo\n            </network>\n          </li>\n          <li>\n            <network network=\"whatsapp\" id=\"whatsapp\">\n              <i class=\"fa fa-fw fa-whatsapp\"></i> Whatsapp\n            </network>\n          </li>\n        </ul>\n      </div>\n    </social-sharing>\n\n  </div>\n\n";
 
 /***/ }),
-/* 112 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div>\n    <div>\n      <h2>{{$t('Solidarity Account')}}</h2>\n      <label class=\"label label-warning\">{{$t('Page is under-construction')}}</label>\n    </div>\n    <div>\n      <recharge-account-page></recharge-account-page>\n    </div>\n  </div>\n\n";
-
-/***/ }),
+/* 112 */,
 /* 113 */
 /***/ (function(module, exports) {
 
@@ -28921,9 +29026,9 @@ module.exports = "\n  <div v-if=\"!authenticated\" _v-6412aa1a=\"\">\n    <a hre
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(98)
+__webpack_require__(220)
 __vue_script__ = __webpack_require__(46)
-__vue_template__ = __webpack_require__(107)
+__vue_template__ = __webpack_require__(221)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -28990,8 +29095,9 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
+__webpack_require__(223)
 __vue_script__ = __webpack_require__(49)
-__vue_template__ = __webpack_require__(108)
+__vue_template__ = __webpack_require__(224)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -29035,8 +29141,9 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
+__webpack_require__(226)
 __vue_script__ = __webpack_require__(51)
-__vue_template__ = __webpack_require__(109)
+__vue_template__ = __webpack_require__(227)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -29149,9 +29256,9 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(100)
+__webpack_require__(229)
 __vue_script__ = __webpack_require__(56)
-__vue_template__ = __webpack_require__(110)
+__vue_template__ = __webpack_require__(230)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -29217,8 +29324,9 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
+__webpack_require__(232)
 __vue_script__ = __webpack_require__(59)
-__vue_template__ = __webpack_require__(112)
+__vue_template__ = __webpack_require__(233)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -34166,6 +34274,237 @@ module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
 
 var core = module.exports = {version: '1.2.6'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ }),
+/* 218 */,
+/* 219 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\n#wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n  overflow: hidden;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\nh1[_v-61b3c432], h2[_v-61b3c432], h3[_v-61b3c432], h4[_v-61b3c432], h5[_v-61b3c432] {\n  font-weight: bold;\n}\nh1[_v-61b3c432] {\n  font-size: 1.6em;\n}\nh2[_v-61b3c432]{\n  font-size: 1.45em;\n}\nh3[_v-61b3c432]{\n  font-size: 1.3em;\n}\nh4[_v-61b3c432] {\n  font-size: 1.15em;\n}\nh5[_v-61b3c432] {\n  font-size: 1em;\n}\n#wrapper .content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n#wrapper .top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu[_v-61b3c432] {\n  position: relative;\n}\n#wrapper .btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version[_v-61b3c432] {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title[_v-61b3c432] {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n.langs[_v-61b3c432] {\n  z-index: 999;\n  margin-top: -1.5em;\n  position: absolute;\n}\n.btn-back[_v-61b3c432] {\n  margin: .3em;\n  padding: .3em;\n  color: #000;\n  background: #AAA;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 220 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(219);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 221 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div :dir=\"currentLangDirection\" id=\"wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n    <div class=\"langs btn-group btn-group-xs\" role=\"group\" _v-61b3c432=\"\">\n      <button type=\"button\" @click=\"setLang('en')\" class=\"btn btn-default\" _v-61b3c432=\"\">English</button>\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\" _v-61b3c432=\"\">Español</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\" _v-61b3c432=\"\">Français</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\" _v-61b3c432=\"\">العربية</button>\n    </div>\n    <span class=\"hidden\" _v-61b3c432=\"\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h1 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> {{$t('Loading')}}...</h1>\n    </div>\n\n    <div class=\"content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <message-items _v-61b3c432=\"\"></message-items>\n      <div class=\"top-container\" _v-61b3c432=\"\">\n        <div class=\"top-menu\" _v-61b3c432=\"\">\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"($store.getters.getCurrentPage != 'login' &amp;&amp; $store.getters.getCurrentPage != '' &amp;&amp; $store.getters.getCurrentPage != 'home' &amp;&amp; $store.getters.getCurrentState != '' &amp;&amp; $store.getters.getCurrentPage != 'signup')\" class=\"btn btn-plain btn-back\" @click=\"goToPrevPage\" _v-61b3c432=\"\">\n            <i v-if=\"langDirection == 'rtl'\" class=\"fa fa-angle-right fa-fw\" _v-61b3c432=\"\"></i>\n            <i v-else=\"\" class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i>\n          </button>\n        </div>\n      </div>\n\n      <div class=\"\" _v-61b3c432=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n          <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n            <login-form _v-61b3c432=\"\"></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n            <signup-form _v-61b3c432=\"\"></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n            <share-page _v-61b3c432=\"\"></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n          <div class=\"logout-area\" _v-61b3c432=\"\">\n            <span class=\"hidden\" _v-61b3c432=\"\">{{getMyBalance}}</span>\n            <logout-button _v-61b3c432=\"\"></logout-button>\n          </div>\n\n          <div class=\"\" _v-61b3c432=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n              <home-page _v-61b3c432=\"\"></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n              <share-page _v-61b3c432=\"\"></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n              <associations-page _v-61b3c432=\"\"></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\" _v-61b3c432=\"\">\n              <association-page _v-61b3c432=\"\"></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n              <donations-page _v-61b3c432=\"\"></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n              <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\" _v-61b3c432=\"\">\n              <settings-page _v-61b3c432=\"\"></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"bottom-menu\" _v-61b3c432=\"\">\n      <label class=\"version\" _v-61b3c432=\"\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\" _v-61b3c432=\"\"> Version: {{$store.getters.getVersion}} BETA </a> </label>\n    </div>\n\n  </div>\n";
+
+/***/ }),
+/* 222 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\nh1[_v-3bd31467], h2[_v-3bd31467], h3[_v-3bd31467], h4[_v-3bd31467], h5[_v-3bd31467] {\n  font-weight: bold;\n}\nh1[_v-3bd31467] {\n  font-size: 1.6em;\n}\nh2[_v-3bd31467]{\n  font-size: 1.45em;\n}\nh3[_v-3bd31467]{\n  font-size: 1.3em;\n}\nh4[_v-3bd31467] {\n  font-size: 1.15em;\n}\nh5[_v-3bd31467] {\n  font-size: 1em;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 223 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(222);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-3bd31467&file=Donations.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Donations.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-3bd31467&file=Donations.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Donations.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 224 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div _v-3bd31467=\"\">\n    <h1 _v-3bd31467=\"\">{{$t('My Donations')}}</h1>\n    <label class=\"label label-warning\" _v-3bd31467=\"\">{{ $t('Page is under-construction') }}</label>\n    <br _v-3bd31467=\"\">\n\n  </div>\n";
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\nh1[_v-94b127ee], h2[_v-94b127ee], h3[_v-94b127ee], h4[_v-94b127ee], h5[_v-94b127ee] {\n  font-weight: bold;\n}\nh1[_v-94b127ee] {\n  font-size: 1.6em;\n}\nh2[_v-94b127ee]{\n  font-size: 1.45em;\n}\nh3[_v-94b127ee]{\n  font-size: 1.3em;\n}\nh4[_v-94b127ee] {\n  font-size: 1.15em;\n}\nh5[_v-94b127ee] {\n  font-size: 1em;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 226 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(225);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-94b127ee&file=Home.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Home.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-94b127ee&file=Home.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Home.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 227 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div _v-94b127ee=\"\">\n    <h4 _v-94b127ee=\"\">{{$t('hi')}}, {{getUsername}}</h4>\n    <p _v-94b127ee=\"\">\n      {{$t('Thanks for your generous heart. You\\'re changing the world for a lot of people who lost hope')}}\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\" _v-94b127ee=\"\">\n      <button class=\"btn btn-default active\" _v-94b127ee=\"\">{{ $t('Home') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\" _v-94b127ee=\"\">{{ $t('Charities') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" _v-94b127ee=\"\">{{ $t('My Donations') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\" _v-94b127ee=\"\"> {{ $t('Solidarity Account') }} </button>\n    </div>\n    <p v-if=\"gettingDonationSum\" _v-94b127ee=\"\">\n      {{ $t('Total Donations') }}: <span class=\"\" _v-94b127ee=\"\">€{{getDonationSum}}</span>\n    </p>\n    <p v-else=\"\" _v-94b127ee=\"\">\n      <i class=\"fa fa-spinner fa-spin fa-fw\" _v-94b127ee=\"\"></i>\n    </p>\n  </div>\n";
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\nh1[_v-de18cf66], h2[_v-de18cf66], h3[_v-de18cf66], h4[_v-de18cf66], h5[_v-de18cf66] {\n  font-weight: bold;\n}\nh1[_v-de18cf66] {\n  font-size: 1.6em;\n}\nh2[_v-de18cf66]{\n  font-size: 1.45em;\n}\nh3[_v-de18cf66]{\n  font-size: 1.3em;\n}\nh4[_v-de18cf66] {\n  font-size: 1.15em;\n}\nh5[_v-de18cf66] {\n  font-size: 1em;\n}\n.input-group[_v-de18cf66] {\n  margin: .2em;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(228);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-de18cf66&file=Settings.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Settings.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-de18cf66&file=Settings.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Settings.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div _v-de18cf66=\"\">\n    <h1 _v-de18cf66=\"\">{{$t('Settings')}}</h1>\n    <label class=\"label label-warning\" _v-de18cf66=\"\">{{$t('Page is under-construction')}}</label>\n    <br _v-de18cf66=\"\">\n    <form class=\"form\" _v-de18cf66=\"\">\n      <div class=\"input-group\" _v-de18cf66=\"\">\n        <span class=\"input-group-addon\" id=\"oldpass-addon1\" _v-de18cf66=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-de18cf66=\"\"></i> </span>\n        <input name=\"oldpassword\" class=\"form-control\" v-model=\"oldPass\" aria-describedby=\"oldpass-addon1\" type=\"password\" :placeholder=\"$t('Old Password')\" :value=\"oldPass\" _v-de18cf66=\"\">\n      </div>\n      <div class=\"input-group\" _v-de18cf66=\"\">\n        <span class=\"input-group-addon\" id=\"newPass1-addon1\" _v-de18cf66=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-de18cf66=\"\"></i> </span>\n        <input name=\"newpassword1\" class=\"form-control\" v-model=\"newPass1\" aria-describedby=\"newPass1-addon1\" type=\"password\" :placeholder=\"$t('New Password')\" :value=\"newPass1\" _v-de18cf66=\"\">\n        <input name=\"newpassword2\" class=\"form-control\" v-model=\"newPass2\" aria-describedby=\"newPass1-addon1\" type=\"password\" :placeholder=\"$t('Confirm Password')\" :value=\"newPass2\" _v-de18cf66=\"\">\n      </div>\n      <button class=\"btn btn-primary btn-block\" type=\"button\" _v-de18cf66=\"\">{{ $t('Change Password') }}</button>\n    </form>\n  </div>\n";
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)();
+// imports
+
+
+// module
+exports.push([module.i, "\nh1[_v-e654edfe], h2[_v-e654edfe], h3[_v-e654edfe], h4[_v-e654edfe], h5[_v-e654edfe] {\n  font-weight: bold;\n}\nh1[_v-e654edfe] {\n  font-size: 1.6em;\n}\nh2[_v-e654edfe]{\n  font-size: 1.45em;\n}\nh3[_v-e654edfe]{\n  font-size: 1.3em;\n}\nh4[_v-e654edfe] {\n  font-size: 1.15em;\n}\nh5[_v-e654edfe] {\n  font-size: 1em;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(231);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(3)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-e654edfe&file=SolidarityAccount.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./SolidarityAccount.vue", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-e654edfe&file=SolidarityAccount.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./SolidarityAccount.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div _v-e654edfe=\"\">\n    <div _v-e654edfe=\"\">\n      <h2 _v-e654edfe=\"\">{{$t('Solidarity Account')}}</h2>\n      <label class=\"label label-warning\" _v-e654edfe=\"\">{{$t('Page is under-construction')}}</label>\n    </div>\n    <div _v-e654edfe=\"\">\n      <recharge-account-page _v-e654edfe=\"\"></recharge-account-page>\n    </div>\n  </div>\n\n";
 
 /***/ })
 /******/ ]);
