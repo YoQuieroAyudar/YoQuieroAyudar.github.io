@@ -22346,7 +22346,7 @@ const actions = {};
 
 
 const state = {
-  Version: "0.3.6",
+  Version: "0.3.7",
   CurrentState: "",
   CurrentPage: "",
   PreviousPage: "",
@@ -24593,6 +24593,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _stringify = __webpack_require__(215);
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _FBLogin = __webpack_require__(126);
 
 var _FBLogin2 = _interopRequireDefault(_FBLogin);
@@ -24625,17 +24629,12 @@ exports.default = {
   computed: {},
   methods: {
     setRememberMe: function setRememberMe() {
-      console.log("setting rememberMe: " + this.rememberMe);
       localStorage.setItem('rememberMe', this.rememberMe);
     },
     updateAPI: function updateAPI() {
-      console.log("before url change: " + urls.API_URL.CurrentUrl);
       this.$store.commit('setAPI', this.country.db);
-      localStorage.setItem("country", this.country);
-      console.log("COUNTRY:");
-      console.log(this.country.code);
+      localStorage.setItem("country", (0, _stringify2.default)(this.country));
       localStorage.setItem("country_code", this.country.code);
-      console.log("after url change: " + urls.API_URL.CurrentUrl);
     },
     goToSignupPage: function goToSignupPage(e) {
       e.preventDefault();
@@ -24650,19 +24649,15 @@ exports.default = {
       this.$store.commit('updatePassword', this.login.password);
     },
     setMessage: function setMessage(response) {
-      console.log("responseMessage");
-      console.log(response);
       if (!response) {
         return;
       }
 
       var vm = this;
-      console.log("resetting after 5 seconds");
       setTimeout(function () {
         vm.$store.commit("resetMessages");
       }, 5000);
 
-      console.log("setting repsonse message");
       if (response.errors) {
         this.$store.commit('setErrors', response.errors);
       } else if (response.error) {
@@ -24678,19 +24673,19 @@ exports.default = {
       this.$store.commit("setLoading", false);
     },
     setUserToken: function setUserToken(token) {
-      console.log("setting token:");
       this.$store.commit("setToken", token);
-      console.log("setting current_state");
       localStorage.setItem("rememberMe", this.rememberMe);
       this.$store.commit("setCurrentState", "loggedin");
       this.$store.commit('setCurrentPage', "home");
     },
     loginUser: function loginUser(e) {
       e.preventDefault();
+      console.log("COUNTRY: " + this.country);
+      this.$store.commit('setAPI', this.country.db);
       this.$store.commit("setLoading", true);
       var country = localStorage.getItem('country');
       if (!country) {
-        localStorage.setItem('country', { name: "Spain", db: "mhs", code: "ES" });
+        localStorage.setItem('country', (0, _stringify2.default)({ name: "Spain", db: "mhs", code: "ES" }));
       }
       var creds = this.login;
       var setMyToken = this.setUserToken;
@@ -24701,14 +24696,13 @@ exports.default = {
       this.$http.post(url, creds).then(function (resp) {
         // return the success code
         var data = {};
-        console.log(resp);
+
         if (resp.status == 200) {
           if (resp.data) {
             data = resp.data;
             if (data.token) {
               localStorage.setItem('user_token', data.token);
-              console.log("set token");
-              console.log(data.token);
+
               setMyToken(data.token);
               setReponseMessage({ "success": "Login successfully!" });
               localStorage.setItem('user_email', creds.mail);
@@ -24831,6 +24825,7 @@ exports.default = {
       // localStorage.removeItem('user_token')
       // localStorage.removeItem('rememberMe')
       localStorage.clear();
+      this.$store.commit('setAPI', "mhs");
     }
   },
   computed: {
@@ -34049,6 +34044,97 @@ module.exports = Array.isArray || function (arr) {
 
 module.exports = __webpack_require__(16);
 
+
+/***/ }),
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(216), __esModule: true };
+
+/***/ }),
+/* 216 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var core = __webpack_require__(217);
+module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+  return (core.JSON && core.JSON.stringify || JSON.stringify).apply(JSON, arguments);
+};
+
+/***/ }),
+/* 217 */
+/***/ (function(module, exports) {
+
+var core = module.exports = {version: '1.2.6'};
+if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 
 /***/ })
 /******/ ]);
