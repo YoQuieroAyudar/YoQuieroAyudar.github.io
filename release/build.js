@@ -24189,11 +24189,17 @@ exports.default = {
         "association_id": this.assoc.id,
         "amount": this.donationAmount
       };
-      this.$store.commit("setLoading", true);
+
       instance.post(donation_url, donationData).then(function (resp) {
         console.log("donation successful");
-        console.log(resp);
-        vm.$store.commit("setSuccess", resp.data.message);
+        var successMessage = resp.data.message;
+        console.log(successMessage);
+        if (successMessage) {
+          vm.$store.commit("setSuccess", successMessage);
+          return;
+        }
+        vm.$store.commit("setSuccess", "Donation successful");
+        vm.donationAmount = 0;
       }).catch(function (err) {
         console.log("donation error");
         console.log(err);
