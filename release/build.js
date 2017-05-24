@@ -13550,8 +13550,8 @@ exports.default = {
 // }
 // .langs {
 //   z-index: 999;
-//   margin-top: -1.5em;
-//   position: absolute;
+//   margin-top: -1em;
+//   clear: both;
 // }
 // .btn-back {
 //   margin: .3em;
@@ -31408,7 +31408,7 @@ exports = module.exports = __webpack_require__(103)();
 
 
 // module
-exports.push([module.i, "\n#wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n  overflow: hidden;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\nh1[_v-61b3c432], h2[_v-61b3c432], h3[_v-61b3c432], h4[_v-61b3c432], h5[_v-61b3c432] {\n  font-weight: bold;\n}\nh1[_v-61b3c432] {\n  font-size: 1.6em;\n}\nh2[_v-61b3c432]{\n  font-size: 1.45em;\n}\nh3[_v-61b3c432]{\n  font-size: 1.3em;\n}\nh4[_v-61b3c432] {\n  font-size: 1.15em;\n}\nh5[_v-61b3c432] {\n  font-size: 1em;\n}\n#wrapper .content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n#wrapper .top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu[_v-61b3c432] {\n  position: relative;\n}\n#wrapper .btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version[_v-61b3c432] {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title[_v-61b3c432] {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n.langs[_v-61b3c432] {\n  z-index: 999;\n  margin-top: -1.5em;\n  position: absolute;\n}\n.btn-back[_v-61b3c432] {\n  margin: .3em;\n  padding: .3em;\n  color: #000;\n  background: #AAA;\n}\n", ""]);
+exports.push([module.i, "\n#wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n  overflow: hidden;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\nh1[_v-61b3c432], h2[_v-61b3c432], h3[_v-61b3c432], h4[_v-61b3c432], h5[_v-61b3c432] {\n  font-weight: bold;\n}\nh1[_v-61b3c432] {\n  font-size: 1.6em;\n}\nh2[_v-61b3c432]{\n  font-size: 1.45em;\n}\nh3[_v-61b3c432]{\n  font-size: 1.3em;\n}\nh4[_v-61b3c432] {\n  font-size: 1.15em;\n}\nh5[_v-61b3c432] {\n  font-size: 1em;\n}\n#wrapper .content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n#wrapper .top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#wrapper .top-menu[_v-61b3c432] {\n  position: relative;\n}\n#wrapper .btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#wrapper .bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#wrapper .bottom-menu .version[_v-61b3c432] {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#wrapper #title[_v-61b3c432] {\n  text-align: center;\n  margin: auto;\n}\n#wrapper .page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n.langs[_v-61b3c432] {\n  z-index: 999;\n  margin-top: -1em;\n  clear: both;\n}\n.btn-back[_v-61b3c432] {\n  margin: .3em;\n  padding: .3em;\n  color: #000;\n  background: #AAA;\n}\n", ""]);
 
 // exports
 
