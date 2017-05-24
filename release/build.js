@@ -67,314 +67,8 @@
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function createLinkElement(options) {
-	var linkElement = document.createElement("link");
-	linkElement.rel = "stylesheet";
-	insertStyleElement(options, linkElement);
-	return linkElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else if(obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function") {
-		styleElement = createLinkElement(options);
-		update = updateLink.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
-		};
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		styleElement.setAttribute("media", media)
-	}
-
-	if(styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink(linkElement, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	if(sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = linkElement.href;
-
-	linkElement.href = URL.createObjectURL(blob);
-
-	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
+/* 0 */,
+/* 1 */,
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24037,98 +23731,6 @@ exports.default = {
   }
 };
 // </script>
-// <style scoped>
-// #fauw-wrapper {
-//   position: relative;
-//   margin: auto;
-//   border: 1px solid #555;
-//   height: 500px;
-//   padding: 0.5em;
-//   overflow: hidden;
-// }
-// .mobile-full-page {
-//   max-width: 100%;
-// }
-// .desktop-max {
-//   max-width: 300px;
-// }
-// h1, h2, h3, h4, h5 {
-//   font-weight: bold;
-// }
-// h1 {
-//   font-size: 1.6em;
-// }
-// h2{
-//   font-size: 1.45em;
-// }
-// h3{
-//   font-size: 1.3em;
-// }
-// h4 {
-//   font-size: 1.15em;
-// }
-// h5 {
-//   font-size: 1em;
-// }
-// #fauw-wrapper .fauw-content {
-//   height: 90%;
-//   overflow-y: scroll;
-//   overflow-x: hidden;
-//   padding-right: .4em;
-// }
-// a {
-//   cursor: pointer;
-// }
-// #fauw-wrapper .top-container {
-//   position: relative;
-//   box-shadow: 1px 2px 2px #CCC;
-//   padding: 0;
-//   margin: .2em;
-// }
-// #fauw-wrapper .fauw-top-menu {
-//   position: relative;
-// }
-// #fauw-wrapper .btn-plain {
-//   border-top-right-radius: 0;
-//   border-bottom-right-radius: 0;
-//   color: #000;
-//   background-color: #fff;
-// }
-// #fauw-wrapper .fauw-bottom-menu {
-//   position: absolute;
-//   height: 1.5em;
-//   padding: .3em;
-//   margin: .85em;
-//   bottom: 0;
-//   left: 0;
-//   max-width: 290px;
-//   width: 92%;
-// }
-// #fauw-wrapper .fauw-bottom-menu .fauw-version {
-//   text-align: center;
-//   margin: 0;
-//   padding: .1em;
-//   width: 100%;
-// }
-// #fauw-wrapper #fauw-title {
-//   text-align: center;
-//   margin: auto;
-// }
-// #fauw-wrapper .page-title {
-//   border: 1px solid #888;
-// }
-// .fauw-langs {
-//   z-index: 999;
-//   margin-top: -1.5em;
-//   position: absolute;
-// }
-// .fauw-btn-back {
-//   margin: .3em;
-//   padding: .3em;
-//   color: #000;
-//   background: #AAA;
-// }
-// </style>
 //
 
 /***/ }),
@@ -24240,55 +23842,6 @@ exports.default = {
   }
 };
 // </script>
-// <style scoped>
-// .fauw-associations-list {
-//
-// }
-// .fauw-association-box {
-//   box-shadow: 1px 1px 1px #999;
-// }
-// .fauw-assoc-logo-large {
-//   float: left;
-//   margin: .3em;
-//   width: 100%;
-//   box-shadow: 1px 1px 1px #000;
-// }
-// .fauw-assoc-labels {
-//   font-weight: bolder;
-//   text-align: right;
-//   margin-left: .5em;
-// }
-// .fauw-donation-section button {
-//   padding-left: .5em;
-//   padding-right: .5em;
-// }
-// .fauw-donation-section button .donate-btn {
-//   padding-left: 2em;
-// }
-//
-// .fauw-associations-list h1,
-// .fauw-associations-list h2,
-// .fauw-associations-list h3,
-// .fauw-associations-list h4,
-// .fauw-associations-list h5 {
-//   font-weight: bold;
-// }
-// .fauw-associations-list h1 {
-//   font-size: 1.6em;
-// }
-// .fauw-associations-list h2{
-//   font-size: 1.45em;
-// }
-// .fauw-associations-list h3{
-//   font-size: 1.3em;
-// }
-// .fauw-associations-list h4 {
-//   font-size: 1.15em;
-// }
-// .fauw-associations-list h5 {
-//   font-size: 1em;
-// }
-// </style>
 //
 
 /***/ }),
@@ -24364,47 +23917,6 @@ exports.default = {
   computed: {}
 };
 // </script>
-// <style scoped>
-// .fauw-associations-list {
-//
-// }
-// .fauw-association-box {
-//   box-shadow: 0 1px 8px #999;
-//   margin: .2em;
-//   margin-bottom: .4em;
-//   cursor: pointer;
-//   padding: .2em;
-// }
-// .fauw-assoc-logo {
-//   float: left;
-//   margin: .3em;
-//   width: 4em;
-//   box-shadow: 1px 1px 1px #000;
-// }
-//
-// .fauw-associations-list h1,
-// .fauw-associations-list h2,
-// .fauw-associations-list h3,
-// .fauw-associations-list h4,
-// .fauw-associations-list h5 {
-//   font-weight: bold;
-// }
-// .fauw-associations-list h1 {
-//   font-size: 1.6em;
-// }
-// .fauw-associations-list h2{
-//   font-size: 1.45em;
-// }
-// .fauw-associations-list h3{
-//   font-size: 1.3em;
-// }
-// .fauw-associations-list h4 {
-//   font-size: 1.15em;
-// }
-// .fauw-associations-list h5 {
-//   font-size: 1em;
-// }
-// </style>
 //
 // <template>
 //   <div class="fauw-associations-list">
@@ -24455,31 +23967,6 @@ exports.default = {
   }
 };
 // </script>
-// <style scoped>
-// .donations-page h1,
-// .donations-page h2,
-// .donations-page h3,
-// .donations-page h4,
-// .donations-page h5 {
-//   font-weight: bold;
-// }
-// .donations-page h1 {
-//   font-size: 1.6em;
-// }
-// .donations-page h2{
-//   font-size: 1.45em;
-// }
-// .donations-page h3{
-//   font-size: 1.3em;
-// }
-// .donations-page h4 {
-//   font-size: 1.15em;
-// }
-// .donations-page h5 {
-//   font-size: 1em;
-// }
-// </style>
-// fauw-donations-page
 //
 
 /***/ }),
@@ -24562,11 +24049,6 @@ exports.default = {
 //   </div>
 // </template>
 //
-// <style scoped>
-// .fauw-fb-login-button {
-//   margin-bottom: .3em;
-// }
-// </style>
 //
 // <script>
 
@@ -24659,30 +24141,6 @@ exports.default = {
   }
 };
 // </script>
-// <style scoped>
-// .home-page h1,
-// .home-page h2,
-// .home-page h3,
-// .home-page h4,
-// .home-page h5 {
-//   font-weight: bold;
-// }
-// .home-page h1 {
-//   font-size: 1.6em;
-// }
-// .home-page h2{
-//   font-size: 1.45em;
-// }
-// .home-page h3{
-//   font-size: 1.3em;
-// }
-// .home-page h4 {
-//   font-size: 1.15em;
-// }
-// .home-page h5 {
-//   font-size: 1em;
-// }
-// </style>
 //
 // <template>
 //   <div class="fauw-home-page">
@@ -24877,46 +24335,6 @@ exports.default = {
 //   </div>
 // </template>
 //
-// <style scoped>
-// .login-area-wrapper h1,
-// .login-area-wrapper h2,
-// .login-area-wrapper h3,
-// .login-area-wrapper h4,
-// .login-area-wrapper h5 {
-//   font-weight: bold;
-// }
-// .login-area-wrapper h1 {
-//   font-size: 1.6em;
-// }
-// .login-area-wrapper h2{
-//   font-size: 1.45em;
-// }
-// .login-area-wrapper h3{
-//   font-size: 1.3em;
-// }
-// .login-area-wrapper h4 {
-//   font-size: 1.15em;
-// }
-// .login-area-wrapper h5 {
-//   font-size: 1em;
-// }
-//
-// .login-area-wrapper a {
-//   cursor: pointer;
-// }
-// .fauw-login-btn {
-//   margin-top: .5em;
-//   margin-bottom: .3em;
-// }
-// .fauw-fb-login-button {
-// }
-// .fauw-login-area-wrapper {
-//   margin: auto;
-// }
-// .login-area-wrapper .input-group {
-//   margin-bottom: .3em;
-// }
-// </style>
 //
 // <script>
 
@@ -24991,40 +24409,6 @@ exports.default = {
   }
 };
 // </script>
-// <style scoped>
-// .fauw-logout-area h1,
-// .fauw-logout-area h2,
-// .fauw-logout-area h3,
-// .fauw-logout-area h4,
-// .fauw-logout-area h5 {
-//   font-weight: bold;
-// }
-// .fauw-logout-area h1 {
-//   font-size: 1.6em;
-// }
-// .fauw-logout-area h2{
-//   font-size: 1.45em;
-// }
-// .fauw-logout-area h3{
-//   font-size: 1.3em;
-// }
-// .fauw-logout-area h4 {
-//   font-size: 1.15em;
-// }
-// .fauw-logout-area h5 {
-//   font-size: 1em;
-// }
-// .fauw-logout-area button {
-//   margin-left: .2em;
-// }
-// .fauw-balance-label {
-//   padding: .15em;
-//   padding-left: .5em;
-//   padding-right: .5em;
-//   font-size: 1.2em;
-//   cursor: pointer;
-// }
-// </style>
 //
 
 /***/ }),
@@ -25066,24 +24450,6 @@ Object.defineProperty(exports, "__esModule", {
 //   </div>
 // </template>
 //
-// <style scoped>
-// .fauw-messages {
-//   position: relative;
-//   z-index: 999;
-//   min-width: 10em;
-//   max-width: 280px;
-// }
-// .fauw-messages div {
-//   margin: 0;
-// }
-// .fauw-messages .alert {
-//   text-align: center;
-//   padding: .3em;
-//   padding-top: .1em;
-//   padding-bottom: .1em;
-//   z-index: 1000;
-// }
-// </style>
 //
 // <script>
 exports.default = {
@@ -25177,37 +24543,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 //   </div>
 // </template>
 //
-// <style scoped>
-// .fauw-recharge-component h1,
-// .fauw-recharge-component h2,
-// .fauw-recharge-component h3,
-// .fauw-recharge-component h4,
-// .fauw-recharge-component h5 {
-//   font-weight: bold;
-// }
-// .fauw-recharge-component h1 {
-//   font-size: 1.6em;
-// }
-// .fauw-recharge-component h2{
-//   font-size: 1.45em;
-// }
-// .fauw-recharge-component h3{
-//   font-size: 1.3em;
-// }
-// .fauw-recharge-component h4 {
-//   font-size: 1.15em;
-// }
-// .fauw-recharge-component h5 {
-//   font-size: 1em;
-// }
-// .fauw-recharge-component .recharge-btn {
-//   border-top-left-radius: 0;
-//   border-bottom-left-radius: 0;
-// }
-// .fauw-recharge-component .month-input .form-control, .fauw-recharge-component .year-input .form-control {
-//   width: 5em;
-// }
-// </style>
 //
 // <script>
 exports.default = {
@@ -25428,29 +24763,6 @@ exports.default = {
   }
 };
 // </script>
-// <style scoped>
-// .fauw-settings-page h1, .fauw-settings-page h2, .fauw-settings-page h3, .fauw-settings-pageh4, .fauw-settings-page h5 {
-//   font-weight: bold;
-// }
-// .fauw-settings-page h1 {
-//   font-size: 1.6em;
-// }
-// .fauw-settings-page h2{
-//   font-size: 1.45em;
-// }
-// .fauw-settings-page h3{
-//   font-size: 1.3em;
-// }
-// .fauw-settings-page h4 {
-//   font-size: 1.15em;
-// }
-// .fauw-settings-page h5 {
-//   font-size: 1em;
-// }
-// .fauw-settings-page .input-group {
-//   margin: .2em;
-// }
-// </style>
 //
 
 /***/ }),
@@ -25717,42 +25029,6 @@ exports.default = {
 //   </div>
 // </template>
 //
-// <style scoped>
-// .fauw-signup-area-wrapper h1,
-// .fauw-signup-area-wrapper h2,
-// .fauw-signup-area-wrapper h3,
-// .fauw-signup-area-wrapper h4,
-// .fauw-signup-area-wrapper h5 {
-//   font-weight: bold;
-// }
-// .fauw-signup-area-wrapper h1 {
-//   font-size: 1.6em;
-// }
-// .fauw-signup-area-wrapper h2{
-//   font-size: 1.45em;
-// }
-// .fauw-signup-area-wrapper h3{
-//   font-size: 1.3em;
-// }
-// .fauw-signup-area-wrapper h4 {
-//   font-size: 1.15em;
-// }
-// .fauw-signup-area-wrapper h5 {
-//   font-size: 1em;
-// }
-// .fauw-signup-area-wrapper a {
-//   cursor: pointer;
-// }
-// .fauw-signup-area-wrapper .signup-btn {
-//   margin-top: .5em;
-// }
-// .fauw-signup-area-wrapper {
-//   margin: 1em auto;
-// }
-// .fauw-signup-area-wrapper .input-group {
-//   margin-bottom: .3em;
-// }
-// </style>
 //
 // <script>
 
@@ -25780,30 +25056,6 @@ exports.default = {
   }
 };
 // </script>
-// <style scoped>
-// .fauw-solidarity-account-page h1,
-// .fauw-solidarity-account-page h2,
-// .fauw-solidarity-account-page h3,
-// .fauw-solidarity-account-page h4,
-// .fauw-solidarity-account-page h5 {
-//   font-weight: bold;
-// }
-// .fauw-solidarity-account-page h1 {
-//   font-size: 1.6em;
-// }
-// .fauw-solidarity-account-page h2{
-//   font-size: 1.45em;
-// }
-// .fauw-solidarity-account-page h3{
-//   font-size: 1.3em;
-// }
-// .fauw-solidarity-account-page h4 {
-//   font-size: 1.15em;
-// }
-// .fauw-solidarity-account-page h5 {
-//   font-size: 1em;
-// }
-// </style>
 //
 // <template>
 //   <div class="fauw-solidarity-account-page">
@@ -25883,30 +25135,6 @@ exports.default = {
   }
 };
 // </script>
-// <style scoped>
-// .fauw-vid-area h1,
-// .fauw-vid-area h2,
-// .fauw-vid-area h3,
-// .fauw-vid-area h4,
-// .fauw-vid-area h5 {
-//   font-weight: bold;
-// }
-// .fauw-vid-area h1 {
-//   font-size: 1.6em;
-// }
-// .fauw-vid-area h2{
-//   font-size: 1.45em;
-// }
-// .fauw-vid-area h3{
-//   font-size: 1.3em;
-// }
-// .fauw-vid-area h4 {
-//   font-size: 1.15em;
-// }
-// .fauw-vid-area h5 {
-//   font-size: 1em;
-// }
-// </style>
 //
 
 /***/ }),
@@ -25935,202 +25163,20 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 /* 64 */,
 /* 65 */,
 /* 66 */,
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-associations-list[_v-0737b088] {\n\n}\n.fauw-association-box[_v-0737b088] {\n  box-shadow: 0 1px 8px #999;\n  margin: .2em;\n  margin-bottom: .4em;\n  cursor: pointer;\n  padding: .2em;\n}\n.fauw-assoc-logo[_v-0737b088] {\n  float: left;\n  margin: .3em;\n  width: 4em;\n  box-shadow: 1px 1px 1px #000;\n}\n\n.fauw-associations-list h1[_v-0737b088],\n.fauw-associations-list h2[_v-0737b088],\n.fauw-associations-list h3[_v-0737b088],\n.fauw-associations-list h4[_v-0737b088],\n.fauw-associations-list h5[_v-0737b088] {\n  font-weight: bold;\n}\n.fauw-associations-list h1[_v-0737b088] {\n  font-size: 1.6em;\n}\n.fauw-associations-list h2[_v-0737b088]{\n  font-size: 1.45em;\n}\n.fauw-associations-list h3[_v-0737b088]{\n  font-size: 1.3em;\n}\n.fauw-associations-list h4[_v-0737b088] {\n  font-size: 1.15em;\n}\n.fauw-associations-list h5[_v-0737b088] {\n  font-size: 1em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-vid-area h1[_v-17fc282c],\n.fauw-vid-area h2[_v-17fc282c],\n.fauw-vid-area h3[_v-17fc282c],\n.fauw-vid-area h4[_v-17fc282c],\n.fauw-vid-area h5[_v-17fc282c] {\n  font-weight: bold;\n}\n.fauw-vid-area h1[_v-17fc282c] {\n  font-size: 1.6em;\n}\n.fauw-vid-area h2[_v-17fc282c]{\n  font-size: 1.45em;\n}\n.fauw-vid-area h3[_v-17fc282c]{\n  font-size: 1.3em;\n}\n.fauw-vid-area h4[_v-17fc282c] {\n  font-size: 1.15em;\n}\n.fauw-vid-area h5[_v-17fc282c] {\n  font-size: 1em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.login-area-wrapper h1[_v-1d2afbaf],\n.login-area-wrapper h2[_v-1d2afbaf],\n.login-area-wrapper h3[_v-1d2afbaf],\n.login-area-wrapper h4[_v-1d2afbaf],\n.login-area-wrapper h5[_v-1d2afbaf] {\n  font-weight: bold;\n}\n.login-area-wrapper h1[_v-1d2afbaf] {\n  font-size: 1.6em;\n}\n.login-area-wrapper h2[_v-1d2afbaf]{\n  font-size: 1.45em;\n}\n.login-area-wrapper h3[_v-1d2afbaf]{\n  font-size: 1.3em;\n}\n.login-area-wrapper h4[_v-1d2afbaf] {\n  font-size: 1.15em;\n}\n.login-area-wrapper h5[_v-1d2afbaf] {\n  font-size: 1em;\n}\n\n.login-area-wrapper a[_v-1d2afbaf] {\n  cursor: pointer;\n}\n.fauw-login-btn[_v-1d2afbaf] {\n  margin-top: .5em;\n  margin-bottom: .3em;\n}\n.fauw-fb-login-button[_v-1d2afbaf] {\n}\n.fauw-login-area-wrapper[_v-1d2afbaf] {\n  margin: auto;\n}\n.login-area-wrapper .input-group[_v-1d2afbaf] {\n  margin-bottom: .3em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-recharge-component h1[_v-1e130e5e],\n.fauw-recharge-component h2[_v-1e130e5e],\n.fauw-recharge-component h3[_v-1e130e5e],\n.fauw-recharge-component h4[_v-1e130e5e],\n.fauw-recharge-component h5[_v-1e130e5e] {\n  font-weight: bold;\n}\n.fauw-recharge-component h1[_v-1e130e5e] {\n  font-size: 1.6em;\n}\n.fauw-recharge-component h2[_v-1e130e5e]{\n  font-size: 1.45em;\n}\n.fauw-recharge-component h3[_v-1e130e5e]{\n  font-size: 1.3em;\n}\n.fauw-recharge-component h4[_v-1e130e5e] {\n  font-size: 1.15em;\n}\n.fauw-recharge-component h5[_v-1e130e5e] {\n  font-size: 1em;\n}\n.fauw-recharge-component .recharge-btn[_v-1e130e5e] {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n}\n.fauw-recharge-component .month-input .form-control[_v-1e130e5e], .fauw-recharge-component .year-input .form-control[_v-1e130e5e] {\n  width: 5em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-associations-list[_v-21807b72] {\n\n}\n.fauw-association-box[_v-21807b72] {\n  box-shadow: 1px 1px 1px #999;\n}\n.fauw-assoc-logo-large[_v-21807b72] {\n  float: left;\n  margin: .3em;\n  width: 100%;\n  box-shadow: 1px 1px 1px #000;\n}\n.fauw-assoc-labels[_v-21807b72] {\n  font-weight: bolder;\n  text-align: right;\n  margin-left: .5em;\n}\n.fauw-donation-section button[_v-21807b72] {\n  padding-left: .5em;\n  padding-right: .5em;\n}\n.fauw-donation-section button .donate-btn[_v-21807b72] {\n  padding-left: 2em;\n}\n\n.fauw-associations-list h1[_v-21807b72],\n.fauw-associations-list h2[_v-21807b72],\n.fauw-associations-list h3[_v-21807b72],\n.fauw-associations-list h4[_v-21807b72],\n.fauw-associations-list h5[_v-21807b72] {\n  font-weight: bold;\n}\n.fauw-associations-list h1[_v-21807b72] {\n  font-size: 1.6em;\n}\n.fauw-associations-list h2[_v-21807b72]{\n  font-size: 1.45em;\n}\n.fauw-associations-list h3[_v-21807b72]{\n  font-size: 1.3em;\n}\n.fauw-associations-list h4[_v-21807b72] {\n  font-size: 1.15em;\n}\n.fauw-associations-list h5[_v-21807b72] {\n  font-size: 1em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-messages[_v-257d20f6] {\n  position: relative;\n  z-index: 999;\n  min-width: 10em;\n  max-width: 280px;\n}\n.fauw-messages div[_v-257d20f6] {\n  margin: 0;\n}\n.fauw-messages .alert[_v-257d20f6] {\n  text-align: center;\n  padding: .3em;\n  padding-top: .1em;\n  padding-bottom: .1em;\n  z-index: 1000;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.donations-page h1[_v-3bd31467],\n.donations-page h2[_v-3bd31467],\n.donations-page h3[_v-3bd31467],\n.donations-page h4[_v-3bd31467],\n.donations-page h5[_v-3bd31467] {\n  font-weight: bold;\n}\n.donations-page h1[_v-3bd31467] {\n  font-size: 1.6em;\n}\n.donations-page h2[_v-3bd31467]{\n  font-size: 1.45em;\n}\n.donations-page h3[_v-3bd31467]{\n  font-size: 1.3em;\n}\n.donations-page h4[_v-3bd31467] {\n  font-size: 1.15em;\n}\n.donations-page h5[_v-3bd31467] {\n  font-size: 1em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-logout-area h1[_v-5574fa98],\n.fauw-logout-area h2[_v-5574fa98],\n.fauw-logout-area h3[_v-5574fa98],\n.fauw-logout-area h4[_v-5574fa98],\n.fauw-logout-area h5[_v-5574fa98] {\n  font-weight: bold;\n}\n.fauw-logout-area h1[_v-5574fa98] {\n  font-size: 1.6em;\n}\n.fauw-logout-area h2[_v-5574fa98]{\n  font-size: 1.45em;\n}\n.fauw-logout-area h3[_v-5574fa98]{\n  font-size: 1.3em;\n}\n.fauw-logout-area h4[_v-5574fa98] {\n  font-size: 1.15em;\n}\n.fauw-logout-area h5[_v-5574fa98] {\n  font-size: 1em;\n}\n.fauw-logout-area button[_v-5574fa98] {\n  margin-left: .2em;\n}\n.fauw-balance-label[_v-5574fa98] {\n  padding: .15em;\n  padding-left: .5em;\n  padding-right: .5em;\n  font-size: 1.2em;\n  cursor: pointer;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 75 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-signup-area-wrapper h1[_v-56e3317c],\n.fauw-signup-area-wrapper h2[_v-56e3317c],\n.fauw-signup-area-wrapper h3[_v-56e3317c],\n.fauw-signup-area-wrapper h4[_v-56e3317c],\n.fauw-signup-area-wrapper h5[_v-56e3317c] {\n  font-weight: bold;\n}\n.fauw-signup-area-wrapper h1[_v-56e3317c] {\n  font-size: 1.6em;\n}\n.fauw-signup-area-wrapper h2[_v-56e3317c]{\n  font-size: 1.45em;\n}\n.fauw-signup-area-wrapper h3[_v-56e3317c]{\n  font-size: 1.3em;\n}\n.fauw-signup-area-wrapper h4[_v-56e3317c] {\n  font-size: 1.15em;\n}\n.fauw-signup-area-wrapper h5[_v-56e3317c] {\n  font-size: 1em;\n}\n.fauw-signup-area-wrapper a[_v-56e3317c] {\n  cursor: pointer;\n}\n.fauw-signup-area-wrapper .signup-btn[_v-56e3317c] {\n  margin-top: .5em;\n}\n.fauw-signup-area-wrapper[_v-56e3317c] {\n  margin: 1em auto;\n}\n.fauw-signup-area-wrapper .input-group[_v-56e3317c] {\n  margin-bottom: .3em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n#fauw-wrapper[_v-61b3c432] {\n  position: relative;\n  margin: auto;\n  border: 1px solid #555;\n  height: 500px;\n  padding: 0.5em;\n  overflow: hidden;\n}\n.mobile-full-page[_v-61b3c432] {\n  max-width: 100%;\n}\n.desktop-max[_v-61b3c432] {\n  max-width: 300px;\n}\nh1[_v-61b3c432], h2[_v-61b3c432], h3[_v-61b3c432], h4[_v-61b3c432], h5[_v-61b3c432] {\n  font-weight: bold;\n}\nh1[_v-61b3c432] {\n  font-size: 1.6em;\n}\nh2[_v-61b3c432]{\n  font-size: 1.45em;\n}\nh3[_v-61b3c432]{\n  font-size: 1.3em;\n}\nh4[_v-61b3c432] {\n  font-size: 1.15em;\n}\nh5[_v-61b3c432] {\n  font-size: 1em;\n}\n#fauw-wrapper .fauw-content[_v-61b3c432] {\n  height: 90%;\n  overflow-y: scroll;\n  overflow-x: hidden;\n  padding-right: .4em;\n}\na[_v-61b3c432] {\n  cursor: pointer;\n}\n#fauw-wrapper .top-container[_v-61b3c432] {\n  position: relative;\n  box-shadow: 1px 2px 2px #CCC;\n  padding: 0;\n  margin: .2em;\n}\n#fauw-wrapper .fauw-top-menu[_v-61b3c432] {\n  position: relative;\n}\n#fauw-wrapper .btn-plain[_v-61b3c432] {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  color: #000;\n  background-color: #fff;\n}\n#fauw-wrapper .fauw-bottom-menu[_v-61b3c432] {\n  position: absolute;\n  height: 1.5em;\n  padding: .3em;\n  margin: .85em;\n  bottom: 0;\n  left: 0;\n  max-width: 290px;\n  width: 92%;\n}\n#fauw-wrapper .fauw-bottom-menu .fauw-version[_v-61b3c432] {\n  text-align: center;\n  margin: 0;\n  padding: .1em;\n  width: 100%;\n}\n#fauw-wrapper #fauw-title[_v-61b3c432] {\n  text-align: center;\n  margin: auto;\n}\n#fauw-wrapper .page-title[_v-61b3c432] {\n  border: 1px solid #888;\n}\n.fauw-langs[_v-61b3c432] {\n  z-index: 999;\n  margin-top: -1.5em;\n  position: absolute;\n}\n.fauw-btn-back[_v-61b3c432] {\n  margin: .3em;\n  padding: .3em;\n  color: #000;\n  background: #AAA;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-fb-login-button[_v-6412aa1a] {\n  margin-bottom: .3em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.home-page h1[_v-94b127ee],\n.home-page h2[_v-94b127ee],\n.home-page h3[_v-94b127ee],\n.home-page h4[_v-94b127ee],\n.home-page h5[_v-94b127ee] {\n  font-weight: bold;\n}\n.home-page h1[_v-94b127ee] {\n  font-size: 1.6em;\n}\n.home-page h2[_v-94b127ee]{\n  font-size: 1.45em;\n}\n.home-page h3[_v-94b127ee]{\n  font-size: 1.3em;\n}\n.home-page h4[_v-94b127ee] {\n  font-size: 1.15em;\n}\n.home-page h5[_v-94b127ee] {\n  font-size: 1em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-settings-page h1[_v-de18cf66], .fauw-settings-page h2[_v-de18cf66], .fauw-settings-page h3[_v-de18cf66], .fauw-settings-pageh4[_v-de18cf66], .fauw-settings-page h5[_v-de18cf66] {\n  font-weight: bold;\n}\n.fauw-settings-page h1[_v-de18cf66] {\n  font-size: 1.6em;\n}\n.fauw-settings-page h2[_v-de18cf66]{\n  font-size: 1.45em;\n}\n.fauw-settings-page h3[_v-de18cf66]{\n  font-size: 1.3em;\n}\n.fauw-settings-page h4[_v-de18cf66] {\n  font-size: 1.15em;\n}\n.fauw-settings-page h5[_v-de18cf66] {\n  font-size: 1em;\n}\n.fauw-settings-page .input-group[_v-de18cf66] {\n  margin: .2em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(0)();
-// imports
-
-
-// module
-exports.push([module.i, "\n.fauw-solidarity-account-page h1[_v-e654edfe],\n.fauw-solidarity-account-page h2[_v-e654edfe],\n.fauw-solidarity-account-page h3[_v-e654edfe],\n.fauw-solidarity-account-page h4[_v-e654edfe],\n.fauw-solidarity-account-page h5[_v-e654edfe] {\n  font-weight: bold;\n}\n.fauw-solidarity-account-page h1[_v-e654edfe] {\n  font-size: 1.6em;\n}\n.fauw-solidarity-account-page h2[_v-e654edfe]{\n  font-size: 1.45em;\n}\n.fauw-solidarity-account-page h3[_v-e654edfe]{\n  font-size: 1.3em;\n}\n.fauw-solidarity-account-page h4[_v-e654edfe] {\n  font-size: 1.15em;\n}\n.fauw-solidarity-account-page h5[_v-e654edfe] {\n  font-size: 1em;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
 /* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26158,370 +25204,20 @@ exports.push([module.i, "\n.fauw-solidarity-account-page h1[_v-e654edfe],\n.fauw
 /* 93 */,
 /* 94 */,
 /* 95 */,
-/* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(67);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-0737b088&file=Associations.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Associations.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-0737b088&file=Associations.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Associations.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(68);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-17fc282c&file=Vids.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Vids.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-17fc282c&file=Vids.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Vids.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 98 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(69);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1d2afbaf&file=Login.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Login.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1d2afbaf&file=Login.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Login.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(70);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1e130e5e&file=Recharge.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Recharge.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1e130e5e&file=Recharge.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Recharge.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(71);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-21807b72&file=Association.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Association.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-21807b72&file=Association.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Association.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(72);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-257d20f6&file=Messages.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Messages.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-257d20f6&file=Messages.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Messages.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 102 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(73);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-3bd31467&file=Donations.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Donations.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-3bd31467&file=Donations.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Donations.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(74);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5574fa98&file=Logout.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Logout.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-5574fa98&file=Logout.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Logout.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(75);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-56e3317c&file=Signup.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Signup.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-56e3317c&file=Signup.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Signup.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(76);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-61b3c432&file=App.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./App.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(77);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-6412aa1a&file=FBLogin.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./FBLogin.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-6412aa1a&file=FBLogin.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./FBLogin.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(78);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-94b127ee&file=Home.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Home.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-94b127ee&file=Home.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Home.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(79);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-de18cf66&file=Settings.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Settings.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-de18cf66&file=Settings.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./Settings.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 109 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(80);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(1)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-e654edfe&file=SolidarityAccount.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./SolidarityAccount.vue", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-e654edfe&file=SolidarityAccount.vue&scoped=true!../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./SolidarityAccount.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 96 */,
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
 /* 110 */,
 /* 111 */,
 /* 112 */,
@@ -26675,97 +25371,26 @@ exports.default = plugin;
 module.exports = "\n  <div class=\"fauw-share-page\">\n    <social-sharing url=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget\"\n                      title=\"Fundraising API user widget\"\n                      description=\"Working on a vueJS user widget that works with # fundraising API. Work in progress...\"\n                      quote=\"This registration form is designed to a compact web-component, to be easily integrated/personalized in a third-party website\"\n                      hashtags=\"fundraising,user,widget\"\n                      twitter-user=\"YQuieroAyudar\"\n                      v-cloak inline-template>\n    <div>\n        <ul>\n          <li>\n            <network network=\"facebook\" id=\"facebook\">\n              <i class=\"fa fa-fw fa-facebook\"></i> Facebook\n            </network>\n          </li>\n          <li>\n            <network network=\"googleplus\" id=\"googleplus\">\n              <i class=\"fa fa-fw fa-google-plus\"></i> Google +\n            </network>\n          </li>\n          <li>\n            <network network=\"linkedin\" id=\"linkedin\">\n              <i class=\"fa fa-fw fa-linkedin\"></i> LinkedIn\n            </network>\n          </li>\n          <li>\n            <network network=\"pinterest\" id=\"pinterest\">\n              <i class=\"fa fa-fw fa-pinterest\"></i> Pinterest\n            </network>\n          </li>\n          <li>\n            <network network=\"reddit\" id=\"reddit\">\n              <i class=\"fa fa-fw fa-reddit\"></i> Reddit\n            </network>\n          </li>\n          <li>\n            <network network=\"twitter\" id=\"twitter\">\n              <i class=\"fa fa-fw fa-twitter\"></i> Twitter\n            </network>\n          </li>\n          <li>\n            <network network=\"vk\" id=\"vk\">\n              <i class=\"fa fa-fw fa-vk\"></i> VKontakte\n            </network>\n          </li>\n          <li>\n            <network network=\"weibo\" id=\"weibo\">\n              <i class=\"fa fa-fw fa-weibo\"></i> Weibo\n            </network>\n          </li>\n          <li>\n            <network network=\"whatsapp\" id=\"whatsapp\">\n              <i class=\"fa fa-fw fa-whatsapp\"></i> Whatsapp\n            </network>\n          </li>\n        </ul>\n      </div>\n    </social-sharing>\n\n  </div>\n\n";
 
 /***/ }),
-/* 117 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-associations-list\" _v-0737b088=\"\">\n    <h1 @click=\"getAssociationsFromAPI\" _v-0737b088=\"\">{{ $t('Charities') }} <i class=\"fa fa-refresh fa-fw\" _v-0737b088=\"\"></i></h1>\n    <label class=\"label label-warning\" _v-0737b088=\"\"> {{ $t('Page is under-construction') }} </label>\n    <div class=\"fauw-association-box\" @click=\"selectAssociation(assoc.id)\" v-for=\"assoc in this.$store.getters.getAssociations\" _v-0737b088=\"\">\n\n      <img class=\"fauw-assoc-logo\" :src=\"assoc.logo_url\" :alt=\"$t(assoc.short_description)\" _v-0737b088=\"\">\n      <h4 _v-0737b088=\"\">{{assoc.name}}</h4>\n      <p _v-0737b088=\"\">{{assoc.description}}</p>\n      <p _v-0737b088=\"\"><strong _v-0737b088=\"\">{{$t(assoc.country)}}</strong></p>\n\n    </div>\n  </div>\n";
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-vid-area\" _v-17fc282c=\"\">\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\" _v-17fc282c=\"\"><iframe :src=\"videoLink\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen=\"\" scrolling=\"no\" _v-17fc282c=\"\"></iframe></div>\n  </div>\n";
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-login-area-wrapper\" _v-1d2afbaf=\"\">\n    <h1 _v-1d2afbaf=\"\">{{$t('Login')}}</h1>\n\n    <form class=\"form\" _v-1d2afbaf=\"\">\n      <div dir=\"ltr\" class=\"input-group\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Country')\" id=\"country-addon1\" _v-1d2afbaf=\"\"> {{$t('Donation Destination')}}</span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\" _v-1d2afbaf=\"\">\n          <option v-for=\"(ctry, i) in $store.getters.getTopCountries\" :selected=\"true\" :value=\"ctry\" _v-1d2afbaf=\"\">{{ctry.name}}</option>\n        </select>\n      </div>\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Email')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"email-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"login.email\" _v-1d2afbaf=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Password')\" _v-1d2afbaf=\"\">\n        <span class=\"input-group-addon\" id=\"password-addon1\" _v-1d2afbaf=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"login.password\" _v-1d2afbaf=\"\">\n      </div>\n\n      {{ $t(\"If you don't have an account yet\") }} <a class=\"\" @click=\"goToSignupPage\" _v-1d2afbaf=\"\"> {{ $t('Sign up here') }}</a>\n\n      <button class=\"btn btn-primary btn-block fauw-login-btn\" @click=\"loginUser\" _v-1d2afbaf=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-1d2afbaf=\"\"></i> {{ $t('Login') }}</button>\n      {{ $t('Remember me') }} <input name=\"remember_me\" v-model=\"rememberMe\" @click=\"setRememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" _v-1d2afbaf=\"\">\n    </form>\n\n    <video-frame _v-1d2afbaf=\"\"></video-frame>\n\n  </div>\n";
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-recharge-component\" _v-1e130e5e=\"\">\n\n    <p _v-1e130e5e=\"\">{{ $t('Account balance') }}: {{$store.getters.getBalance}} {{ $t($store.getters.getCurrency) }} </p>\n\n    <form class=\"form\" _v-1e130e5e=\"\">\n      <div class=\"input-group\" :title=\"$t('Net Amount')\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=\"1\" :placeholder=\"$t('Net Amount')\" :value=\"amount\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" :title=\"$t('Card Number')\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"cardNo-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-credit-card fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"cardNo\" class=\"form-control\" v-model=\"cardNo\" aria-describedby=\"cardNo-addon1\" type=\"number\" min=\"1\" step=\"1\" :placeholder=\"$t('Card Number')\" :value=\"cardNo\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" :title=\"$t('CVV Code')\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"CVV-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-key fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"CVV\" class=\"form-control\" v-model=\"CVV\" aria-describedby=\"CVV-addon1\" type=\"number\" min=\"1\" step=\"1\" :placeholder=\"$t('CVV Code')\" :value=\"CVV\" _v-1e130e5e=\"\">\n      </div>\n      <div class=\"input-group\" :title=\"$t('Expiration Date')\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"expirationDate-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-calendar-times-o fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <div class=\"\" _v-1e130e5e=\"\">\n          <div class=\"month-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateMonth\" class=\"form-control\" v-model=\"expirationDate.month\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" max=\"12\" step=\"1\" :placeholder=\"$t('MM')\" :value=\"expirationDate.month\" _v-1e130e5e=\"\">\n          </div>\n          <div class=\"year-input\" _v-1e130e5e=\"\">\n            <input name=\"expirationDateYear\" class=\"form-control\" v-model=\"expirationDate.year\" width=\"3\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=\"1\" :placeholder=\"$t('YY')\" :value=\"expirationDate.year\" _v-1e130e5e=\"\">\n          </div>\n        </div>\n      </div>\n      <div class=\"input-group\" :title=\"$t('Charged Amount')\" _v-1e130e5e=\"\">\n        <span class=\"input-group-addon\" id=\"ChargedAmount-addon1\" _v-1e130e5e=\"\"> <i class=\"fa fa-money fa-fw\" aria-hidden=\"true\" _v-1e130e5e=\"\"></i> </span>\n        <input name=\"ChargedAmount\" class=\"form-control\" v-model=\"totalAmountCharged\" disabled=\"\" aria-describedby=\"ChargedAmount-addon1\" type=\"number\" min=\"1\" step=\"1\" placeholder=\"$t('Charged Ammount')\" :value=\"totalAmountCharged\" _v-1e130e5e=\"\">\n      </div>\n      <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" @click=\"registerCardAndRecharge\" _v-1e130e5e=\"\">{{$t('Refill')}}</button>\n    </form>\n\n    <hr _v-1e130e5e=\"\">\n\n  </div>\n";
-
-/***/ }),
-/* 121 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-associations-list\" _v-21807b72=\"\">\n    <label class=\"label label-warning\" _v-21807b72=\"\">{{ $t('Page is under-construction')}}</label>\n    <div class=\"fauw-association-box\" _v-21807b72=\"\">\n      <div class=\"\" _v-21807b72=\"\">\n        <div class=\"btn-group fauw-donation-section\" role=\"group\" aria-label=\"donation-section\" _v-21807b72=\"\">\n          <button type=\"button\" @click=\"donationAmount=200\" :class=\"'btn btn-default' + (donationAmount == 200 ? ' active' : '')\" _v-21807b72=\"\">€2</button>\n          <button type=\"button\" @click=\"donationAmount=400\" :class=\"'btn btn-default' + (donationAmount == 400 ? ' active' : '')\" _v-21807b72=\"\">€4</button>\n          <button type=\"button\" @click=\"donationAmount=600\" :class=\"'btn btn-default' + (donationAmount == 600 ? ' active' : '')\" _v-21807b72=\"\">€6</button>\n          <button type=\"button\" @click=\"donationAmount=800\" :class=\"'btn btn-default' + (donationAmount == 800 ? ' active' : '')\" _v-21807b72=\"\">€8</button>\n          <button type=\"button\" @click=\"donationAmount=1000\" :class=\"'btn btn-default' + (donationAmount == 1000 ? ' active' : '')\" _v-21807b72=\"\">€10</button>\n          <button :disabled=\"donationAmount < 200\" @click=\"submitDonation\" class=\"btn btn-primary pull-right donate-btn\" type=\"button\" name=\"donate\" _v-21807b72=\"\">{{$t('Donate')}}</button>\n        </div>\n\n      </div>\n\n      <img class=\"fauw-assoc-logo-large\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\" _v-21807b72=\"\">\n      <h4 _v-21807b72=\"\">{{assoc.name}}</h4>\n      <p _v-21807b72=\"\">{{assoc.description}}</p>\n\n      <ul class=\"list-group\" _v-21807b72=\"\">\n        <li class=\"list-group-item\" :title=\"$t('address')\" _v-21807b72=\"\"><i class=\"fa fa-map fa-fw\" _v-21807b72=\"\"></i>  <span class=\"fauw-assoc-labels\" _v-21807b72=\"\">{{assoc.address}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('city')\" _v-21807b72=\"\"><i class=\"fa fa-map-marker fa-fw\" _v-21807b72=\"\"></i>  <span class=\"fauw-assoc-labels\" _v-21807b72=\"\">{{assoc.city}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('twitter')\" _v-21807b72=\"\"><i class=\"fa fa-twitter fa-fw\" _v-21807b72=\"\"></i>  <span class=\"fauw-assoc-labels\" _v-21807b72=\"\"><a target=\"_blank\" :href=\"'https://twitter.com/'+assoc.twitter_username\" _v-21807b72=\"\">@{{assoc.twitter_username}}</a></span></li>\n        <li class=\"list-group-item\" :title=\"$t('Total Donations')\" _v-21807b72=\"\"><i class=\"fa fa-line-chart fa-fw\" _v-21807b72=\"\"></i>  <span class=\"fauw-assoc-labels\" _v-21807b72=\"\">€{{assoc.total_donations/100}}</span></li>\n      </ul>\n    </div>\n\n  </div>\n";
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-messages\" _v-257d20f6=\"\">\n    <div class=\"error\" _v-257d20f6=\"\">\n      <div v-for=\"error in errors\" track-by=\"$index\" class=\"alert alert-danger alert-dismissible\" role=\"alert\" _v-257d20f6=\"\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" _v-257d20f6=\"\"><span aria-hidden=\"true\" _v-257d20f6=\"\">×</span></button>\n        {{ $t(error) }}\n      </div>\n    </div>\n    <div v-if=\"warning\" class=\"error\" _v-257d20f6=\"\">\n      <div class=\"alert alert-warning alert-dismissible\" role=\"alert\" _v-257d20f6=\"\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" _v-257d20f6=\"\"><span aria-hidden=\"true\" _v-257d20f6=\"\">×</span></button>\n        {{ $t(warning) }}\n      </div>\n    </div>\n    <div v-if=\"info\" class=\"error\" _v-257d20f6=\"\">\n      <div class=\"alert alert-info alert-dismissible\" role=\"alert\" _v-257d20f6=\"\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" _v-257d20f6=\"\"><span aria-hidden=\"true\" _v-257d20f6=\"\">×</span></button>\n        {{ $t(info) }}\n      </div>\n    </div>\n    <div v-if=\"success\" class=\"error\" _v-257d20f6=\"\">\n      <div class=\"alert alert-success alert-dismissible\" role=\"alert\" _v-257d20f6=\"\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\" _v-257d20f6=\"\"><span aria-hidden=\"true\" _v-257d20f6=\"\">×</span></button>\n        {{ $t(success) }}\n      </div>\n    </div>\n  </div>\n";
-
-/***/ }),
-/* 123 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"donations-page\" _v-3bd31467=\"\">\n    <h1 _v-3bd31467=\"\">{{$t('My Donations')}}</h1>\n    <label class=\"label label-warning\" _v-3bd31467=\"\">{{ $t('Page is under-construction') }}</label>\n    <br _v-3bd31467=\"\">\n\n  </div>\n";
-
-/***/ }),
-/* 124 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-logout-area\" _v-5574fa98=\"\">\n    <nav class=\"navbar navbar-default\" _v-5574fa98=\"\">\n      <div class=\"navbar-right\" _v-5574fa98=\"\">\n        <div class=\"container\" _v-5574fa98=\"\">\n          <button class=\"btn btn-danger btn-xs pull-right\" :title=\"$t('Logout')\" @click=\"logoutUser\" _v-5574fa98=\"\">{{$t('Logout')}}</button>\n          <button class=\"btn btn-default btn-xs pull-right\" :title=\"$t('Settings')\" @click=\"goToSettingsPage\" _v-5574fa98=\"\"> <i class=\"fa fa-cog fa-fw\" _v-5574fa98=\"\"></i> </button>\n          <label :class=\"balanceLabelClasses\" :title=\"$t('Wallet Balance')\" @click=\"goToSolidarityAccount\" _v-5574fa98=\"\"> {{$store.getters.getBalance}} {{$t($store.getters.getCurrency)}} </label>\n        </div>\n\n      </div>\n    </nav>\n  </div>\n";
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-signup-area-wrapper\" _v-56e3317c=\"\">\n    <h1 _v-56e3317c=\"\">{{$t('Sign up')}}</h1>\n\n    <form class=\"form\" _v-56e3317c=\"\">\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('First name')\" id=\"fname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"first_name\" class=\"form-control\" v-model=\"signup.first_name\" aria-describedby=\"fname-addon1\" type=\"text\" :placeholder=\"$t('First name')\" :value=\"signup.first_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Last name')\" id=\"lname-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"last_name\" class=\"form-control\" v-model=\"signup.last_name\" aria-describedby=\"lname-addon1\" type=\"text\" :placeholder=\"$t('Last name')\" :value=\"signup.last_name\" _v-56e3317c=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Birthday')\" id=\"birthday-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-birthday-cake fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"birthday\" class=\"form-control\" v-model=\"signup.birthday\" aria-describedby=\"birthday-addon1\" type=\"date\" :placeholder=\"$t('Birthday')\" :value=\"signup.birthday\" _v-56e3317c=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Gender')\" id=\"gender-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-venus-mars fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <div class=\"form-control\" aria-describedby=\"gender-addon1\" _v-56e3317c=\"\">\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" checked=\"\" value=\"M\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Male')}}</label>\n            <label _v-56e3317c=\"\"><input type=\"radio\" name=\"gender\" value=\"F\" v-model=\"signup.gender\" _v-56e3317c=\"\">{{$t('Female')}}</label>\n        </div>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" :title=\"$t('Nationality')\" id=\"nationality-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" v-model=\"signup.nationality\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signup.nationality = country.code\" :value=\"country.code\" _v-56e3317c=\"\">{{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Country of residence\" id=\"country_of_residence-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-map-marker fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"country_of_residence-addon1\" v-model=\"signup.country_of_residence\" _v-56e3317c=\"\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signin.country_of_residence = country.code\" :value=\"country.code\" _v-56e3317c=\"\"> {{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Email\" id=\"email-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"signup.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"signup.email\" _v-56e3317c=\"\">\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" _v-56e3317c=\"\">\n        <span class=\"input-group-addon\" title=\"Password\" id=\"password-addon1\" _v-56e3317c=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"signup.password\" @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"signup.password\" _v-56e3317c=\"\">\n      </div>\n\n      {{$t('If you already have an account')}} <a class=\"\" @click=\"goToLoginPage\" _v-56e3317c=\"\"> {{$t('Login here')}}</a>\n\n      <button class=\"btn btn-primary btn-block signup-btn\" @click=\"signupUser\" _v-56e3317c=\"\"> <i class=\"fa fa-paper-plane\" aria-hidden=\"true\" _v-56e3317c=\"\"></i> {{$t('Sign up')}}</button>\n\n    </form>\n\n  </div>\n";
-
-/***/ }),
-/* 126 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div :dir=\"currentLangDirection\" id=\"fauw-wrapper\" v-bind:class=\"getWidthClass\" _v-61b3c432=\"\">\n    <div class=\"fauw-langs btn-group btn-group-xs\" role=\"group\" _v-61b3c432=\"\">\n      <button type=\"button\" @click=\"setLang('en')\" class=\"btn btn-default\" _v-61b3c432=\"\">English</button>\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\" _v-61b3c432=\"\">Español</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\" _v-61b3c432=\"\">Français</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\" _v-61b3c432=\"\">العربية</button>\n    </div>\n    <span class=\"hidden\" _v-61b3c432=\"\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\" _v-61b3c432=\"\">\n      <h1 _v-61b3c432=\"\"><i class=\"fa fa-spinner fa-spin fa-fw\" _v-61b3c432=\"\"></i> {{$t('Loading')}}...</h1>\n    </div>\n\n    <div class=\"fauw-content\" v-show=\"!$store.getters.getLoading\" _v-61b3c432=\"\">\n      <message-items _v-61b3c432=\"\"></message-items>\n      <div class=\"top-container\" _v-61b3c432=\"\">\n        <div class=\"fauw-top-menu\" _v-61b3c432=\"\">\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"($store.getters.getCurrentPage != 'login' &amp;&amp; $store.getters.getCurrentPage != '' &amp;&amp; $store.getters.getCurrentPage != 'home' &amp;&amp; $store.getters.getCurrentState != '' &amp;&amp; $store.getters.getCurrentPage != 'signup')\" class=\"btn btn-plain fauw-btn-back\" @click=\"goToPrevPage\" _v-61b3c432=\"\">\n            <i v-if=\"langDirection == 'rtl'\" class=\"fa fa-angle-right fa-fw\" _v-61b3c432=\"\"></i>\n            <i v-else=\"\" class=\"fa fa-angle-left fa-fw\" _v-61b3c432=\"\"></i>\n          </button>\n        </div>\n      </div>\n\n      <div class=\"\" _v-61b3c432=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\" _v-61b3c432=\"\">\n          <div v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n            <login-form _v-61b3c432=\"\"></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\" _v-61b3c432=\"\">\n            <signup-form _v-61b3c432=\"\"></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n            <share-page _v-61b3c432=\"\"></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else=\"\" _v-61b3c432=\"\">\n          <div class=\"logout-area\" _v-61b3c432=\"\">\n            <span class=\"hidden\" _v-61b3c432=\"\">{{getMyBalance}}</span>\n            <logout-button _v-61b3c432=\"\"></logout-button>\n          </div>\n\n          <div class=\"\" _v-61b3c432=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" _v-61b3c432=\"\">\n              <home-page _v-61b3c432=\"\"></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\" _v-61b3c432=\"\">\n              <share-page _v-61b3c432=\"\"></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\" _v-61b3c432=\"\">\n              <associations-page _v-61b3c432=\"\"></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\" _v-61b3c432=\"\">\n              <association-page _v-61b3c432=\"\"></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\" _v-61b3c432=\"\">\n              <donations-page _v-61b3c432=\"\"></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\" _v-61b3c432=\"\">\n              <solidarity-account-page _v-61b3c432=\"\"></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\" _v-61b3c432=\"\">\n              <settings-page _v-61b3c432=\"\"></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"fauw-bottom-menu\" _v-61b3c432=\"\">\n      <label class=\"fauw-version\" _v-61b3c432=\"\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\" _v-61b3c432=\"\"> Version: {{$store.getters.getVersion}} BETA </a> </label>\n    </div>\n\n  </div>\n";
-
-/***/ }),
-/* 127 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div v-if=\"!authenticated\" _v-6412aa1a=\"\">\n    <a href=\"#\" @click=\"doLogin\" class=\"btn btn-block btn-social btn-facebook btn-flat\" _v-6412aa1a=\"\">\n      <i class=\"fa fa-facebook\" _v-6412aa1a=\"\"></i> {{ $t('Sign in using Facebook') }}\n    </a>\n  </div>\n";
-
-/***/ }),
-/* 128 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-home-page\" _v-94b127ee=\"\">\n    <h4 _v-94b127ee=\"\">{{$t('hi')}}, {{getUsername}}</h4>\n    <p _v-94b127ee=\"\">\n      {{$t('Thanks for your generous heart. You\\'re changing the world for a lot of people who lost hope')}}\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\" _v-94b127ee=\"\">\n      <button class=\"btn btn-default active\" _v-94b127ee=\"\">{{ $t('Home') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\" _v-94b127ee=\"\">{{ $t('Charities') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" _v-94b127ee=\"\">{{ $t('My Donations') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\" _v-94b127ee=\"\"> {{ $t('Solidarity Account') }} </button>\n    </div>\n    <p v-if=\"gettingDonationSum\" _v-94b127ee=\"\">\n      {{ $t('Total Donations') }}: <span class=\"\" _v-94b127ee=\"\">€{{getDonationSum}}</span>\n    </p>\n    <p v-else=\"\" _v-94b127ee=\"\">\n      <i class=\"fa fa-spinner fa-spin fa-fw\" _v-94b127ee=\"\"></i>\n    </p>\n  </div>\n";
-
-/***/ }),
-/* 129 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-settings-page\" _v-de18cf66=\"\">\n    <h1 _v-de18cf66=\"\">{{$t('Settings')}}</h1>\n    <label class=\"label label-warning\" _v-de18cf66=\"\">{{$t('Page is under-construction')}}</label>\n    <br _v-de18cf66=\"\">\n    <form class=\"form\" _v-de18cf66=\"\">\n      <div class=\"input-group\" _v-de18cf66=\"\">\n        <span class=\"input-group-addon\" id=\"oldpass-addon1\" _v-de18cf66=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-de18cf66=\"\"></i> </span>\n        <input name=\"oldpassword\" class=\"form-control\" v-model=\"oldPass\" aria-describedby=\"oldpass-addon1\" type=\"password\" :placeholder=\"$t('Old Password')\" :value=\"oldPass\" _v-de18cf66=\"\">\n      </div>\n      <div class=\"input-group\" _v-de18cf66=\"\">\n        <span class=\"input-group-addon\" id=\"newPass1-addon1\" _v-de18cf66=\"\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\" _v-de18cf66=\"\"></i> </span>\n        <input name=\"newpassword1\" class=\"form-control\" v-model=\"newPass1\" aria-describedby=\"newPass1-addon1\" type=\"password\" :placeholder=\"$t('New Password')\" :value=\"newPass1\" _v-de18cf66=\"\">\n        <input name=\"newpassword2\" class=\"form-control\" v-model=\"newPass2\" aria-describedby=\"newPass1-addon1\" type=\"password\" :placeholder=\"$t('Confirm Password')\" :value=\"newPass2\" _v-de18cf66=\"\">\n      </div>\n      <button class=\"btn btn-primary btn-block\" type=\"button\" _v-de18cf66=\"\">{{ $t('Change Password') }}</button>\n    </form>\n  </div>\n";
-
-/***/ }),
-/* 130 */
-/***/ (function(module, exports) {
-
-module.exports = "\n  <div class=\"fauw-solidarity-account-page\" _v-e654edfe=\"\">\n    <div _v-e654edfe=\"\">\n      <h2 _v-e654edfe=\"\">{{$t('Solidarity Account')}}</h2>\n      <label class=\"label label-warning\" _v-e654edfe=\"\">{{$t('Page is under-construction')}}</label>\n    </div>\n    <div _v-e654edfe=\"\">\n      <recharge-account-page _v-e654edfe=\"\"></recharge-account-page>\n    </div>\n  </div>\n\n";
-
-/***/ }),
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */,
+/* 129 */,
+/* 130 */,
 /* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(105)
 __vue_script__ = __webpack_require__(46)
-__vue_template__ = __webpack_require__(126)
+__vue_template__ = __webpack_require__(224)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26786,9 +25411,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(100)
 __vue_script__ = __webpack_require__(47)
-__vue_template__ = __webpack_require__(121)
+__vue_template__ = __webpack_require__(225)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26809,9 +25433,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(96)
 __vue_script__ = __webpack_require__(48)
-__vue_template__ = __webpack_require__(117)
+__vue_template__ = __webpack_require__(226)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26832,9 +25455,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(102)
 __vue_script__ = __webpack_require__(49)
-__vue_template__ = __webpack_require__(123)
+__vue_template__ = __webpack_require__(227)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26855,9 +25477,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(106)
 __vue_script__ = __webpack_require__(50)
-__vue_template__ = __webpack_require__(127)
+__vue_template__ = __webpack_require__(228)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26878,9 +25499,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(107)
 __vue_script__ = __webpack_require__(51)
-__vue_template__ = __webpack_require__(128)
+__vue_template__ = __webpack_require__(229)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26901,9 +25521,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(98)
 __vue_script__ = __webpack_require__(52)
-__vue_template__ = __webpack_require__(119)
+__vue_template__ = __webpack_require__(230)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26924,9 +25543,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(103)
 __vue_script__ = __webpack_require__(53)
-__vue_template__ = __webpack_require__(124)
+__vue_template__ = __webpack_require__(231)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26947,9 +25565,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(101)
 __vue_script__ = __webpack_require__(54)
-__vue_template__ = __webpack_require__(122)
+__vue_template__ = __webpack_require__(232)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26970,9 +25587,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(99)
 __vue_script__ = __webpack_require__(55)
-__vue_template__ = __webpack_require__(120)
+__vue_template__ = __webpack_require__(233)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -26993,9 +25609,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(108)
 __vue_script__ = __webpack_require__(56)
-__vue_template__ = __webpack_require__(129)
+__vue_template__ = __webpack_require__(234)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -27038,9 +25653,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(104)
 __vue_script__ = __webpack_require__(58)
-__vue_template__ = __webpack_require__(125)
+__vue_template__ = __webpack_require__(235)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -27061,9 +25675,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(109)
 __vue_script__ = __webpack_require__(59)
-__vue_template__ = __webpack_require__(130)
+__vue_template__ = __webpack_require__(236)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -27084,9 +25697,8 @@ if (false) {(function () {  module.hot.accept()
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_script__, __vue_template__
-__webpack_require__(97)
 __vue_script__ = __webpack_require__(60)
-__vue_template__ = __webpack_require__(118)
+__vue_template__ = __webpack_require__(237)
 module.exports = __vue_script__ || {}
 if (module.exports.__esModule) module.exports = module.exports.default
 if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -31920,6 +30532,159 @@ module.exports = Array.isArray || function (arr) {
 
 module.exports = __webpack_require__(16);
 
+
+/***/ }),
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div :dir=\"currentLangDirection\" id=\"fauw-wrapper\" v-bind:class=\"getWidthClass\">\n    <div class=\"fauw-langs btn-group btn-group-xs\" role=\"group\">\n      <button type=\"button\" @click=\"setLang('en')\" class=\"btn btn-default\">English</button>\n      <button type=\"button\" @click=\"setLang('es')\" class=\"btn btn-default\">Español</button>\n      <button type=\"button\" @click=\"setLang('fr')\" class=\"btn btn-default\">Français</button>\n      <button type=\"button\" @click=\"setLang('ar')\" class=\"btn btn-default\">العربية</button>\n    </div>\n    <span class=\"hidden\">{{currentState}}</span>\n\n\n\n    <div class=\"loading\" v-if=\"$store.getters.getLoading\">\n      <h1><i class=\"fa fa-spinner fa-spin fa-fw\"></i> {{$t('Loading')}}...</h1>\n    </div>\n\n    <div class=\"fauw-content\" v-show=\"!$store.getters.getLoading\">\n      <message-items></message-items>\n      <div class=\"top-container\">\n        <div class=\"fauw-top-menu\">\n          <!-- <button class=\"btn btn-success pull-right\" @click=\"goToNextPage\">Next</button> -->\n          <button v-if=\"($store.getters.getCurrentPage != 'login' && $store.getters.getCurrentPage != '' && $store.getters.getCurrentPage != 'home' && $store.getters.getCurrentState != '' && $store.getters.getCurrentPage != 'signup')\" class=\"btn btn-plain fauw-btn-back\" @click=\"goToPrevPage\">\n            <i v-if=\"langDirection == 'rtl'\" class=\"fa fa-angle-right fa-fw\"></i>\n            <i v-else class=\"fa fa-angle-left fa-fw\"></i>\n          </button>\n        </div>\n      </div>\n\n      <div class=\"\">\n        <div class=\"login-area\" v-if=\"$store.getters.getCurrentState == 'login' || $store.getters.getCurrentState == ''\">\n          <div  v-if=\"$store.getters.getCurrentPage == 'login' || $store.getters.getCurrentPage == ''\">\n            <login-form></login-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'signup'\">\n            <signup-form></signup-form>\n          </div>\n          <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n            <share-page></share-page>\n          </div>\n\n        </div>\n\n        <div class=\"loggedin-area\" v-else >\n          <div class=\"logout-area\">\n            <span class=\"hidden\">{{getMyBalance}}</span>\n            <logout-button></logout-button>\n          </div>\n\n          <div class=\"\">\n            <div v-if=\"$store.getters.getCurrentPage == 'home' || $store.getters.getCurrentPage == ''\" >\n              <home-page></home-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'share'\">\n              <share-page></share-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'associations'\">\n              <associations-page></associations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'asso_details'\">\n              <association-page></association-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'donations'\">\n              <donations-page></donations-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'solidarity'\">\n              <solidarity-account-page></solidarity-account-page>\n            </div>\n\n            <div v-if=\"$store.getters.getCurrentPage == 'settings'\">\n              <settings-page></settings-page>\n            </div>\n          </div>\n\n\n\n        </div>\n\n      </div>\n\n\n\n\n    </div>\n\n\n    <div class=\"fauw-bottom-menu\">\n      <label class=\"fauw-version\"> <a target=\"_blank\" href=\"https://github.com/YoQuieroAyudar/fundraising-API-user-widget/wiki\"> Version: {{$store.getters.getVersion}} BETA </a> </label>\n    </div>\n\n  </div>\n";
+
+/***/ }),
+/* 225 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-associations-list\">\n    <label class=\"label label-warning\">{{ $t('Page is under-construction')}}</label>\n    <div class=\"fauw-association-box\">\n      <div class=\"\">\n        <div class=\"btn-group fauw-donation-section\" role=\"group\" aria-label=\"donation-section\">\n          <button type=\"button\" @click=\"donationAmount=200\" :class=\"'btn btn-default' + (donationAmount == 200 ? ' active' : '')\">&euro;2</button>\n          <button type=\"button\" @click=\"donationAmount=400\" :class=\"'btn btn-default' + (donationAmount == 400 ? ' active' : '')\">&euro;4</button>\n          <button type=\"button\" @click=\"donationAmount=600\" :class=\"'btn btn-default' + (donationAmount == 600 ? ' active' : '')\">&euro;6</button>\n          <button type=\"button\" @click=\"donationAmount=800\" :class=\"'btn btn-default' + (donationAmount == 800 ? ' active' : '')\">&euro;8</button>\n          <button type=\"button\" @click=\"donationAmount=1000\" :class=\"'btn btn-default' + (donationAmount == 1000 ? ' active' : '')\">&euro;10</button>\n          <button :disabled=\"donationAmount < 200\" @click=\"submitDonation\" class=\"btn btn-primary pull-right donate-btn\" type=\"button\" name=\"donate\">{{$t('Donate')}}</button>\n        </div>\n\n      </div>\n\n      <img class=\"fauw-assoc-logo-large\" :src=\"assoc.logo_url\" :alt=\"assoc.short_description\">\n      <h4>{{assoc.name}}</h4>\n      <p>{{assoc.description}}</p>\n\n      <ul class=\"list-group\">\n        <li class=\"list-group-item\" :title=\"$t('address')\"><i class=\"fa fa-map fa-fw\"></i>  <span class=\"fauw-assoc-labels\">{{assoc.address}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('city')\"><i class=\"fa fa-map-marker fa-fw\"></i>  <span class=\"fauw-assoc-labels\">{{assoc.city}}</span></li>\n        <li class=\"list-group-item\" :title=\"$t('twitter')\"><i class=\"fa fa-twitter fa-fw\"></i>  <span class=\"fauw-assoc-labels\"><a target=\"_blank\" :href=\"'https://twitter.com/'+assoc.twitter_username\">@{{assoc.twitter_username}}</a></span></li>\n        <li class=\"list-group-item\" :title=\"$t('Total Donations')\"><i class=\"fa fa-line-chart fa-fw\"></i>  <span class=\"fauw-assoc-labels\">&euro;{{assoc.total_donations/100}}</span></li>\n      </ul>\n    </div>\n\n  </div>\n";
+
+/***/ }),
+/* 226 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-associations-list\">\n    <h1 @click=\"getAssociationsFromAPI\">{{ $t('Charities') }} <i class=\"fa fa-refresh fa-fw\"></i></h1>\n    <label class=\"label label-warning\"> {{ $t('Page is under-construction') }} </label>\n    <div class=\"fauw-association-box\"\n      @click=\"selectAssociation(assoc.id)\"\n      v-for=\"assoc in this.$store.getters.getAssociations\">\n\n      <img class=\"fauw-assoc-logo\" :src=\"assoc.logo_url\" :alt=\"$t(assoc.short_description)\">\n      <h4>{{assoc.name}}</h4>\n      <p>{{assoc.description}}</p>\n      <p><strong>{{$t(assoc.country)}}</strong></p>\n\n    </div>\n  </div>\n";
+
+/***/ }),
+/* 227 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"donations-page\">\n    <h1>{{$t('My Donations')}}</h1>\n    <label class=\"label label-warning\">{{ $t('Page is under-construction') }}</label>\n    <br>\n\n  </div>\n";
+
+/***/ }),
+/* 228 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div v-if=\"!authenticated\">\n    <a href=\"#\" @click='doLogin' class=\"btn btn-block btn-social btn-facebook btn-flat\">\n      <i class=\"fa fa-facebook\"></i> {{ $t('Sign in using Facebook') }}\n    </a>\n  </div>\n";
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-home-page\">\n    <h4>{{$t('hi')}}, {{getUsername}}</h4>\n    <p>\n      {{$t('Thanks for your generous heart. You\\'re changing the world for a lot of people who lost hope')}}\n    </p>\n\n    <div class=\"btn-group btn-group-vertical btn-block\" role=\"group\" aria-label=\"home-menu-items\">\n      <button class=\"btn btn-default active\">{{ $t('Home') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToAssociations\">{{ $t('Charities') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToDonations\" >{{ $t('My Donations') }}</button>\n      <button class=\"btn btn-default\" @click=\"goToSolidarityAccount\"> {{ $t('Solidarity Account') }} </button>\n    </div>\n    <p v-if=\"gettingDonationSum\">\n      {{ $t('Total Donations') }}: <span class=\"\">&euro;{{getDonationSum}}</span>\n    </p>\n    <p v-else>\n      <i class=\"fa fa-spinner fa-spin fa-fw\"></i>\n    </p>\n  </div>\n";
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-login-area-wrapper\">\n    <h1>{{$t('Login')}}</h1>\n\n    <form class=\"form\">\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" :title=\"$t('Country')\" id=\"country-addon1\"> {{$t('Donation Destination')}}</span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" @change=\"updateAPI\" v-model=\"country\">\n          <option v-for=\"(ctry, i) in $store.getters.getTopCountries\" :selected=\"true\" :value=\"ctry\">{{ctry.name}}</option>\n        </select>\n      </div>\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Email')\">\n        <span class=\"input-group-addon\" id=\"email-addon1\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"login.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"login.email\" />\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\" :title=\"$t('Password')\">\n        <span class=\"input-group-addon\" id=\"password-addon1\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"login.password\"  @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"login.password\" />\n      </div>\n\n      {{ $t(\"If you don't have an account yet\") }} <a class=\"\" @click=\"goToSignupPage\" > {{ $t('Sign up here') }}</a>\n\n      <button class=\"btn btn-primary btn-block fauw-login-btn\" @click=\"loginUser\" > <i class=\"fa fa-paper-plane\" aria-hidden=\"true\"></i> {{ $t('Login') }}</button>\n      {{ $t('Remember me') }} <input name=\"remember_me\" v-model=\"rememberMe\" @click=\"setRememberMe\" :checked=\"rememberMe\" aria-describedby=\"password-addon1\" type=\"checkbox\" :value=\"rememberMe\" />\n    </form>\n\n    <video-frame></video-frame>\n\n  </div>\n";
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-logout-area\">\n    <nav class=\"navbar navbar-default\">\n      <div class=\"navbar-right\">\n        <div class=\"container\">\n          <button class=\"btn btn-danger btn-xs pull-right\" :title=\"$t('Logout')\" @click=\"logoutUser\">{{$t('Logout')}}</button>\n          <button class=\"btn btn-default btn-xs pull-right\" :title=\"$t('Settings')\" @click=\"goToSettingsPage\"> <i class=\"fa fa-cog fa-fw\"></i> </button>\n          <label :class=\"balanceLabelClasses\" :title=\"$t('Wallet Balance')\" @click=\"goToSolidarityAccount\"> {{$store.getters.getBalance}} {{$t($store.getters.getCurrency)}} </label>\n        </div>\n\n      </div>\n    </nav>\n  </div>\n";
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-messages\">\n    <div class=\"error\">\n      <div v-for=\"error in errors\" track-by=\"$index\" class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n        {{ $t(error) }}\n      </div>\n    </div>\n    <div v-if=\"warning\" class=\"error\">\n      <div class=\"alert alert-warning alert-dismissible\" role=\"alert\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n        {{ $t(warning) }}\n      </div>\n    </div>\n    <div v-if=\"info\" class=\"error\">\n      <div class=\"alert alert-info alert-dismissible\" role=\"alert\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n        {{ $t(info) }}\n      </div>\n    </div>\n    <div v-if=\"success\" class=\"error\">\n      <div class=\"alert alert-success alert-dismissible\" role=\"alert\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n        {{ $t(success) }}\n      </div>\n    </div>\n  </div>\n";
+
+/***/ }),
+/* 233 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-recharge-component\">\n\n    <p>{{ $t('Account balance') }}: {{$store.getters.getBalance}} {{ $t($store.getters.getCurrency) }} </p>\n\n    <form class=\"form\">\n      <div class=\"input-group\"  :title=\"$t('Net Amount')\">\n        <span class=\"input-group-addon\" id=\"amount-addon1\"> <i class=\"fa fa-euro fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"amount\" class=\"form-control\" v-model=\"amount\" aria-describedby=\"amount-addon1\" type=\"number\" min=\"1\" step=1 :placeholder=\"$t('Net Amount')\" :value=\"amount\" />\n      </div>\n      <div class=\"input-group\" :title=\"$t('Card Number')\">\n        <span class=\"input-group-addon\" id=\"cardNo-addon1\"> <i class=\"fa fa-credit-card fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"cardNo\" class=\"form-control\" v-model=\"cardNo\" aria-describedby=\"cardNo-addon1\" type=\"number\" min=\"1\" step=1 :placeholder=\"$t('Card Number')\" :value=\"cardNo\" />\n      </div>\n      <div class=\"input-group\" :title=\"$t('CVV Code')\">\n        <span class=\"input-group-addon\" id=\"CVV-addon1\"> <i class=\"fa fa-key fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"CVV\" class=\"form-control\" v-model=\"CVV\" aria-describedby=\"CVV-addon1\" type=\"number\" min=\"1\" step=1 :placeholder=\"$t('CVV Code')\" :value=\"CVV\" />\n      </div>\n      <div class=\"input-group\" :title=\"$t('Expiration Date')\">\n        <span class=\"input-group-addon\" id=\"expirationDate-addon1\"> <i class=\"fa fa-calendar-times-o fa-fw\" aria-hidden=\"true\"></i> </span>\n        <div class=\"\">\n          <div class=\"month-input\">\n            <input name=\"expirationDateMonth\" class=\"form-control\" v-model=\"expirationDate.month\" aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" max=\"12\" step=1 :placeholder=\"$t('MM')\" :value=\"expirationDate.month\" />\n          </div>\n          <div class=\"year-input\">\n            <input name=\"expirationDateYear\" class=\"form-control\" v-model=\"expirationDate.year\" width=3 aria-describedby=\"expirationDate-addon1\" type=\"number\" min=\"1\" step=1 :placeholder=\"$t('YY')\" :value=\"expirationDate.year\" />\n          </div>\n        </div>\n      </div>\n      <div class=\"input-group\" :title=\"$t('Charged Amount')\">\n        <span class=\"input-group-addon\" id=\"ChargedAmount-addon1\"> <i class=\"fa fa-money fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"ChargedAmount\" class=\"form-control\" v-model=\"totalAmountCharged\" disabled aria-describedby=\"ChargedAmount-addon1\" type=\"number\" min=\"1\" step=1 placeholder=\"$t('Charged Ammount')\" :value=\"totalAmountCharged\" />\n      </div>\n      <button class=\"btn btn-primary btn-block recharge-btn\" type=\"button\" @click=\"registerCardAndRecharge\">{{$t('Refill')}}</button>\n    </form>\n\n    <hr>\n\n  </div>\n";
+
+/***/ }),
+/* 234 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-settings-page\">\n    <h1>{{$t('Settings')}}</h1>\n    <label class=\"label label-warning\">{{$t('Page is under-construction')}}</label>\n    <br>\n    <form class=\"form\">\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\" id=\"oldpass-addon1\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"oldpassword\" class=\"form-control\" v-model=\"oldPass\" aria-describedby=\"oldpass-addon1\" type=\"password\" :placeholder=\"$t('Old Password')\" :value=\"oldPass\" />\n      </div>\n      <div class=\"input-group\">\n        <span class=\"input-group-addon\" id=\"newPass1-addon1\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"newpassword1\" class=\"form-control\" v-model=\"newPass1\" aria-describedby=\"newPass1-addon1\" type=\"password\" :placeholder=\"$t('New Password')\" :value=\"newPass1\" />\n        <input name=\"newpassword2\" class=\"form-control\" v-model=\"newPass2\" aria-describedby=\"newPass1-addon1\" type=\"password\" :placeholder=\"$t('Confirm Password')\" :value=\"newPass2\" />\n      </div>\n      <button class=\"btn btn-primary btn-block\" type=\"button\">{{ $t('Change Password') }}</button>\n    </form>\n  </div>\n";
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-signup-area-wrapper\">\n    <h1>{{$t('Sign up')}}</h1>\n\n    <form class=\"form\">\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" :title=\"$t('First name')\" id=\"fname-addon1\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"first_name\" class=\"form-control\" v-model=\"signup.first_name\" aria-describedby=\"fname-addon1\" type=\"text\" :placeholder=\"$t('First name')\" :value=\"signup.first_name\" />\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" :title=\"$t('Last name')\" id=\"lname-addon1\"> <i class=\"fa fa-user-o fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"last_name\" class=\"form-control\" v-model=\"signup.last_name\" aria-describedby=\"lname-addon1\" type=\"text\" :placeholder=\"$t('Last name')\" :value=\"signup.last_name\" />\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" :title=\"$t('Birthday')\" id=\"birthday-addon1\"> <i class=\"fa fa-birthday-cake fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"birthday\" class=\"form-control\" v-model=\"signup.birthday\" aria-describedby=\"birthday-addon1\" type=\"date\" :placeholder=\"$t('Birthday')\" :value=\"signup.birthday\" />\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" :title=\"$t('Gender')\" id=\"gender-addon1\"> <i class=\"fa fa-venus-mars fa-fw\" aria-hidden=\"true\"></i> </span>\n        <div class=\"form-control\" aria-describedby=\"gender-addon1\">\n            <label><input type=\"radio\" name=\"gender\" checked value=\"M\" v-model=\"signup.gender\">{{$t('Male')}}</label>\n            <label><input type=\"radio\" name=\"gender\" value=\"F\" v-model=\"signup.gender\">{{$t('Female')}}</label>\n        </div>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" :title=\"$t('Nationality')\" id=\"nationality-addon1\"> <i class=\"fa fa-globe fa-fw\" aria-hidden=\"true\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"nationality-addon1\" v-model=\"signup.nationality\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signup.nationality = country.code\" :value=\"country.code\">{{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" title=\"Country of residence\" id=\"country_of_residence-addon1\"> <i class=\"fa fa-map-marker fa-fw\" aria-hidden=\"true\"></i> </span>\n        <select class=\"form-control\" aria-describedby=\"country_of_residence-addon1\" v-model=\"signup.country_of_residence\">\n          <option v-for=\"country in $store.getters.getAllCountries\" :disabled=\"country.code == '_'\" :selected=\"country.code == 'ES'\" @changed=\"signin.country_of_residence = country.code\" :value=\"country.code\"> {{$t(country.name)}}</option>\n        </select>\n\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" title=\"Email\" id=\"email-addon1\"> <i class=\"fa fa-envelope fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"mail\" class=\"form-control\" v-model=\"signup.mail\" @input=\"updateEmail\" aria-describedby=\"email-addon1\" type=\"email\" :placeholder=\"$t('Email')\" :value=\"signup.email\" />\n      </div>\n\n      <div dir=\"ltr\" class=\"input-group\">\n        <span class=\"input-group-addon\" title=\"Password\" id=\"password-addon1\"> <i class=\"fa fa-lock fa-fw\" aria-hidden=\"true\"></i> </span>\n        <input name=\"password\" class=\"form-control\" v-model=\"signup.password\"  @input=\"updatePassword\" aria-describedby=\"password-addon1\" type=\"password\" :placeholder=\"$t('Password')\" :value=\"signup.password\" />\n      </div>\n\n      {{$t('If you already have an account')}} <a class=\"\" @click=\"goToLoginPage\" > {{$t('Login here')}}</a>\n\n      <button class=\"btn btn-primary btn-block signup-btn\" @click=\"signupUser\" > <i class=\"fa fa-paper-plane\" aria-hidden=\"true\"></i> {{$t('Sign up')}}</button>\n\n    </form>\n\n  </div>\n";
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-solidarity-account-page\">\n    <div>\n      <h2>{{$t('Solidarity Account')}}</h2>\n      <label class=\"label label-warning\">{{$t('Page is under-construction')}}</label>\n    </div>\n    <div>\n      <recharge-account-page></recharge-account-page>\n    </div>\n  </div>\n\n";
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports) {
+
+module.exports = "\n  <div class=\"fauw-vid-area\">\n    <div style=\"left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.2493%;\"><iframe :src=\"videoLink\" style=\"border: 0; top: 0; left: 0; width: 100%; height: 100%; position: absolute;\" allowfullscreen scrolling=\"no\"></iframe></div>\n  </div>\n";
 
 /***/ })
 /******/ ]);
