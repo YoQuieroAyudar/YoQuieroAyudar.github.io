@@ -8,9 +8,9 @@
       "type": "image/png"
     }
   ],
-  "name": "Fundraising API Widget",
+  "name": "CropChat",
   "start_url": "/",
-  "description": "Fundraising API Widget that gives the chance to donate to Charities you believe in",
+  "description": "CropChat",
   "theme_color": "#2196f3",
   "background_color": "#2196f3"
 }
