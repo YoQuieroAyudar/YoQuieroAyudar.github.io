@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:6/21/2017, 7:10:47 PM
+#ver:6/22/2017, 11:38:11 AM
 #plugin:4.8.1
 
 CACHE:
@@ -9,9 +9,9 @@ CACHE:
 /static/fonts/glyphicons-halflings-regular.e18bbf6.ttf
 /static/fonts/glyphicons-halflings-regular.fa27723.woff
 /static/fonts/glyphicons-halflings-regular.448c34a.woff2
-/static/js/vendor.fa4934572cf7690ff026.js
-/static/js/app.0973d3a42d9a36749675.js
-/static/js/manifest.7912d4d6ee10c1fc088a.js
+/static/js/vendor.7ac240e5f8d3c79c44e9.js
+/static/js/app.5b22c78bfbe9b414b1d0.js
+/static/js/manifest.464f7d4688224e560944.js
 /static/css/app.1a892736bead11489880154b040c1507.css
 /manifest.json
 /launcher-icon.png
