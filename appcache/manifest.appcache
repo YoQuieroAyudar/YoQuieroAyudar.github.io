@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:6/23/2017, 6:49:50 PM
+#ver:6/24/2017, 12:17:38 AM
 #plugin:4.8.1
 
 CACHE:
@@ -10,8 +10,8 @@ CACHE:
 /static/fonts/glyphicons-halflings-regular.fa27723.woff
 /static/fonts/glyphicons-halflings-regular.448c34a.woff2
 /static/js/vendor.561201941a38570c36f7.js
-/static/js/app.ac577ad8c8b610d35620.js
-/static/js/manifest.98ccdca798720bee4054.js
+/static/js/app.cb5dc3dced3923d95049.js
+/static/js/manifest.6c7a878edb00aa943d93.js
 /static/css/app.a1a754aa53f5ff39d4d3cef28236b0e4.css
 /manifest.json
 /launcher-icon.png
@@ -31,8 +31,8 @@ CACHE:
 /
 /static/font-awesome-8500ab3a5a.js
 /static/images/Logo-Iwanttohelp-S.png
-/static/images/Logo-JeVaisAider-S.png
 /static/images/Logo-YoQuieroAyudar-S.png
+/static/images/Logo-JeVaisAider-S.png
 
 NETWORK:
 *
