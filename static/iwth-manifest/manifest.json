@@ -30,7 +30,7 @@
   ],
   "name": "IWantToHelp",
   "short_name": "IWantToHelp",
-  "start_url": "/index.html",
+  "start_url": "/index.html?lang=en",
   "description": "Donations with charity JeVaisAider",
   "theme_color": "#2196f3",
   "background_color": "#2196f3",
