@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:7/10/2017, 2:30:46 PM
+#ver:7/10/2017, 3:02:43 PM
 #plugin:4.8.1
 
 CACHE:
@@ -35,8 +35,8 @@ CACHE:
 /static/images/Logo-JeVaisAider-S.png
 /static/images/Logo-YoQuieroAyudar-S.png
 /static/iwth-manifest/manifest.json
-/static/mhs-manifest/manifest.json
 /static/jva-manifest/manifest.json
+/static/mhs-manifest/manifest.json
 
 NETWORK:
 *
