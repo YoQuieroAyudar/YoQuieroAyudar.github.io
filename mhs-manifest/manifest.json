@@ -30,7 +30,7 @@
   ],
   "name": "YoQuieroAyudar",
   "short_name": "YoQuieroAyudar",
-  "start_url": "/index.html",
+  "start_url": "/index.html?lang=es",
   "description": "Donativos solidarios con la asociación Micro Hucha Solidaria",
   "theme_color": "#2196f3",
   "background_color": "#2196f3",

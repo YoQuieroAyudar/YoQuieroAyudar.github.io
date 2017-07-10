@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:7/10/2017, 6:41:19 PM
+#ver:7/10/2017, 6:53:24 PM
 #plugin:4.8.1
 
 CACHE:
@@ -31,12 +31,12 @@ CACHE:
 /bg.png
 /
 /static/font-awesome-8500ab3a5a.js
-/static/jva-manifest/manifest.json
-/static/iwth-manifest/manifest.json
-/static/mhs-manifest/manifest.json
 /static/images/Logo-Iwanttohelp-S.png
 /static/images/Logo-JeVaisAider-S.png
 /static/images/Logo-YoQuieroAyudar-S.png
+/static/iwth-manifest/manifest.json
+/static/jva-manifest/manifest.json
+/static/mhs-manifest/manifest.json
 
 NETWORK:
 *

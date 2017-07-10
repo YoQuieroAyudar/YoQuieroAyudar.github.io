@@ -30,7 +30,7 @@
   ],
   "name": "JeVaisAider",
   "short_name": "JeVaisAider",
-  "start_url": "/index.html",
+  "start_url": "/index.html?lang=fr",
   "description": "Dons solidaires avec l´association JeVaisAider",
   "theme_color": "#2196f3",
   "background_color": "#2196f3",
